@@ -1,6 +1,8 @@
 package customerservice;
 
 
+import java.util.List;
+
 public class CustomerService implements ICustomerService {
 
     private CustomersStorage CustomerList = new CustomersStorage();
@@ -29,5 +31,10 @@ public class CustomerService implements ICustomerService {
         Customer customer = CustomerList.searchCustomerByID(customerID);
         if(customer != null) return customer;
         else throw new IllegalArgumentException("Customer Account does not exist");
+    }
+
+    @Override
+    public List<Customer> getCustomerList() throws IllegalArgumentException {
+        return CustomerList.getCustomerStorage();
     }
 }

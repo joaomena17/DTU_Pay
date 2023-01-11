@@ -1,9 +1,12 @@
 package resources;
 
 import customerservice.Customer;
-import merchantservice.IMerchantService;
-import merchantservice.MerchantService;
+import customerservice.CustomerService;
+import customerservice.CustomersStorage;
+import customerservice.ICustomersStorage;
+import customerservice.ICustomerService;
 import merchantservice.Merchant;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.Path;
@@ -14,18 +17,23 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
 import java.util.List;
 
-@Path("/merchants")
-public class MerchantResources {
+// JUNTAR CUSTOMER RESOURCES E MERCHANT RESOURCES NUM SO FICHEIRO ACCOUNTRESOURCES?
 
-    private IMerchantService merchantService= new MerchantService();
+@Path("/customers")
+public class CustomerResources {
+    private ICustomerService customerService = new CustomerService();
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Customer> getCustomers(){ return customerService.getCustomerList(); }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMerchantJson(@PathParam("id") String id) {
+    public Response getCustomer(@PathParam("id") String id) {
         try{
-            Merchant merchant=merchantService.getMerchant(id);
-            return Response.ok(merchant).build();
+            Customer customer=customerService.getCustomer(id);
+            return Response.ok(customer).build();
         }
         catch(Exception e){
             System.err.println("Got error: " + e.getMessage());
@@ -33,14 +41,14 @@ public class MerchantResources {
             return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getCause()).build();
         }
     }
+
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerMerchantJson(Merchant merchant ) {
-        String merchant_id=new String();
+    public Response registerCustomer(Customer customer ) {
         try {
-            merchant_id= merchantService.registerMerchant(merchant);
-            return Response.ok(merchant_id).build();
+            String customerID= customerService.registerCustomer(customer);
+            return Response.ok(customerID).build();
         }
         catch(Exception e){
             System.err.println("Got error: " + e.getMessage());
@@ -51,9 +59,9 @@ public class MerchantResources {
     @POST
     @Path("/deregister")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteAccountJson(Merchant merchant) {
+    public Response deleteCustomer(Customer customer) {
         try {
-            boolean success_delete = merchantService.unregisterMerchant(merchant);
+            boolean success_delete = customerService.unregisterCustomer(customer);
             return Response.ok(success_delete).build();
         }
         catch(Exception e){
@@ -62,8 +70,4 @@ public class MerchantResources {
             return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getCause()).build();
         }
     }
-
 }
-
-
-
