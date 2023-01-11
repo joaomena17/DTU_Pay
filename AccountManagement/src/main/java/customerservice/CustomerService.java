@@ -9,13 +9,13 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public String registerCustomer(Customer customer) throws IllegalArgumentException {
-        if(customer.validAccount() && !CustomerList.bankIDAlreadyExists(customer.getBankID())){
+        /* if(customer.validAccount() && !CustomerList.bankIDAlreadyExists(customer.getBankID())){ */
             CustomerList.addCustomer(customer);
             customer.setCustomerID(CustomerList.getCustomersCounter());
             return customer.getCustomerID();
-        }
+        /* }
         else { throw new IllegalArgumentException("Customer needs a valid bank account to register");
-    }
+    } */
 
 
     }
