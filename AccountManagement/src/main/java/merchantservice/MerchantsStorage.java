@@ -1,0 +1,39 @@
+package merchantservice;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MerchantsStorage implements IMerchantsStorage{
+
+    private List<Merchant> MerchantList= new ArrayList<>();
+    private int MerchantsCounter=0;
+
+    @Override
+    public void addMerchant(Merchant merchant){
+        MerchantList.add(merchant);
+        MerchantsCounter++;
+    }
+    @Override
+    public boolean deleteMerchant(Merchant merchant){
+        return MerchantList.remove(merchant);
+
+    }
+    @Override
+    public List<Merchant> getMerchantStorage(){
+        return List.copyOf(MerchantList);
+    }
+    @Override
+    public String getMerchantsCounter(){
+        return String.valueOf(MerchantsCounter);
+    }
+
+    @Override
+    public Merchant searchMerchantByID(String merchantID){
+        for (Merchant merchant : MerchantList){
+            if(merchant.getMerchantID() == merchantID){
+                return merchant;
+            }
+        }
+        return null;
+    }
+}
