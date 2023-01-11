@@ -1,5 +1,12 @@
 package customerservice;
 
+import dtu.ws.fastmoney.AccountInfo;
+import dtu.ws.fastmoney.GetAccount;
+import dtu.ws.fastmoney.GetAccounts;
+import dtu.ws.fastmoney.GetAccountsResponse;
+
+import java.util.List;
+
 public class DTUPayUser {
     private String _name;
     private String _bankID;
@@ -15,6 +22,12 @@ public class DTUPayUser {
         return user._bankID;
     }
     public boolean validAccount(){
-        return (_bankID.length()>0 && _bankID!=null);
+        List<AccountInfo> bankAccounts = new GetAccountsResponse().getReturn();
+        for (AccountInfo account : bankAccounts) {
+            if (account.getAccountId() == _bankID) {
+                return true;
+            }
+        }
+        return false;
     }
 }
