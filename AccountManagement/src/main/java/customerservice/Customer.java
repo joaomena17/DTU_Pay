@@ -22,7 +22,7 @@ public class Customer extends DTUPayUser{
 
     public void addCustomerPayment(Payment payment) { this.customerPayments.add(payment); }
 
-    public List<Payment> getCustomerPayments() { return List.copyOf(customerPayments);}
+    public List<Payment> getCustomerPayments() { return List.copyOf(this.customerPayments);}
 
     * */
 

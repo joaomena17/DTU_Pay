@@ -1,5 +1,7 @@
 package customerservice;
 
+import merchantservice.Merchant;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,5 +32,13 @@ public class CustomersStorage implements ICustomersStorage {
             if (customer.getCustomerID() == customerID){ return customer; }
         }
         return null;
+    }
+
+    @Override
+    public boolean bankIDAlreadyExists(String bankID) {
+        for (Customer customer : CustomerList){
+            if(customer.getBankID().equals(bankID)) return true;
+        }
+        return false;
     }
 }

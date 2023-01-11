@@ -14,4 +14,6 @@ public interface ICustomersStorage {
 
     Customer searchCustomerByID(String customerID);
 
+    boolean bankIDAlreadyExists (String bankID);
+
 }
