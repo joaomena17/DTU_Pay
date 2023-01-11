@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IPaymentRepository {
 
-    void addPayment();
+    void addPayment(Payment p);
 
     List<Payment> GetAllPayments();
 
