@@ -4,12 +4,15 @@ import dtu.ws.fastmoney.AccountInfo;
 import dtu.ws.fastmoney.GetAccount;
 import dtu.ws.fastmoney.GetAccounts;
 import dtu.ws.fastmoney.GetAccountsResponse;
+import dtu.ws.fastmoney.BankService;
+import dtu.ws.fastmoney.BankServiceService;
 
 import java.util.List;
 
 public class DTUPayUser {
     private String _name;
     private String _bankID;
+    private BankService bank = new BankServiceService().getBankServicePort();
 
     public DTUPayUser(String name, String bankID){
         _name=name;
@@ -22,12 +25,15 @@ public class DTUPayUser {
         return this._bankID;
     }
     public boolean validAccount(){
-        List<AccountInfo> bankAccounts = new GetAccountsResponse().getReturn();
+        
+        List<AccountInfo> bankAccounts = bank.getAccounts();
+
         for (AccountInfo account : bankAccounts) {
-            if (account.getAccountId() == _bankID) {
+            if (account.getAccountId().equals(_bankID)) {
                 return true;
             }
         }
+
         return false;
     }
 }

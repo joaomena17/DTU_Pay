@@ -1,18 +1,18 @@
 package accountManagementService;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import io.cucumber.java.After;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-
-import java.math.BigDecimal;
-
 import dtu.ws.fastmoney.*;
 import customerservice.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.After;
+
+import java.math.BigDecimal;
 
 /* Scenario: Customer registers successfully
     Given a customer with name "John Doe" and bank account with balance 1000
@@ -24,21 +24,19 @@ public class RegisterCustomerServiceSteps {
 
     private User user = new User();
     private String bankId;
+    private BankService bank = new BankServiceService().getBankServicePort();
     private Customer customer;
     private CustomerService customerService = new CustomerService();
-    BankService bank = new BankServiceService().getBankServicePort();
 
     @Given("a customer with name {string} {string} and bank account with balance {int}")
     public void a_customer_with_name_and_bank_id(String firstName, String lastName, int balance) {
 
-        user.setCprNumber("271299-1234");
+        user.setCprNumber("371299-1234");
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
         // convert balance to bigDecimal
         BigDecimal bigDecimalBalance = new BigDecimal(balance);
-        // make full name from first and last name
-        String name = firstName + " " + lastName;
 
         try {
             bankId = bank.createAccountWithBalance(user, bigDecimalBalance);
@@ -50,6 +48,8 @@ public class RegisterCustomerServiceSteps {
             e.printStackTrace();
         }
 
+        // make full name from first and last name
+        String name = firstName + " " + lastName;
         customer = new Customer(name, bankId);
     }
 
@@ -63,7 +63,7 @@ public class RegisterCustomerServiceSteps {
         assertTrue(customerService.getCustomerList().contains(customer));
     }
 
-    @And("the customer can be correctly retrieved from the list")
+    @And("the customer can be retrieved from the customer list")
     public void the_customer_can_get_correctly_retrieved_from_the_list() {
         assertEquals(customer, customerService.getCustomer(customer.getCustomerID()));
     }
