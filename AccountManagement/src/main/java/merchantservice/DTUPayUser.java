@@ -13,11 +13,11 @@ public class DTUPayUser {
         _name=name;
         _bankID=bankID;
     }
-    public String getName(DTUPayUser user){
-        return user._name;
+    public String getName(){
+        return _name;
     }
-    public String geBankID(DTUPayUser user){
-        return user._bankID;
+    public String getBankID(){
+        return _bankID;
     }
     public boolean validAccount(){
         List<AccountInfo> bankAccounts = new GetAccountsResponse().getReturn();

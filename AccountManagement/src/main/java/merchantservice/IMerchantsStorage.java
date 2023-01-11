@@ -10,4 +10,6 @@ public interface IMerchantsStorage {
     String getMerchantsCounter();
 
     Merchant searchMerchantByID(String merchantID);
+
+    boolean bankIDAlreadyExists (String bankID);
 }

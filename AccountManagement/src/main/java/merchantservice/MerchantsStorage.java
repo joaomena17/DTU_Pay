@@ -30,10 +30,18 @@ public class MerchantsStorage implements IMerchantsStorage{
     @Override
     public Merchant searchMerchantByID(String merchantID){
         for (Merchant merchant : MerchantList){
-            if(merchant.getMerchantID() == merchantID){
+            if(merchant.getMerchantID().equals(merchantID)){
                 return merchant;
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean bankIDAlreadyExists (String bankID){
+        for (Merchant merchant : MerchantList){
+            if(merchant.getBankID().equals(bankID)) return true;
+        }
+        return false;
     }
 }
