@@ -1,5 +1,7 @@
 package merchantservice;
 
+import java.util.List;
+
 public class MerchantService implements IMerchantService{
 
     private MerchantsStorage MerchantList = new MerchantsStorage();
@@ -22,6 +24,11 @@ public class MerchantService implements IMerchantService{
         Merchant merchant=MerchantList.searchMerchantByID(merchantID);
         if(merchant!=null) return merchant;
         else throw new IllegalArgumentException("Merchant Account doesn't exist");
+    }
+
+    @Override
+    public List<Merchant> getMerchantList(){
+        return MerchantList.getMerchantStorage();
     }
 
 }

@@ -1,6 +1,8 @@
 package merchantservice;
 
 import dtu.ws.fastmoney.AccountInfo;
+import dtu.ws.fastmoney.BankService;
+import dtu.ws.fastmoney.BankServiceService;
 import dtu.ws.fastmoney.GetAccountsResponse;
 
 import java.util.List;
@@ -20,9 +22,11 @@ public class DTUPayUser {
         return _bankID;
     }
     public boolean validAccount(){
-        List<AccountInfo> bankAccounts = new GetAccountsResponse().getReturn();
+        BankService bank = new BankServiceService().getBankServicePort();
+        List<AccountInfo> bankAccounts = bank.getAccounts();
+        
         for (AccountInfo account : bankAccounts) {
-            if (account.getAccountId() == _bankID) {
+            if (account.getAccountId().equals(_bankID)) {
                 return true;
             }
         }

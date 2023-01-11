@@ -20,6 +20,9 @@ public class MerchantResources {
     private IMerchantService merchantService= new MerchantService();
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Merchant> getMerchants(){ return merchantService.getMerchantList(); }
+    @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMerchantJson(@PathParam("id") String id) {

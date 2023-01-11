@@ -12,7 +12,7 @@ import java.util.List;
 public class DTUPayUser {
     private String _name;
     private String _bankID;
-    private BankService bank = new BankServiceService().getBankServicePort();
+
 
     public DTUPayUser(String name, String bankID){
         _name=name;
@@ -25,7 +25,7 @@ public class DTUPayUser {
         return this._bankID;
     }
     public boolean validAccount(){
-        
+        BankService bank = new BankServiceService().getBankServicePort();
         List<AccountInfo> bankAccounts = bank.getAccounts();
 
         for (AccountInfo account : bankAccounts) {
