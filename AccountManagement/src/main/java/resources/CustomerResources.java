@@ -17,8 +17,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
 import java.util.List;
 
-// JUNTAR CUSTOMER RESOURCES E MERCHANT RESOURCES NUM SO FICHEIRO ACCOUNTRESOURCES?
-
 @Path("/customers")
 public class CustomerResources {
     private ICustomerService customerService = new CustomerService();
