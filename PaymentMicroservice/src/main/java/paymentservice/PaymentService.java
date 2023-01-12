@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
 
 import dtu.ws.fastmoney.*;
 
-public class PaymentService {
+public class PaymentService implements IPaymentService {
 
     BankService service = (new BankServiceService()).getBankServicePort();
 
