@@ -35,17 +35,19 @@ public class TokenResource{
         return tService.getTokenByUser(userId);
     }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response postToken() {
-        return tService.postToken();
-    }
-
     @Path("/request")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response requestToken(TokenRequest T) {
         return tService.requestToken(T);
+    }
+
+
+    @Path("/user")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createUser(Token T) {
+        return tService.createUser(T);
     }
 
 

@@ -95,35 +95,57 @@ public class TokenService {
 
     }
     //Creating token
-    public Response postToken(){
-        Token token1 = new Token("asd1236", TokenList1);
+
+
+    public Response createUser(Token t){
+        if(doesUserExist(t.user)){
+            System.out.println("User Already exists");
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity("User already exists").build();
+        }
+        List<String> emptyList = new ArrayList<String>();
+
+        Token token1 = new Token(t.user, emptyList);
         TokenList.add(token1);
         return Response.ok().build();
+    }
+    public boolean doesUserExist(String username){
+        for(Token t : TokenList) {
+            if (t.user.equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
     public Response requestToken(TokenRequest tokenRequest) {
         System.out.println("REQUESTING TOKEN");
         System.out.println(tokenRequest);
         if(tokenRequest.number > 5){
             System.out.println("Too many tokens requested");
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity("Too many tokens requested").build();
+
         }
         if(tokenRequest.number < 0){
             System.out.println("Too few tokens requested");
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity("Too few tokens requested").build();
         }
         for(Token t : TokenList){
             if(t.user.equals(tokenRequest.user)){
                 if(t.tokens.size()>= 2){
                     System.out.println("Has 2 or more valid tokens");
+                    return Response.status(Response.Status.PRECONDITION_FAILED).entity("Has 2 or more valid tokens").build();
                 }
                 if(t.tokens.size() + tokenRequest.number > 6){
                     System.out.println("number requested plus owned larger than 6");
+                    return Response.status(Response.Status.PRECONDITION_FAILED).entity("number requested plus owned larger than 6").build();
                 }
                 for(int i=1;i<=tokenRequest.number;i++){
                     System.out.println(i);
                     t.tokens.add(createRandomToken());
                 }
+                return Response.ok().build();
             }
         }
 
-        return Response.ok().build();
+        return Response.status(Response.Status.PRECONDITION_FAILED).entity("User not found").build();
     }
 }
