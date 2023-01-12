@@ -21,17 +21,31 @@ public class TokenResource{
     public List<Token> getTokenJson() {
         return this.tService.getTokenList();
     }
-    @Path("/{id}")
+    @Path("/{tokenId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTokenById(@PathParam("id") String id) {
-        return tService.getTokenById(id);
+    public Response getTokenById(@PathParam("tokenId") String tokenId) {
+        return tService.getTokenById(tokenId);
+    }
+
+    @Path("/user/{userId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTokenByUser(@PathParam("userId") String userId) {
+        return tService.getTokenByUser(userId);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response postToken() {
         return tService.postToken();
+    }
+
+    @Path("/request")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response requestToken(TokenRequest T) {
+        return tService.requestToken(T);
     }
 
 
