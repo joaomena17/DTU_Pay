@@ -5,6 +5,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,11 +36,24 @@ public class TokenResource{
         return tService.getTokenByUser(userId);
     }
 
+    @Path("/customertoken")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response requestSingleToken(RequestSingleToken T) {
+        return tService.requestSingleToken(T);
+    }
+
     @Path("/request")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response requestToken(TokenRequest T) {
         return tService.requestToken(T);
+    }
+    @DELETE
+    @Path("/deletetoken")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteToken(RequestSingleToken T) {
+        return tService.deleteToken(T);
     }
 
 

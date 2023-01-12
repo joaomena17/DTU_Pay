@@ -9,52 +9,38 @@ import java.util.*;
 import java.util.Random;
 
 public class TokenService {
-
+    private List<Token> usedTokens = new ArrayList<Token>();
     private List<Token> TokenList = new ArrayList<Token>();
     private List<String> TokenList1 = new ArrayList<String>();
-
     private Token token = new Token("user1", TokenList1);
-
-
     public TokenService (){
         this.TokenList.add(this.token);
     }
-    public String createRandomToken() {
-        // create a string of uppercase and lowercase characters and numbers
+    public String createRandomString() {
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         String numbers = "0123456789";
-
-        // combine all strings
         String alphaNumeric = upperAlphabet + lowerAlphabet + numbers;
-
-        // create random string builder
         StringBuilder sb = new StringBuilder();
-
-        // create an object of Random class
         Random random = new Random();
-
-        // specify length of random string
-        int length = 10;
-
+        int length = 15;
         for(int i = 0; i < length; i++) {
-
-            // generate random index number
             int index = random.nextInt(alphaNumeric.length());
-
-            // get character specified by index
-            // from the string
             char randomChar = alphaNumeric.charAt(index);
-
-            // append the character to string builder
             sb.append(randomChar);
         }
-
         String randomString = sb.toString();
         System.out.println("Random String is: " + randomString);
         return randomString;
-
     }
+    public String createRandomToken() {
+        String newToken;
+        do {
+            newToken = createRandomString();
+        }while (usedTokens.contains(newToken));
+        return newToken;
+    }
+
 
     public List<Token> getTokenList() {
         return this.TokenList;
@@ -66,10 +52,8 @@ public class TokenService {
 
     public Response getTokenById(String token) {
         List<Token> userTokenList = new ArrayList<>();
-
         for(Token temp : TokenList){
             System.out.println(temp);
-
             System.out.println(token);
             for(String tokenId : temp.tokens) {
                 if(tokenId.equals(token)) {
@@ -78,7 +62,6 @@ public class TokenService {
             }
         }
         return Response.status(Response.Status.PRECONDITION_FAILED).entity("Token ID not found").build();
-
     }
 
     public Response getTokenByUser(String user) {
@@ -94,8 +77,6 @@ public class TokenService {
         return Response.status(Response.Status.PRECONDITION_FAILED).entity("Token ID not found").build();
 
     }
-    //Creating token
-
 
     public Response createUser(Token t){
         if(doesUserExist(t.user)){
@@ -103,7 +84,6 @@ public class TokenService {
             return Response.status(Response.Status.PRECONDITION_FAILED).entity("User already exists").build();
         }
         List<String> emptyList = new ArrayList<String>();
-
         Token token1 = new Token(t.user, emptyList);
         TokenList.add(token1);
         return Response.ok().build();
@@ -116,6 +96,42 @@ public class TokenService {
         }
         return false;
     }
+    public Response requestSingleToken(RequestSingleToken t){
+        if(doesUserExist(t.user) == false){
+            System.out.println("User does not exists");
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity("User does  not exists").build();
+        }
+        for(Token tok: TokenList){
+            if(t.user.equals(tok.user)){
+                if(tok.tokens.size()>= 1){
+                    return Response.ok(tok.tokens.get(0)).build();
+                }
+                //TODO else error, no tokens
+            }
+        }
+        //TODO
+        return Response.status(Response.Status.PRECONDITION_FAILED).entity("Error").build();
+    }
+    public Response deleteToken(RequestSingleToken t){
+        if(doesUserExist(t.user) == false){
+            System.out.println("User does not exists");
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity("User does  not exists").build();
+        }
+        for(Token tok: TokenList){
+            if(t.user.equals(tok.user)){
+                for(String tokenToDelete : tok.tokens){
+                    if(tokenToDelete.equals(t.token)){
+                        tok.tokens.remove(tokenToDelete);
+                        return Response.ok().build();
+
+                    }
+                }
+            }
+        }
+        //TODO
+        return Response.status(Response.Status.PRECONDITION_FAILED).entity("Error").build();
+    }
+
     public Response requestToken(TokenRequest tokenRequest) {
         System.out.println("REQUESTING TOKEN");
         System.out.println(tokenRequest);
