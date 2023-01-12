@@ -14,11 +14,13 @@ import io.cucumber.java.After;
 
 import java.math.BigDecimal;
 
-/* Scenario: Customer registers successfully
-    Given a customer with name "John Doe" and bank account with balance 1000
+/* Scenario: Customer registers and unregisters successfully
+    Given a customer with name "John" "Doe" and bank account with balance 1000
     When the customer registers with DTU Pay
     Then the customer is saved in the customer list
-    And the customer can get correctly retrieved from the list */
+    And the customer can be retrieved from the customer list
+    And the customer unregisters from DTU Pay
+    And the customer is removed from the customer list */
 
 public class RegisterCustomerServiceSteps {
 
@@ -68,6 +70,16 @@ public class RegisterCustomerServiceSteps {
         assertEquals(customer, customerService.getCustomer(customer.getCustomerID()));
     }
 
+    @And("the customer unregisters from DTU Pay")
+    public void the_customer_unregisters_from_dtu_pay() {
+        customerService.unregisterCustomer(customer);
+    }
+
+    @And("the customer is removed from the customer list")
+    public void the_customer_is_removed_from_the_customer_list() {
+        assertTrue(!customerService.getCustomerList().contains(customer));
+    }
+
     @After
     public void tearDown() {
 
@@ -76,8 +88,6 @@ public class RegisterCustomerServiceSteps {
         } catch (BankServiceException_Exception e) {
             e.printStackTrace();
         }
-
-        customerService.unregisterCustomer(customer);
     }
 
 }
