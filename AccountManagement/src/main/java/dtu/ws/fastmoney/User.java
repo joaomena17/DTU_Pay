@@ -1,5 +1,5 @@
-package paymentservice;
 
+package dtu.ws.fastmoney;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -8,9 +8,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for user complex type.
- *
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- *
+ * 
  * <pre>
  * &lt;complexType name="user"&gt;
  *   &lt;complexContent&gt;
@@ -24,14 +24,14 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- *
- *
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "user", propOrder = {
-        "cprNumber",
-        "firstName",
-        "lastName"
+    "cprNumber",
+    "firstName",
+    "lastName"
 })
 public class User {
 
@@ -41,11 +41,11 @@ public class User {
 
     /**
      * Gets the value of the cprNumber property.
-     *
+     * 
      * @return
      *     possible object is
      *     {@link String }
-     *
+     *     
      */
     public String getCprNumber() {
         return cprNumber;
@@ -53,11 +53,11 @@ public class User {
 
     /**
      * Sets the value of the cprNumber property.
-     *
+     * 
      * @param value
      *     allowed object is
      *     {@link String }
-     *
+     *     
      */
     public void setCprNumber(String value) {
         this.cprNumber = value;
@@ -65,11 +65,11 @@ public class User {
 
     /**
      * Gets the value of the firstName property.
-     *
+     * 
      * @return
      *     possible object is
      *     {@link String }
-     *
+     *     
      */
     public String getFirstName() {
         return firstName;
@@ -77,11 +77,11 @@ public class User {
 
     /**
      * Sets the value of the firstName property.
-     *
+     * 
      * @param value
      *     allowed object is
      *     {@link String }
-     *
+     *     
      */
     public void setFirstName(String value) {
         this.firstName = value;
@@ -89,11 +89,11 @@ public class User {
 
     /**
      * Gets the value of the lastName property.
-     *
+     * 
      * @return
      *     possible object is
      *     {@link String }
-     *
+     *     
      */
     public String getLastName() {
         return lastName;
@@ -101,15 +101,14 @@ public class User {
 
     /**
      * Sets the value of the lastName property.
-     *
+     * 
      * @param value
      *     allowed object is
      *     {@link String }
-     *
+     *     
      */
     public void setLastName(String value) {
         this.lastName = value;
     }
 
 }
-
