@@ -33,8 +33,8 @@ public class PaymentService implements IPaymentService {
         }
     }
     public Response transferMoney(Payment payment) {
-        String from = payment.getCustomerID();
-        String to = payment.getMerchantID();
+        String from = payment.getCustomerBankID();
+        String to = payment.getMerchantBankID();
         BigDecimal amount = payment.getAmount();
         String description = String.format("Transfer of %d from %s to %s", amount, from, to);
         try {

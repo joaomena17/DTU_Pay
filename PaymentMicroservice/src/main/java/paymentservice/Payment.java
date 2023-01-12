@@ -2,7 +2,6 @@ package paymentservice;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -12,16 +11,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor // Needed for JSON deserialization and XML serialization and deserialization
 @AllArgsConstructor
 public class Payment {
-    private String customerID, merchantID;
+    private String customerBankID, merchantBankID;
     private BigDecimal amount;
 
-    public String getCustomerID(){ return this.customerID; }
+    public String getCustomerBankID(){ return this.customerBankID; }
 
-    public void setCustomerID(String customerID){ this.customerID = customerID; }
+    public void setCustomerBankID(String customerBankID){ this.customerBankID = customerBankID; }
 
-    public String getMerchantID(){ return this.merchantID; }
+    public String getMerchantBankID(){ return this.merchantBankID; }
 
-    public void setMerchantID(String merchantID){ this.merchantID = merchantID; }
+    public void setMerchantBankID(String merchantBankID){ this.merchantBankID = merchantBankID; }
 
     public BigDecimal getAmount(){ return this.amount; }
 
