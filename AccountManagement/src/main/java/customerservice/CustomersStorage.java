@@ -28,7 +28,7 @@ public class CustomersStorage implements ICustomersStorage {
 
     @Override
     public Customer searchCustomerByID(String customerID) {
-        for (Customer customer : CustomerList){
+        for (Customer customer : CustomerList){ // consider use of .stream() .filter() .collect()
             if (customer.getCustomerID() == customerID){ return customer; }
         }
         return null;
@@ -36,7 +36,7 @@ public class CustomersStorage implements ICustomersStorage {
 
     @Override
     public boolean bankIDAlreadyExists(String bankID) {
-        for (Customer customer : CustomerList){
+        for (Customer customer : CustomerList){ // consider use of .stream() .filter() .collect()
             if(customer.getBankID().equals(bankID)) return true;
         }
         return false;

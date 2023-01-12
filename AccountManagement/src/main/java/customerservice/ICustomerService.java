@@ -1,7 +1,5 @@
 package customerservice;
 
-import customerservice.Customer;
-
 import java.util.List;
 
 public interface ICustomerService {

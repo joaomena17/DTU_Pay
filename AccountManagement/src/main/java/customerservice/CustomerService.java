@@ -14,9 +14,7 @@ public class CustomerService implements ICustomerService {
             customer.setCustomerID(CustomerList.getCustomersCounter());
             return customer.getCustomerID();
         }
-        else { throw new IllegalArgumentException("Customer needs a valid bank account to register");
-    }
-
+        else { throw new IllegalArgumentException("Customer needs a valid bank account to register"); }
 
     }
 

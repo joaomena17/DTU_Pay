@@ -29,7 +29,7 @@ public class MerchantsStorage implements IMerchantsStorage{
 
     @Override
     public Merchant searchMerchantByID(String merchantID){
-        for (Merchant merchant : MerchantList){
+        for (Merchant merchant : MerchantList){ // consider use of .stream() .filter() .collect()
             if(merchant.getMerchantID().equals(merchantID)){
                 return merchant;
             }
@@ -39,7 +39,7 @@ public class MerchantsStorage implements IMerchantsStorage{
 
     @Override
     public boolean bankIDAlreadyExists (String bankID){
-        for (Merchant merchant : MerchantList){
+        for (Merchant merchant : MerchantList){ // consider use of .stream() .filter() .collect()
             if(merchant.getBankID().equals(bankID)) return true;
         }
         return false;
