@@ -16,12 +16,12 @@ public class CustomerResource {
         baseUrl = client.target("http://localhost:8080/");
     }
 
-    private Response registerCustomerAccount(Customer customer,String mediaType){
+    public Response registerCustomerAccount(Customer customer,String mediaType){
         return  baseUrl.path("customer/register")
                 .request()
                 .post(Entity.entity(customer, MediaType.APPLICATION_JSON));
     }
-    private Response unregisterCustomerAccount(String id,String mediaType){
+    public Response unregisterCustomerAccount(String id,String mediaType){
         return  baseUrl.path("customer/deregister")
                 .request()
                 .post(Entity.entity(id, MediaType.APPLICATION_JSON));
