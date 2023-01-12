@@ -27,18 +27,11 @@ public class PaymentResource {
     public Response getBalance(@PathParam("id") String id) { return pService.getBalance(id); }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public boolean postPayment(Payment p) {
-        return pService.addPayment(p);
-    }
-
-    @POST
     @Path("/transfer")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response transferMoney(Payment p) {
-        return pService.transferMoney(p);
+        return pService.makePayment(p);
     }
-
 
 }
 

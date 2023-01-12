@@ -13,14 +13,12 @@ public class PaymentService implements IPaymentService {
 
     private List<Payment> paymentList = new ArrayList<>();
 
+    @Override
     public List<Payment> getPaymentList() {
         return List.copyOf(paymentList);
     }
 
-    public boolean addPayment(Payment payment) {
-        return paymentList.add(payment);
-    }
-
+    @Override
     public Response getBalance(String id) {
         try {
             var user = service.getAccount(id);
@@ -32,13 +30,15 @@ public class PaymentService implements IPaymentService {
             return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getCause()).build();
         }
     }
-    public Response transferMoney(Payment payment) {
+    @Override
+    public Response makePayment(Payment payment) {
         String from = payment.getCustomerBankID();
         String to = payment.getMerchantBankID();
         BigDecimal amount = payment.getAmount();
         String description = String.format("Transfer of %d from %s to %s", amount, from, to);
         try {
             service.transferMoneyFromTo(from, to, amount, description);
+            paymentList.add(payment);
             return Response.ok().build();
         } catch (BankServiceException_Exception e) {
             return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getCause()).build();

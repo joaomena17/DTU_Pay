@@ -24,7 +24,7 @@ public class DTUPayUser {
     public boolean validAccount(){
         BankService bank = new BankServiceService().getBankServicePort();
         List<AccountInfo> bankAccounts = bank.getAccounts();
-        
+
         for (AccountInfo account : bankAccounts) {
             if (account.getAccountId().equals(_bankID)) {
                 return true;
