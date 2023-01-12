@@ -22,7 +22,7 @@ import java.math.BigDecimal;
     And the customer unregisters from DTU Pay
     And the customer is removed from the customer list */
 
-public class RegisterCustomerServiceSteps {
+public class ManageCustomerServiceSteps {
 
     private User user = new User();
     private String bankId;
@@ -33,7 +33,7 @@ public class RegisterCustomerServiceSteps {
     @Given("a customer with name {string} {string} and bank account with balance {int}")
     public void a_customer_with_name_and_bank_id(String firstName, String lastName, int balance) {
 
-        user.setCprNumber("371299-1234");
+        user.setCprNumber("381299-1234");
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
@@ -42,10 +42,6 @@ public class RegisterCustomerServiceSteps {
 
         try {
             bankId = bank.createAccountWithBalance(user, bigDecimalBalance);
-
-            /* DEBUG */
-            /* System.out.println("\n\n>>> BankID: " + bankId + "\n\n"); */
-
         } catch (BankServiceException_Exception e) {
             e.printStackTrace();
         }
@@ -86,6 +82,10 @@ public class RegisterCustomerServiceSteps {
         try {
             bank.retireAccount(bankId);
         } catch (BankServiceException_Exception e) {
+
+            /* DEBUG */
+            System.out.println("\n\n++CCCCCC++\n\n");
+
             e.printStackTrace();
         }
     }
