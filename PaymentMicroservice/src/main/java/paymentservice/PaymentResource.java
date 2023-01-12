@@ -17,38 +17,26 @@ public class PaymentResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Payment> getPaymentJson() {
-        return pService.getPaymentList();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_XML)
-    public List<Payment> getPaymentXml() {
+    public List<Payment> getPayment() {
         return pService.getPaymentList();
     }
 
     @GET
     @Path("/getBalance/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBalanceJson(@PathParam("id") String id) { return pService.getBalance(id); }
+    public Response getBalance(@PathParam("id") String id) { return pService.getBalance(id); }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public boolean postPaymentJSON(Payment p) {
-        return pService.addPayment(p);
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_XML)
-    public boolean postPaymentXML(Payment p) {
+    public boolean postPayment(Payment p) {
         return pService.addPayment(p);
     }
 
     @POST
     @Path("/transfer")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response transferMoneyJson(Transfer data) {
-        return pService.transferMoney(data);
+    public Response transferMoney(Payment p) {
+        return pService.transferMoney(p);
     }
 
 
