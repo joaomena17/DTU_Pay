@@ -30,6 +30,7 @@ public class PaymentResource {
     @Path("/transfer")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response transferMoney(Payment p) {
+        System.out.println("TRANSFERING MONEY");
         return pService.makePayment(p);
     }
 

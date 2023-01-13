@@ -34,10 +34,10 @@ public class PaymentService implements IPaymentService {
     public Response makePayment(Payment payment) {
         String from = payment.getCustomerBankID();
         String to = payment.getMerchantBankID();
-        BigDecimal amount = payment.getAmount();
+        int amount = payment.getAmount();
         String description = String.format("Transfer of %d from %s to %s", amount, from, to);
         try {
-            service.transferMoneyFromTo(from, to, amount, description);
+            service.transferMoneyFromTo(from, to,new BigDecimal( amount), description);
             paymentList.add(payment);
             return Response.ok().build();
         } catch (BankServiceException_Exception e) {

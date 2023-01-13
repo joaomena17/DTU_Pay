@@ -1,6 +1,6 @@
 package services;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Payment {
     private String customerBankID, merchantBankID;
-    private BigDecimal amount;
+    private int amount;
 
     public String getCustomerBankID(){ return this.customerBankID; }
 
@@ -22,7 +22,7 @@ public class Payment {
 
     public void setMerchantBankID(String merchantBankID){ this.merchantBankID = merchantBankID; }
 
-    public BigDecimal getAmount(){ return this.amount; }
+    public int getAmount(){ return this.amount; }
 
-    public void setAmount(BigDecimal amount){ this.amount = amount; }
+    public void setAmount(int amount){ this.amount = amount; }
 }
