@@ -16,12 +16,12 @@ public class MerchantResource {
         baseUrl = client.target("http://localhost:8080/");
     }
 
-    private Response registerMerchantAccount(Merchant merchant,String mediaType){
+    public Response registerMerchantAccount(Merchant merchant,String mediaType){
         return  baseUrl.path("merchant/register")
                 .request()
                 .post(Entity.entity(merchant, MediaType.APPLICATION_JSON));
     }
-    private Response unregisterMerchantAccount(String id,String mediaType){
+    public Response unregisterMerchantAccount(String id,String mediaType){
         return  baseUrl.path("merchant/deregister")
                 .request()
                 .post(Entity.entity(id, MediaType.APPLICATION_JSON));

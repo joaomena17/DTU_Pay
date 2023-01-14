@@ -63,6 +63,11 @@
             <version>6.2.2.Final</version>
         </dependency>
         <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>3.15.3.Final</version>
+        </dependency>
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-jsonb</artifactId>
             <version>3.0.0.Alpha2</version>
@@ -113,6 +118,22 @@
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>rt</artifactId>
             <version>4.0.0</version> <!-- 2.3.5 (???) -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.29</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>2.28</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>2.22.2</version>
         </dependency>
     </dependencies>
 </project>
