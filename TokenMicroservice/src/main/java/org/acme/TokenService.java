@@ -89,7 +89,11 @@ public class TokenService {
         return Response.ok().build();
     }
     public boolean doesUserExist(String username){
+        System.out.println("Hello");
+        System.out.println(username);
         for(Token t : TokenList) {
+            System.out.println(t.user);
+            System.out.println("Hello");
             if (t.user.equals(username)) {
                 return true;
             }
@@ -99,7 +103,7 @@ public class TokenService {
     public Response requestSingleToken(RequestSingleToken t){
         if(doesUserExist(t.user) == false){
             System.out.println("User does not exists");
-            return Response.status(Response.Status.PRECONDITION_FAILED).entity("User does  not exists").build();
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
         }
         for(Token tok: TokenList){
             if(t.user.equals(tok.user)){
@@ -115,7 +119,7 @@ public class TokenService {
     public Response deleteToken(RequestSingleToken t){
         if(doesUserExist(t.user) == false){
             System.out.println("User does not exists");
-            return Response.status(Response.Status.PRECONDITION_FAILED).entity("User does  not exists").build();
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
         }
         for(Token tok: TokenList){
             if(t.user.equals(tok.user)){
@@ -133,6 +137,11 @@ public class TokenService {
     }
 
     public Response requestToken(TokenRequest tokenRequest) {
+        doesUserExist(tokenRequest.user);
+        if(doesUserExist(tokenRequest.user) == false){
+            System.out.println("User does not exists");
+            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
+        }
         System.out.println("REQUESTING TOKEN");
         System.out.println(tokenRequest);
         if(tokenRequest.number > 5){
