@@ -137,7 +137,7 @@ public class TokenService {
     }
 
     public Response requestToken(TokenRequest tokenRequest) {
-        doesUserExist(tokenRequest.user);
+        //doesUserExist(tokenRequest.user);
         if(doesUserExist(tokenRequest.user) == false){
             System.out.println("User does not exists");
             return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
