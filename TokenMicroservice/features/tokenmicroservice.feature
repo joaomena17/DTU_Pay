@@ -1,4 +1,4 @@
-Feature: TokenMicroservice
+Feature: tokenMicroservice
 
 Scenario: Customer requests token successfully
     Given a customer {string} creates an account on DTU PAY and the token micro service creates him as a user

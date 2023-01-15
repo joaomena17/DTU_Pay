@@ -29,10 +29,19 @@ public class RequestAndUseTokensSteps {
     private RequestSingleToken requestSingleToken;
     private TokenRequest tokenRequest = new TokenRequest();
 
-
+    @Given("a customer \\{string} creates an account on DTU PAY and the token micro service creates him as a user")
+    public void a_customer_creates_an_account_on_dtu_pay_and_the_token_micro_service_creates_him_as_a_user() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+    @When("a customer with name {string} requests {int} tokens")
+    public void a_customer_with_name_requests_tokens(String string, Integer int1) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+    /*
    // @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
    @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
-
    public void userRequestingTokens(String username) {
 
         List<String> emptyList = new ArrayList<String>();
@@ -52,7 +61,7 @@ public class RequestAndUseTokensSteps {
         //Check if user was created
         assertTrue(tokenService.doesUserExist(username));
 
-    }
+    }*/
     /*
     @When("the customer requests token with DTU Pay")
     public void the_customer_registers_with_dtu_pay() {
