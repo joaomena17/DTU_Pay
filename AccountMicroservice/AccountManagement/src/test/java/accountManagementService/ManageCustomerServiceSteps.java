@@ -1,7 +1,7 @@
 package accountManagementService;
 
 import dtu.ws.fastmoney.*;
-import customerservice.*;
+import accountservice.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,8 +27,8 @@ public class ManageCustomerServiceSteps {
     private User user = new User();
     private String bankId;
     private BankService bank = new BankServiceService().getBankServicePort();
-    private Customer customer;
-    private CustomerService customerService = new CustomerService();
+    private DTUPayUser customer;
+    private AccountService customerService = new AccountService();
 
     @Given("a customer with name {string} {string} and bank account with balance {int}")
     public void a_customer_with_name_and_bank_id(String firstName, String lastName, int balance) {
@@ -48,32 +48,32 @@ public class ManageCustomerServiceSteps {
 
         // make full name from first and last name
         String name = firstName + " " + lastName;
-        customer = new Customer(name, bankId);
+        customer = new DTUPayUser(name, bankId, "customer");
     }
 
     @When("the customer registers with DTU Pay")
     public void the_customer_registers_with_dtu_pay() {
-        customerService.registerCustomer(customer);
+        customerService.registerAccount(customer);
     }
 
     @Then("the customer is saved in the customer list")
     public void the_customer_is_saved_in_the_system() {
-        assertTrue(customerService.getCustomerList().contains(customer));
+        assertTrue(customerService.getAccountList("customer").contains(customer));
     }
 
     @And("the customer can be retrieved from the customer list")
     public void the_customer_can_get_correctly_retrieved_from_the_list() {
-        assertEquals(customer, customerService.getCustomer(customer.getCustomerID()));
+        assertEquals(customer, customerService.getAccountList(customer.getAccountID()));
     }
 
     @And("the customer unregisters from DTU Pay")
     public void the_customer_unregisters_from_dtu_pay() {
-        customerService.unregisterCustomer(customer);
+        customerService.unregisterAccount(customer);
     }
 
     @And("the customer is removed from the customer list")
     public void the_customer_is_removed_from_the_customer_list() {
-        assertTrue(!customerService.getCustomerList().contains(customer));
+        assertTrue(!customerService.getAccountList("customer").contains(customer));
     }
 
     @After
@@ -82,8 +82,11 @@ public class ManageCustomerServiceSteps {
         try {
             bank.retireAccount(bankId);
         } catch (BankServiceException_Exception e) {
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
             e.printStackTrace();
         }
     }

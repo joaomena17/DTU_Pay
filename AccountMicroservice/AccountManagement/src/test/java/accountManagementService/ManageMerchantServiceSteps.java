@@ -1,7 +1,7 @@
 package accountManagementService;
 
 import dtu.ws.fastmoney.*;
-import merchantservice.*;
+import accountservice.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,8 +27,8 @@ public class ManageMerchantServiceSteps {
     private User user = new User();
     private String bankId;
     private BankService bank = new BankServiceService().getBankServicePort();
-    private Merchant merchant;
-    private MerchantService merchantService = new MerchantService();
+    private DTUPayUser merchant;
+    private AccountService merchantService = new AccountService();
 
     @Given("a merchant with name {string} {string} and bank account with balance {int}")
     public void a_merchant_with_name_and_bank_id(String firstName, String lastName, int balance) {
@@ -48,32 +48,32 @@ public class ManageMerchantServiceSteps {
 
         // make full name from first and last name
         String name = firstName + " " + lastName;
-        merchant = new Merchant(name, bankId);
+        merchant = new DTUPayUser(name, bankId, "merchant");
     }
 
     @When("the merchant registers with DTU Pay")
     public void the_merchant_registers_with_dtu_pay() {
-        merchantService.registerMerchant(merchant);
+        merchantService.registerAccount(merchant);
     }
 
     @Then("the merchant is saved in the merchant list")
     public void the_merchant_is_saved_in_the_system() {
-        assertTrue(merchantService.getMerchantList().contains(merchant));
+        assertTrue(merchantService.getAccountList("merchant").contains(merchant));
     }
 
     @And("the merchant can be retrieved from the merchant list")
     public void the_merchant_can_get_correctly_retrieved_from_the_list() {
-        assertEquals(merchant, merchantService.getMerchant(merchant.getMerchantID()));
+        assertEquals(merchant, merchantService.getAccountList(merchant.getAccountID()));
     }
 
     @And("the merchant unregisters from DTU Pay")
     public void the_merchant_unregisters_from_dtu_pay() {
-        merchantService.unregisterMerchant(merchant);
+        merchantService.unregisterAccount(merchant);
     }
 
     @And("the merchant is removed from the merchant list")
     public void the_merchant_is_removed_from_the_merchant_list() {
-        assertTrue(!merchantService.getMerchantList().contains(merchant));
+        assertTrue(!merchantService.getAccountList("merchant").contains(merchant));
     }
 
     @After
