@@ -39,7 +39,7 @@ import java.math.BigDecimal;
 public class RequestAndUseTokensSteps {
 
     private Token token = new Token();
-
+    private CreateUser createUser = new CreateUser();
     private TokenService tokenService = new TokenService();
     private RequestSingleToken requestSingleToken;
     private TokenRequest tokenRequest = new TokenRequest();
@@ -47,9 +47,8 @@ public class RequestAndUseTokensSteps {
     @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
     public void a_customer_creates_an_account_on_dtu_pay_and_the_token_micro_service_creates_him_as_a_user(String username) {
        // List<String> emptyList = new ArrayList<String>();
-        CreateUser createUser= new CreateUser(username);
+        createUser = new CreateUser(username);
         tokenService.createUser(createUser);
-
         //Check if user was created
         assertTrue(tokenService.doesUserExist(username));
     }
@@ -61,22 +60,17 @@ public class RequestAndUseTokensSteps {
     //@And("the customer can use the tokens for payments")
     public void customer_can_use_the_tokens_for_payments(String username) {
         List<String> emptyList = new ArrayList<String>();
-        token = new Token(username, emptyList);
-        tokenService.createUser(token);
+        createUser = new CreateUser(username);
+        tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(username, 3);
         requestSingleToken = new RequestSingleToken();
-
-
         //assertTrue(requestSingleToken);
-
-
     }
 
     @Given("a customer {string} has an account on DTU pay with {int} token")
     public void a_customer_has_an_account_on_dtu_pay_with_token(String string, Integer int1) {
-        List<String> emptyList = new ArrayList<String>();
-        token = new Token(string, emptyList);
-        tokenService.createUser(token);
+        createUser = new CreateUser(string);
+        tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(string, int1);
         assertTrue("200 Success", true);
         assertTrue(tokenService.doesUserExist(string));
@@ -84,8 +78,8 @@ public class RequestAndUseTokensSteps {
     @When("The customer {string} requests {int} token")
     public void the_customer_request_more_tokens(String string) {
         List<String> emptyList = new ArrayList<String>();
-        token = new Token(string, emptyList);
-        tokenService.createUser(token);
+        createUser = new CreateUser(string);
+        tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(string, 1);
         assertTrue("Has 2 or more valid tokens", true);
         assertTrue(tokenService.doesUserExist(string));
@@ -93,29 +87,28 @@ public class RequestAndUseTokensSteps {
 
     @Then("customer {string} receives error that he has to many tokens to make an request")
     public void customer_receives_error_that_he_has_to_many_tokens_to_make_an_request(String string) {
-        List<String> emptyList = new ArrayList<String>();
-        token = new Token(string, emptyList);
-        tokenService.createUser(token);
+        createUser = new CreateUser(string);
+        tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(string, 1);
         assertTrue("Has 2 or more valid tokens", true);
         assertTrue(tokenService.doesUserExist(string));
     }
 
     @Given("Customer {string} has an account and {int} tokens")
-    public void a_customer_has_an_account_on_dtu_pay_with_token(String string, Integer int1) {
-        List<String> emptyList = new ArrayList<String>();
-        token = new Token(string, emptyList);
-        tokenService.createUser(token);
+    public void a_customer_has_an_account_on_dtu_pay_with_token2(String string, Integer int1) {
+        //List<String> emptyList = new ArrayList<String>();
+        createUser = new CreateUser(string);
+        tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(string, int1);
         assertTrue("200 Success", true);
         assertTrue(tokenService.doesUserExist(string));
     }
 
     @When("the customer {string} request more tokens")
-    public void the_customer_request_more_tokens(String string) {
-        List<String> emptyList = new ArrayList<String>();
-        token = new Token(string, emptyList);
-        tokenService.createUser(token);
+    public void the_customer_request_more_tokens2(String string) {
+       // List<String> emptyList = new ArrayList<String>();
+        createUser = new CreateUser(string);
+        tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(string, 0);
 
     }
@@ -123,8 +116,8 @@ public class RequestAndUseTokensSteps {
     @Then("The customer {string} has {int} tokens and receives an error message of to few token requested")
     public void customer_receives_error_that_he_has_to_many_tokens_to_make_an_request(String string, Integer int1) {
         List<String> emptyList = new ArrayList<String>();
-        token = new Token(string, emptyList);
-        tokenService.createUser(token);
+        createUser = new CreateUser(string);
+        tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(string, 1);
 
     }

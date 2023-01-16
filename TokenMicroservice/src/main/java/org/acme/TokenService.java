@@ -88,7 +88,7 @@ public class TokenService {
                     if(tokenToDelete.equals(t.token)){
                         tok.tokens.remove(tokenToDelete);
                         usedTokens.add(tokenToDelete);
-                        return Response.ok().build();
+                        return Response.ok("200 Success").build();
                     }
                 }
                 return Response.status(Response.Status.NOT_FOUND).entity("404, Token not found").build();
@@ -128,7 +128,7 @@ public class TokenService {
                     System.out.println(i);
                     t.tokens.add(createRandomToken());
                 }
-                return Response.ok().build();
+                return Response.ok("200 Success").build();
             }
         }
 
