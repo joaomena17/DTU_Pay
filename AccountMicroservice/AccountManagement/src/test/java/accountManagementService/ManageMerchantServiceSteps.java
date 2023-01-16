@@ -33,7 +33,7 @@ public class ManageMerchantServiceSteps {
     @Given("a merchant with name {string} {string} and bank account with balance {int}")
     public void a_merchant_with_name_and_bank_id(String firstName, String lastName, int balance) {
 
-        user.setCprNumber("381299-1234");
+        user.setCprNumber("399-1234");
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
@@ -82,9 +82,6 @@ public class ManageMerchantServiceSteps {
         try {
             bank.retireAccount(bankId);
         } catch (BankServiceException_Exception e) {
-
-            /* DEBUG */
-            System.out.println("\n\n++MMMMMM++\n\n");
 
             e.printStackTrace();
         }

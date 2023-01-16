@@ -33,7 +33,7 @@ public class ManageCustomerServiceSteps {
     @Given("a customer with name {string} {string} and bank account with balance {int}")
     public void a_customer_with_name_and_bank_id(String firstName, String lastName, int balance) {
 
-        user.setCprNumber("381299-1234");
+        user.setCprNumber("299-1234");
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
@@ -83,8 +83,6 @@ public class ManageCustomerServiceSteps {
             bank.retireAccount(bankId);
         } catch (BankServiceException_Exception e) {
 
-            /* DEBUG */
-            System.out.println("\n\n++CCCCCC++\n\n");
 
             e.printStackTrace();
         }
