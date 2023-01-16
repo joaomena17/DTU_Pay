@@ -11,8 +11,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor // Needed for JSON deserialization and XML serialization and deserialization
 @AllArgsConstructor
 public class Payment {
-    private String customerBankID, merchantBankID;
+    private String customerBankID, merchantBankID, CustomerToken;
     private BigDecimal amount;
+
+    public String getCustomerToken() {
+        return CustomerToken;
+    }
+
+    public void setCustomerToken(String customerToken) {
+        CustomerToken = customerToken;
+    }
 
     public String getCustomerBankID(){ return this.customerBankID; }
 

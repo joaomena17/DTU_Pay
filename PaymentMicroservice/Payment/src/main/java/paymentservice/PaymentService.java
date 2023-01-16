@@ -6,12 +6,22 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 
 import dtu.ws.fastmoney.*;
+import messaging.Event;
+import messaging.MessageQueue;
 
 public class PaymentService implements IPaymentService {
 
     BankService service = (new BankServiceService()).getBankServicePort();
 
     private List<Payment> paymentList = new ArrayList<>();
+
+    MessageQueue mq;
+
+    public PaymentService(MessageQueue mq){
+        this.mq = mq;
+        mq.addHandler("MerchantRequestPayment", this::makePayment);
+        mq.addHandler("TokenConsumed",this::handleTokenResponse);
+    }
 
     @Override
     public List<Payment> getPaymentList() {
@@ -31,7 +41,11 @@ public class PaymentService implements IPaymentService {
         }
     }
     @Override
-    public Response makePayment(Payment payment) {
+    public void makePayment(Event ev) {
+        Payment payment = ev.getArgument(0, Payment.class);
+        //Validate customer token.
+        mq.publish(new Event("ValidateToken",new Object[]{payment.getCustomerToken()}));
+
         String from = payment.getCustomerBankID();
         String to = payment.getMerchantBankID();
         BigDecimal amount = payment.getAmount();
@@ -39,9 +53,13 @@ public class PaymentService implements IPaymentService {
         try {
             service.transferMoneyFromTo(from, to, amount, description);
             paymentList.add(payment);
-            return Response.ok().build();
+            mq.publish(new Event("PaymentSuccessFull", new Object[] {payment,from}));
         } catch (BankServiceException_Exception e) {
-            return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getCause()).build();
+            mq.publish(new Event("PaymentFailed", new Object[]{e.getMessage()}));
         }
+    }
+
+    public void handleTokenResponse(Event event){
+
     }
 }

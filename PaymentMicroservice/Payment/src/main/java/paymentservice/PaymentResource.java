@@ -13,7 +13,9 @@ import java.util.List;
 
 @Path("/payments")
 public class PaymentResource {
-    private PaymentService pService = new PaymentService();
+
+    private PaymentFactory pf = new PaymentFactory();
+    private PaymentService pService = pf.getService();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -29,8 +31,9 @@ public class PaymentResource {
     @POST
     @Path("/transfer")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response transferMoney(Payment p) {
-        return pService.makePayment(p);
+    public void transferMoney(Payment p) {
+        pService.makePayment(p);
+        //return pService.makePayment(p);
     }
 
 }
