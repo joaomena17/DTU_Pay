@@ -23,7 +23,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public DTUPayUser getAccount(String accountID, String role) throws IllegalArgumentException {
+    public DTUPayUser getAccount(String accountID) throws IllegalArgumentException {
         DTUPayUser account = AccountList.searchAccountByID(accountID);
         if (account != null) return account;
         else throw new IllegalArgumentException("Account not found");

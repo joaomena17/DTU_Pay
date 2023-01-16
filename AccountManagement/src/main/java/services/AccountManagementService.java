@@ -4,18 +4,21 @@ authors:
 Tiago Machado s222963
  */
 
-
-import accountservice.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import accountservice.AccountService;
+import accountservice.DTUPayUser;
 import messaging.Event;
+
+import java.util.Map;
 import messaging.MessageQueue;
-import utils.EventTypes;
 
 public class AccountManagementService {
 
     MessageQueue queue;
-    AccountService accHandler = new AccountService();
+    AccountService accountService = new AccountService();
 
-    public AccountService(MessageQueue q) {
+    public AccountManagementService(MessageQueue q) {
         this.queue = q;
         this.queue.addHandler(EventTypes.REGISTER_ACCOUNT_REQUEST, this::handleRegisterAccountRequest);
         this.queue.addHandler(EventTypes.BANK_ACCOUNT_ID_REQUEST, this::handleBankAccountIdRequest);
@@ -25,47 +28,38 @@ public class AccountManagementService {
 
     }
 
-    public Event handleRegisterAccountRequest(Event ev) {
-        checkCorrelationID(ev);
-        Event event;
-        var receivedAccount = ev.getArgument(0, DTUPayUser.class);
+    public void handleRegisterAccountRequest(Event ev) {
+        Event eventCreated;
+        var newAccount= ev.getArgument(0, DTUPayUser.class);
+        var correlationId= ev.getArgument(1,CorrelationId.class);
 
         try{
-            var newAccountId = accHandler.createAccountFromData(receivedAccount);
+            String newAccountId = accountService.registerAccount(newAccount);
             // Create an "AccountRegistrationCompleted" event
-            event = new Event(EventTypes.ACCOUNT_REGISTRATION_COMPLETED, ev.getCorrID(), new Object[] {newAccountId});
+            eventCreated = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED,new Object[] {newAccountId, correlationId});
         }catch (Exception e){
             // Create an "AccountRegistrationFailed" event
-            event = new Event(EventTypes.ACCOUNT_REGISTRATION_FAILED, ev.getCorrID(), new Object[] {e.getMessage()});
+            eventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED,new Object[] {e.getMessage(),correlationId});
         }
-        queue.publish(event);
-        return event;
+        queue.publish(eventCreated);
     }
 
-    public Event handleBankAccountIdRequest(Event ev){
-        checkCorrelationID(ev);
-        Event event;
+    public void handleBankAccountIdRequest(Event ev){
+        Event eventCreated;
 
-        int count = ev.getArgument(0,int.class);
-
-        String[] ids = new String[count];
-        for (int i = 0; i < count; i++) {
-            ids[i] = ev.getArgument(i+1, String.class);
-        }
+        String DTUUserId = ev.getArgument(0,String.class);
+        var correlationId= ev.getArgument(1,CorrelationId.class);
 
         try{
 
-            Object[] arguments = new Object[count];
-            for (int i = 0; i < count; i++) {
-                arguments[i] = accHandler.getAccountBankId(ids[i]);
-            }
-            event = new Event(EventTypes.BANK_ACCOUNT_ID_RETRIEVAL_SUCCESS, ev.getCorrID(), arguments);
+            var userAccount= accountService.getAccount(DTUUserId);
+            var bankAccountId=userAccount.getBankID();
+            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_SUCCESS, new Object[] {bankAccountId, correlationId});
         }
         catch (Exception e) {
-            event = new Event(EventTypes.BANK_ACCOUNT_ID_RETRIEVAL_FAILED, ev.getCorrID(), new Object[] { e.getMessage()});
+            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_FAILED,new Object[] { e.getMessage(),correlationId});
         }
-        queue.publish(event);
-        return event;
+        queue.publish(eventCreated);
     }
 
     public void handleUnregisterAccountRequest(Event ev){

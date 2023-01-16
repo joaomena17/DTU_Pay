@@ -7,7 +7,7 @@ public interface IAccountService {
 
     boolean unregisterAccount(DTUPayUser account) throws IllegalArgumentException;
 
-    DTUPayUser getAccount(String accountID, String role) throws IllegalArgumentException;
+    DTUPayUser getAccount(String accountID) throws IllegalArgumentException;
 
     List<DTUPayUser> getAccountList(String role) throws IllegalArgumentException;
 }
