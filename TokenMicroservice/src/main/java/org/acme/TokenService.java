@@ -17,13 +17,13 @@ public class TokenService {
         this.TokenList.add(this.token);
     }
     public String createRandomString() {
-        String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
+        String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz-_";
         String numbers = "0123456789";
         String alphaNumeric = upperAlphabet + lowerAlphabet + numbers;
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
-        int length = 15;
+        int length = 25;
         for(int i = 0; i < length; i++) {
             int index = random.nextInt(alphaNumeric.length());
             char randomChar = alphaNumeric.charAt(index);
@@ -89,11 +89,9 @@ public class TokenService {
         return Response.ok().build();
     }
     public boolean doesUserExist(String username){
-        System.out.println("Hello");
         System.out.println(username);
         for(Token t : TokenList) {
             System.out.println(t.user);
-            System.out.println("Hello");
             if (t.user.equals(username)) {
                 return true;
             }
