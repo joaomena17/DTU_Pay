@@ -1,7 +1,8 @@
-package accountservice;
+package handlers;
 
 import java.util.ArrayList;
 import java.util.List;
+import Entities.DTUPayUser;
 
 public class AccountStorage implements IAccountStorage {
 

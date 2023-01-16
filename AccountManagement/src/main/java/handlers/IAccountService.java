@@ -1,6 +1,7 @@
-package accountservice;
+package handlers;
 
 import java.util.List;
+import Entities.DTUPayUser;
 
 public interface IAccountService {
     String registerAccount(DTUPayUser account) throws IllegalArgumentException;

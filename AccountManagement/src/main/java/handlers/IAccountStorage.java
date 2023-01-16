@@ -1,7 +1,7 @@
-package accountservice;
+package handlers;
 
 import java.util.List;
-
+import Entities.DTUPayUser;
 public interface IAccountStorage {
 
     void addAccount(DTUPayUser account);

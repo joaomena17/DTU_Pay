@@ -4,19 +4,21 @@ authors:
 Tiago Machado s222963
  */
 
+import java.util.List;
+import handlers.AccountService;
+import messaging.Event;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import accountservice.AccountService;
-import accountservice.DTUPayUser;
-import messaging.Event;
-
 import java.util.Map;
 import messaging.MessageQueue;
+import Entities.DTUPayUser;
 
 public class AccountManagementService {
 
     MessageQueue queue;
     AccountService accountService = new AccountService();
+
+    private Map<CorrelationId, CompletableFuture<Boolean>> correlations = new ConcurrentHashMap<>();
 
     public AccountManagementService(MessageQueue q) {
         this.queue = q;
@@ -25,23 +27,36 @@ public class AccountManagementService {
         this.queue.addHandler(EventTypes.UNREGISTER_ACCOUNT_REQUEST, this::handleUnregisterAccountRequest);
         this.queue.addHandler(EventTypes.GET_ACCOUNT_REQUEST, this::handleGetAccountRequest);
         this.queue.addHandler(EventTypes.GET_LIST_ACCOUNTS_REQUEST, this::handleGetListAccountsRequest);
+        this.queue.addHandler(EventTypes.REGISTER_USER_TOKEN_SUCCESS, this::handleRegisterUserTokenSuccess);
+        this.queue.addHandler(EventTypes.REGISTER_USER_TOKEN_FAILED, this::handleRegisterUserTokenFailed);
 
     }
 
     public void handleRegisterAccountRequest(Event ev) {
-        Event eventCreated;
+        Event finalEventCreated;
         var newAccount= ev.getArgument(0, DTUPayUser.class);
         var correlationId= ev.getArgument(1,CorrelationId.class);
 
         try{
             String newAccountId = accountService.registerAccount(newAccount);
-            // Create an "AccountRegistrationCompleted" event
-            eventCreated = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED,new Object[] {newAccountId, correlationId});
+            var tokenCorrelationId = CorrelationId.randomId();
+            correlations.put(tokenCorrelationId,new CompletableFuture<>());
+            //Create an "RegisterUserTokenRequest" event
+            Event tokenEventCreated=new Event(EventTypes.REGISTER_USER_TOKEN_REQUEST,new Object[] {newAccountId, tokenCorrelationId});
+            queue.publish(tokenEventCreated);
+            if (correlations.get(correlationId).join()) {
+                // Create an "AccountRegistrationCompleted" event
+                finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[]{newAccountId, correlationId});
+            }
+            else {
+                accountService.unregisterAccount(newAccount);
+                throw new IllegalArgumentException("Error requesting to register user token");
+            }
         }catch (Exception e){
             // Create an "AccountRegistrationFailed" event
-            eventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED,new Object[] {e.getMessage(),correlationId});
+            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED,new Object[] {e.getMessage(),correlationId});
         }
-        queue.publish(eventCreated);
+        queue.publish(finalEventCreated);
     }
 
     public void handleBankAccountIdRequest(Event ev){
@@ -63,65 +78,62 @@ public class AccountManagementService {
     }
 
     public void handleUnregisterAccountRequest(Event ev){
-        checkCorrelationID(ev);
-        Event event;
-        var receivedAccountId = ev.getArgument(0, String.class);
+        Event eventCreated;
+        var unregisterAccount = ev.getArgument(0, DTUPayUser.class);
+        var correlationId= ev.getArgument(1,CorrelationId.class);
         try{
-            boolean accountDeleted =  accHandler.deleteAccountInfo(receivedAccountId);
+            boolean accountDeleted =  accountService.unregisterAccount(unregisterAccount);
             if(accountDeleted){
-                event = new Event(EventTypes.DELETE_ACCOUNT_SUCCESS, ev.getCorrID(), new Object[] {});
+                eventCreated = new Event(EventTypes.UNREGISTER_ACCOUNT_SUCCESS,new Object[] {true,correlationId});
             }
             else{
-                event = new Event(EventTypes.DELETE_ACCOUNT_NOT_EXIST, ev.getCorrID(), new Object[] { receivedAccountId });
+                eventCreated = new Event(EventTypes.UNREGISTER_ACCOUNT_NOT_EXIST,new Object[] {false,correlationId });
             }
         }
         catch (Exception e){
-            event = new Event(EventTypes.DELETE_ACCOUNT_FAILED, ev.getCorrID(), new Object[] {});
+            eventCreated = new Event(EventTypes.UNREGISTER_ACCOUNT_FAILED,new Object[] {e.getMessage(),correlationId});
         }
-        queue.publish(event);
+        queue.publish(eventCreated);
     }
 
-    public Event handleGetAccountRequest(Event ev){
-        checkCorrelationID(ev);
-        Event event;
+    public void handleGetAccountRequest(Event ev){
+        Event eventCreated;
         var receivedAccountId = ev.getArgument(0, String.class);
+        var correlationId= ev.getArgument(1,CorrelationId.class);
         try{
+            DTUPayUser accountToBeReturned = accountService.getAccount(receivedAccountId);
 
-            Account accountToBeReturned = accHandler.getAccount(receivedAccountId);
-
-            if(accountToBeReturned != null){
-                event = new Event(EventTypes.ACCOUNT_REQUEST_COMPLETED, ev.getCorrID(), new Object[] {new ReturnAccount(accountToBeReturned, true, "")});
-
-            }else{
-                event = new Event(EventTypes.ACCOUNT_REQUEST_FAILED, ev.getCorrID(), new Object[] { new ReturnAccount(null, true, "Account " + receivedAccountId + " does not exist") });
-            }
+            eventCreated = new Event(EventTypes.GET_ACCOUNT_COMPLETED,new Object[] {accountToBeReturned,correlationId});
         }
         catch (Exception e){
-            event = new Event(EventTypes.ACCOUNT_REQUEST_FAILED, ev.getCorrID(), new Object[] {new ReturnAccount(null, false, e.getMessage())});
+            eventCreated = new Event(EventTypes.GET_ACCOUNT_FAILED, new Object[] {e.getMessage(),correlationId});
         }
-        queue.publish(event);
-        return event;
+        queue.publish(eventCreated);
     }
 
-    //TODO
-//    public void handleAccountsRequested(Event ev){
-//        Event event;
-//        try{
-//            var accounts = accHandler.getAccounts();
-//            event = new Event("AccountsRequestSucceeded", new Object[] {});
-//        }
-//        catch (Exception e){
-//            event = new Event("AccountsRequestFailed", new Object[] {});
-//        }
-//        queue.publish(event);
-//    }
+    public void handleGetListAccountsRequest(Event ev){
+        Event eventCreated;
+        var typeList = ev.getArgument(0, String.class);
+        var correlationId= ev.getArgument(1,CorrelationId.class);
+        try{
+            List<DTUPayUser> RequestedList;
+            RequestedList= accountService.getAccountList(typeList);
 
-    public void checkCorrelationID(Event e) {
-        String receivedCorrID = e.getCorrID();
-        String eventType = e.getType();
-        System.out.println("Received event "
-                + eventType
-                + " with correlationID: "
-                + receivedCorrID);
+            eventCreated = new Event(EventTypes.GET_LIST_ACCOUNTS_COMPLETED,new Object[] {RequestedList,correlationId});
+        }
+        catch (Exception e){
+            eventCreated = new Event(EventTypes.GET_LIST_ACCOUNTS_FAILED, new Object[] {e.getMessage(),correlationId});
+        }
+        queue.publish(eventCreated);
+    }
+    public void handleRegisterUserTokenSuccess(Event ev) {
+        var success = ev.getArgument(0, boolean.class);
+        var correlationId = ev.getArgument(1, CorrelationId.class);
+        correlations.get(correlationId).complete(success);
+    }
+    public void handleRegisterUserTokenFailed(Event ev) {
+        var success = ev.getArgument(0, boolean.class);
+        var correlationId = ev.getArgument(1, CorrelationId.class);
+        correlations.get(correlationId).complete(success);
     }
 }

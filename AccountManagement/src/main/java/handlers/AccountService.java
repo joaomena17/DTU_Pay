@@ -1,6 +1,8 @@
-package accountservice;
+package handlers;
 
+import java.util.ArrayList;
 import java.util.List;
+import Entities.DTUPayUser;
 
 public class AccountService implements IAccountService {
 
@@ -18,8 +20,12 @@ public class AccountService implements IAccountService {
 
     @Override
     public boolean unregisterAccount(DTUPayUser account) throws IllegalArgumentException {
-        if(AccountList.deleteAccount(account)) return true;
-        else throw new IllegalArgumentException("Account was not deleted or does not exist");
+        try{
+            return AccountList.deleteAccount(account);
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
     @Override
@@ -33,6 +39,12 @@ public class AccountService implements IAccountService {
     public List<DTUPayUser> getAccountList(String role) throws IllegalArgumentException {
         if(role.equals("customer")) return AccountList.getCustomerStorage();
         else if (role.equals("merchant")) return AccountList.getMerchantStorage();
+        else if (role.equals("all")) {
+            List<DTUPayUser> MergedList = new ArrayList<>();
+            MergedList.addAll(AccountList.getCustomerStorage());
+            MergedList.addAll(AccountList.getMerchantStorage());
+            return MergedList;
+        }
         else throw new IllegalArgumentException(String.format("Invalid role acc list - role: %s", role));
     }
 }

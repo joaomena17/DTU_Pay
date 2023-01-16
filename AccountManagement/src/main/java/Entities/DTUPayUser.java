@@ -1,9 +1,6 @@
-package accountservice;
+package Entities;
 
 import dtu.ws.fastmoney.AccountInfo;
-import dtu.ws.fastmoney.GetAccount;
-import dtu.ws.fastmoney.GetAccounts;
-import dtu.ws.fastmoney.GetAccountsResponse;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
 

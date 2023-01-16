@@ -1,7 +1,8 @@
 package accountManagementService;
 
 import dtu.ws.fastmoney.*;
-import accountservice.*;
+import handlers.*;
+import Entities.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
     And the merchant can be retrieved from the merchant list
     And the merchant unregisters from DTU Pay
     And the merchant is removed from the merchant list */
-
 public class ManageMerchantServiceSteps {
 
     private User user = new User();
@@ -63,7 +63,7 @@ public class ManageMerchantServiceSteps {
 
     @And("the merchant can be retrieved from the merchant list")
     public void the_merchant_can_get_correctly_retrieved_from_the_list() {
-        assertEquals(merchant, merchantService.getAccount(merchant.getAccountID(), "merchant"));
+        assertEquals(merchant, merchantService.getAccount(merchant.getAccountID()));
     }
 
     @And("the merchant unregisters from DTU Pay")

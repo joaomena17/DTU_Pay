@@ -1,7 +1,7 @@
 package accountManagementService;
 
 import dtu.ws.fastmoney.*;
-import accountservice.*;
+import handlers.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +11,7 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.After;
+import Entities.*;
 
 import java.math.BigDecimal;
 
@@ -63,7 +64,7 @@ public class ManageCustomerServiceSteps {
 
     @And("the customer can be retrieved from the customer list")
     public void the_customer_can_get_correctly_retrieved_from_the_list() {
-        assertEquals(customer, customerService.getAccount(customer.getAccountID(), "customer"));
+        assertEquals(customer, customerService.getAccount(customer.getAccountID()));
     }
 
     @And("the customer unregisters from DTU Pay")

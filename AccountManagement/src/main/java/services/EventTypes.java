@@ -23,6 +23,15 @@ public final class EventTypes {
     public static final String GET_LIST_ACCOUNTS_COMPLETED = "GetListAccountsRequestCompleted";
     public static final String GET_LIST_ACCOUNTS_FAILED = "GetListAccountsRequestFailed";
 
+    public static final String REGISTER_USER_TOKEN_FAILED = "RegisterUserTokenFailed";
+
+    public static final String REGISTER_USER_TOKEN_SUCCESS = "RegisterUserTokenSuccess";
+
+    public static final String REGISTER_USER_TOKEN_REQUEST = "RegisterUserTokenRequest";
+
+
+
+
 
 
     private EventTypes(){
