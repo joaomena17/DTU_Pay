@@ -18,21 +18,21 @@ public class TokenResource{
 
     }
 
-    @Path("/")
+    //@Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response requestSingleToken(RequestSingleToken T) {
         return tService.requestSingleToken(T);
     }
 
-    @Path("/")
+    //@Path("/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response requestToken(TokenRequest T) {
         return tService.requestToken(T);
     }
     @DELETE
-    @Path("/")
+    //@Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteToken(RequestSingleToken T) {
         return tService.deleteToken(T);

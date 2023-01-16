@@ -18,6 +18,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import java.math.BigDecimal;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /* Scenario: Customer requests token successfully
     Given a customer {string} creates an account on DTU PAY and the token micro service creates him as a user
@@ -41,9 +43,11 @@ public class RequestAndUseTokensSteps {
     private Token token = new Token();
     private CreateUser createUser = new CreateUser();
     private TokenService tokenService = new TokenService();
-    private RequestSingleToken requestSingleToken;
+    private RequestSingleToken requestSingleToken = new RequestSingleToken();
     private TokenRequest tokenRequest = new TokenRequest();
 
+
+    //Scenario 1
     @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
     public void a_customer_creates_an_account_on_dtu_pay_and_the_token_micro_service_creates_him_as_a_user(String username) {
         createUser = new CreateUser(username);
@@ -52,86 +56,115 @@ public class RequestAndUseTokensSteps {
         assertTrue(tokenService.doesUserExist(username));
     }
     @When("a customer with name {string} requests {int} tokens")
-    public void a_customer_with_name_requests_tokens(String username, Integer number) {
+    public void a_customer_with_name_requests_tokens(String username, int number) {
         tokenRequest = new TokenRequest(username, number);
-        assertTrue("200 Success", true);
-    }
-    @And("the customer can use the tokens for payments")
-    public void customer_can_use_the_tokens_for_payments(String username) {
-        createUser = new CreateUser(username);
-        tokenService.createUser(createUser);
-        tokenRequest = new TokenRequest(username, 3);
-        requestSingleToken = new RequestSingleToken();
-        assertTrue("200 Success", true);
-
-        //assertTrue(requestSingleToken);
+        tokenService.requestToken(tokenRequest);
+        Token testToken = tokenService.getTokenByUser(username);
+        assertNotNull(testToken);
+        assertEquals(number,testToken.tokens.size());
     }
 
+    @Then("a customer with name {string} requests {int} more tokens")
+    public void a_customer_with_name_requests_tokens2(String username, int number) {
+        tokenRequest = new TokenRequest(username, number);
+        tokenService.requestToken(tokenRequest);
+        Token testToken = tokenService.getTokenByUser(username);
+        assertNotNull(testToken);
+        assertEquals(number + 1,testToken.tokens.size());
+    }
+
+    //Scenario 2
     @Given("a customer {string} has an account on DTU pay with {int} token")
-    public void a_customer_has_an_account_on_dtu_pay_with_token(String string, Integer int1) {
-        createUser = new CreateUser(string);
+    public void a_customer_has_an_account_on_dtu_pay_with_token(String user, int number) {
+        createUser = new CreateUser(user);
         tokenService.createUser(createUser);
-        tokenRequest = new TokenRequest(string, int1);
-        assertTrue("200 Success", true);
-        assertTrue(tokenService.doesUserExist(string));
-    }
-    @When("The customer {string} requests {int} token")
-    public void the_customer_request_more_tokens(String string, Integer int1) {
-
-        createUser = new CreateUser(string);
-        tokenService.createUser(createUser);
-        tokenRequest = new TokenRequest(string, int1);
-        assertTrue("Has 2 or more valid tokens", true);
-        assertTrue(tokenService.doesUserExist(string));
+        tokenRequest = new TokenRequest(user, number);
+        tokenService.requestToken(tokenRequest);
+        assertTrue(tokenService.doesUserExist(user));
+        Token testToken = tokenService.getTokenByUser(user);
+        assertNotNull(testToken);
+        assertEquals(number, testToken.tokens.size());
     }
 
-    @Then("customer {string} receives error that he has to many tokens to make an request")
-    public void customer_receives_error_that_he_has_to_many_tokens_to_make_an_request(String string) {
-        createUser = new CreateUser(string);
+    @When("the customer {string} request {int} token")
+    public void the_customer_request_token(String user, Integer number) {
+        createUser = new CreateUser(user);
         tokenService.createUser(createUser);
-        tokenRequest = new TokenRequest(string, 1);
-        assertTrue("Has 2 or more valid tokens", true);
-        assertTrue(tokenService.doesUserExist(string));
+        tokenRequest = new TokenRequest(user, number);
+        tokenService.requestToken(tokenRequest);
     }
 
+    @Then("customer {string} does not receive more tokens")
+    public void customer_receives_error_that_he_has_to_many_tokens_to_make_an_request(String user) {
+        assertTrue(tokenService.doesUserExist(user));
+        Token testToken = tokenService.getTokenByUser(user);
+        assertNotNull(testToken);
+        assertEquals(2, testToken.tokens.size());
+    }
+    //Scenario 3
     @Given("Customer {string} has an account and {int} tokens")
-    public void a_customer_has_an_account_on_dtu_pay_with_token2(String string, Integer int1) {
-        createUser = new CreateUser(string);
+    public void a_customer_has_an_account_on_dtu_pay_with_token2(String user, int number) {
+        createUser = new CreateUser(user);
         tokenService.createUser(createUser);
-        tokenRequest = new TokenRequest(string, int1);
-        assertTrue("200 Success", true);
-        assertTrue(tokenService.doesUserExist(string));
+        tokenRequest = new TokenRequest(user, number);
+        tokenService.requestToken(tokenRequest);
+        assertTrue(tokenService.doesUserExist(user));
+        Token testToken = tokenService.getTokenByUser(user);
+        assertNotNull(testToken);
+        assertEquals(number, testToken.tokens.size());
     }
 
-    @When("the customer {string} request more tokens")
-    public void the_customer_request_more_tokens2(String string) {
-
-        createUser = new CreateUser(string);
+    @When("The customer {string} requests to few or {int} tokens")
+    public void the_customer_requests_to_few_or_tokens(String user, Integer number) {
+        createUser = new CreateUser(user);
         tokenService.createUser(createUser);
-        tokenRequest = new TokenRequest(string, 0);
-        assertTrue("Too few tokens requested", true);
+        tokenRequest = new TokenRequest(user, number);
+        tokenService.requestToken(tokenRequest);
+        Token testToken = tokenService.getTokenByUser(user);
+        assertNotNull(testToken);
+        assertEquals(1, testToken.tokens.size());
     }
 
-    @Then("The customer {string} has {int} tokens and receives an error message of to few token requested")
-    public void customer_receives_error_that_he_has_to_many_tokens_to_make_an_request(String string, Integer int1) {
-
-        createUser = new CreateUser(string);
+    //Scenario 4
+    @Given("Customer {string} creates a new account")
+    public void Customer_John_Doe_has_an_account_and_1_tokens(String user) {
+        createUser = new CreateUser(user);
         tokenService.createUser(createUser);
-        tokenRequest = new TokenRequest(string, int1);
-        assertTrue("Too few tokens requested", true);
+        //Check if user was created
+        assertTrue(tokenService.doesUserExist(user));
+    }
+    @Then("The customer {string} requests {int} new token")
+    public void The_customer_John_Doe_requests_1_new_token(String user, int number){
+        tokenRequest = new TokenRequest(user, number);
+        tokenService.requestToken(tokenRequest);
+        Token testToken = tokenService.getTokenByUser(user);
+        assertNotNull(testToken);
+        assertEquals(number, testToken.tokens.size());
+    }
+    @Then("The customer {string} requests the token, uses the token and checks if he gets the same token again")
+    public void The_customer_John_Doe_requests_the_token(String user){
+        requestSingleToken = new RequestSingleToken(user, "");
+        String testToken = tokenService.getSingleToken(requestSingleToken);
+        requestSingleToken = new RequestSingleToken(user, testToken);
+        tokenService.deleteToken(requestSingleToken);
+        assertNotEquals(testToken, tokenService.getSingleToken(requestSingleToken));
+
     }
 
-    /*
-    @After
-    public void tearDown() {
 
-        try {
-            bank.retireAccount(bankId);
-        } catch (BankServiceException_Exception e) {
-            e.printStackTrace();
+
+
+        /*
+        @After
+        public void tearDown() {
+
+            try {
+                bank.retireAccount(bankId);
+            } catch (BankServiceException_Exception e) {
+                e.printStackTrace();
+            }
+
+            customerService.unregisterCustomer(customer);
         }
-
-        customerService.unregisterCustomer(customer);
-    }
-*/
+    */
 }
