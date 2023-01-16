@@ -15,7 +15,7 @@ import io.cucumber.java.After;
 import java.math.BigDecimal;
 
 /* Scenario: Customer registers and unregisters successfully
-    Given a customer with name "John" "Doe" and bank account with balance 1000
+    Given a customer with name "Joao" "Afonso" and bank account with balance 1000
     When the customer registers with DTU Pay
     Then the customer is saved in the customer list
     And the customer can be retrieved from the customer list
@@ -33,7 +33,7 @@ public class ManageCustomerServiceSteps {
     @Given("a customer with name {string} {string} and bank account with balance {int}")
     public void a_customer_with_name_and_bank_id(String firstName, String lastName, int balance) {
 
-        user.setCprNumber("299-1234");
+        user.setCprNumber("289-1234");
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
@@ -63,7 +63,7 @@ public class ManageCustomerServiceSteps {
 
     @And("the customer can be retrieved from the customer list")
     public void the_customer_can_get_correctly_retrieved_from_the_list() {
-        assertEquals(customer, customerService.getAccountList(customer.getAccountID()));
+        assertEquals(customer, customerService.getAccount(customer.getAccountID(), "customer"));
     }
 
     @And("the customer unregisters from DTU Pay")
@@ -82,12 +82,7 @@ public class ManageCustomerServiceSteps {
         try {
             bank.retireAccount(bankId);
         } catch (BankServiceException_Exception e) {
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 
