@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.Response;
 
+import Utils.CorrelationId;
+import Utils.EventTypes;
 import dtu.ws.fastmoney.*;
 import messaging.Event;
 import messaging.MessageQueue;
@@ -13,7 +14,7 @@ import messaging.MessageQueue;
 public class PaymentService implements IPaymentService {
 
     BankService service = (new BankServiceService()).getBankServicePort();
-    public Map<String, Payment > paymentRequest;
+    public Map<CorrelationId, Payment > paymentRequest;
 
     private List<Payment> paymentList = new ArrayList<>();
 
@@ -29,24 +30,26 @@ public class PaymentService implements IPaymentService {
     }
     @Override
     public void makePayment(Event ev) {
+        CorrelationId corrId = CorrelationId.randomId();
         Payment payment = ev.getArgument(0, Payment.class);
-        paymentRequest.put("corrID",payment);
+        paymentRequest.put(corrId,payment);
         //Validate customer token.
-        mq.publish(new Event(EventTypes.VALIDATE_TOKEN,new Object[]{payment.getCustomerToken()}));
+        mq.publish(new Event(EventTypes.VALIDATE_TOKEN,new Object[]{payment.getCustomerToken(),corrId}));
     }
 
     public void handleTokenSuccessResponse(Event event){
         var customerId = event.getArgument(0,String.class);
-        mq.publish(new Event(EventTypes.GET_BANK_ACCOUNT_ID_REQUEST,new Object[]{customerId,"corrid"}));
+        var corrId = event.getArgument(1,CorrelationId.class);
+        mq.publish(new Event(EventTypes.GET_BANK_ACCOUNT_ID_REQUEST,new Object[]{customerId,corrId}));
     }
 
     public void handleTokenFailResponse(Event event){
-        var customerId = event.getArgument(0,String.class);
-        mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED,new Object[]{"Invalid token"}));
+        var corrId = event.getArgument(0,CorrelationId.class);
+        mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED,new Object[]{"Invalid token on event" + corrId.toString()}));
     }
 
     public void handleBankAccountIdSuccess(Event event){
-        var corId = event.getArgument(1,String.class);
+        var corId = event.getArgument(1,CorrelationId.class);
         var customerBankId = event.getArgument(0,String.class);
         Payment p = paymentRequest.get(corId);
         String from = customerBankId;
@@ -55,7 +58,7 @@ public class PaymentService implements IPaymentService {
         String description = p.getDescription();
         try {
             service.transferMoneyFromTo(from, to, amount, description);
-            mq.publish(new Event(EventTypes.REQUEST_PAYMENTSUCESS,new Object[]{p,customerBankId}));
+            mq.publish(new Event(EventTypes.REQUEST_PAYMENTSUCESS,new Object[]{p,customerBankId,corId}));
 
         }
         catch (BankServiceException_Exception e) {

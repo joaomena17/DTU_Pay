@@ -1,4 +1,4 @@
-package paymentservice;
+package Utils;
 
 public final class EventTypes {
         public static final String GET_BANK_ACCOUNT_ID_REQUEST = "BankAccountIdRequest";
