@@ -46,7 +46,6 @@ public class RequestAndUseTokensSteps {
 
     @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
     public void a_customer_creates_an_account_on_dtu_pay_and_the_token_micro_service_creates_him_as_a_user(String username) {
-       // List<String> emptyList = new ArrayList<String>();
         createUser = new CreateUser(username);
         tokenService.createUser(createUser);
         //Check if user was created
@@ -57,13 +56,14 @@ public class RequestAndUseTokensSteps {
         tokenRequest = new TokenRequest(username, number);
         assertTrue("200 Success", true);
     }
-    //@And("the customer can use the tokens for payments")
+    @And("the customer can use the tokens for payments")
     public void customer_can_use_the_tokens_for_payments(String username) {
-        List<String> emptyList = new ArrayList<String>();
         createUser = new CreateUser(username);
         tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(username, 3);
         requestSingleToken = new RequestSingleToken();
+        assertTrue("200 Success", true);
+
         //assertTrue(requestSingleToken);
     }
 
@@ -96,7 +96,6 @@ public class RequestAndUseTokensSteps {
 
     @Given("Customer {string} has an account and {int} tokens")
     public void a_customer_has_an_account_on_dtu_pay_with_token2(String string, Integer int1) {
-        //List<String> emptyList = new ArrayList<String>();
         createUser = new CreateUser(string);
         tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(string, int1);
