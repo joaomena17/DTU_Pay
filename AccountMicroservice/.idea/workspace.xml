@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d3d81c7f-7703-4da6-83fd-fc4f316b3d47" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/AccountMicroservice.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/features/accountmanagement.feature" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/features/accountmanagement.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/CustomerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/CustomersStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/CustomersStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/DTUPayUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/DTUPayUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/ICustomersStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/ICustomersStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/AccountInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/AccountInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceException_Exception.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceException_Exception.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/CreateAccountWithBalance.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/CreateAccountWithBalance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/CreateAccountWithBalanceResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/CreateAccountWithBalanceResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccountResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccountResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccounts.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccounts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccountsResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccountsResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/ObjectFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/ObjectFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/RetireAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/RetireAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/RetireAccountResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/RetireAccountResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/TransferMoneyFromTo.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/TransferMoneyFromTo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/TransferMoneyFromToResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/TransferMoneyFromToResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/resources/CustomerResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/resources/CustomerResources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/CucumberTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/CucumberTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/ManageCustomerServiceSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/ManageCustomerServiceSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/ManageMerchantServiceSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/ManageMerchantServiceSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__com_aayushatharva_brotli4j_native_osx_x86_64_1_7_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/libraries/Maven__com_aayushatharva_brotli4j_native_windows_x86_64_1_7_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__jakarta_el_jakarta_el_api_5_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__jakarta_servlet_jakarta_servlet_api_5_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__jakarta_xml_soap_jakarta_xml_soap_api_3_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__jakarta_xml_ws_jakarta_xml_ws_api_4_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_activation_javax_activation_api_1_2_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_annotation_javax_annotation_api_1_3_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_jws_javax_jws_api_1_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_xml_bind_jaxb_api_2_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_xml_soap_javax_xml_soap_api_1_4_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_xml_ws_jaxws_api_2_3_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/features/accountmanagement.feature" beforeDir="false" afterPath="$PROJECT_DIR$/Client/features/accountmanagement.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/test/java/resources/CustomerResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/test/java/resources/CustomerResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/test/java/resources/ManageCustomerServiceSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/test/java/resources/ManageCustomerServiceSteps.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PaymentMicroservice/.idea/workspace.xml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2KNTcyJXGqulB8qZNHXee6LCF7B" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Tiago Daily/git_repos/DTU_Pay/AccountMicroservice/AccountManagement"
+  }
+}]]></component>
+  <component name="RunManager" selected="Cucumber Java.Scenario: Customer registers and unregisters successfully">
+    <configuration name="Scenario: Customer registers and unregisters successfully" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="1" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/AccountManagement/features/accountmanagement.feature" />
+      <option name="MAIN_CLASS_NAME" value="cucumber.cli.Main" />
+      <module name="AccountMicroservice" />
+      <option name="NAME_FILTER" value="^Customer registers and unregisters successfully$" />
+      <option name="PROGRAM_PARAMETERS" value=" --format org.jetbrains.plugins.cucumber.java.run.CucumberJvmSMFormatter --monochrome --name &quot;^Customer registers and unregisters successfully$&quot;" />
+      <option name="SUGGESTED_NAME" value="Scenario: Customer registers and unregisters successfully" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cucumber.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Scenario: Merchant registers and unregisters successfully" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="1" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/AccountManagement/features/accountmanagement.feature" />
+      <option name="MAIN_CLASS_NAME" value="cucumber.cli.Main" />
+      <module name="AccountMicroservice" />
+      <option name="NAME_FILTER" value="^Merchant registers and unregisters successfully$" />
+      <option name="PROGRAM_PARAMETERS" value=" --format org.jetbrains.plugins.cucumber.java.run.CucumberJvmSMFormatter --monochrome --name &quot;^Merchant registers and unregisters successfully$&quot;" />
+      <option name="SUGGESTED_NAME" value="Scenario: Merchant registers and unregisters successfully" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cucumber.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Cucumber Java.Scenario: Customer registers and unregisters successfully" />
+        <item itemvalue="Cucumber Java.Scenario: Merchant registers and unregisters successfully" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d3d81c7f-7703-4da6-83fd-fc4f316b3d47" name="Changes" comment="" />
+      <created>1673814123396</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1673814123396</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
