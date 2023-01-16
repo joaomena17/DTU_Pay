@@ -30,13 +30,23 @@ public class RequestAndUseTokensSteps {
     private TokenRequest tokenRequest = new TokenRequest();
 
     @Given("a customer \\{string} creates an account on DTU PAY and the token micro service creates him as a user")
-    public void a_customer_creates_an_account_on_dtu_pay_and_the_token_micro_service_creates_him_as_a_user() {
-        // Write code here that turns the phrase above into concrete actions
+    public void a_customer_creates_an_account_on_dtu_pay_and_the_token_micro_service_creates_him_as_a_user(String username) {
+        List<String> emptyList = new ArrayList<String>();
+        token = new Token(username, emptyList);
+        tokenService.createUser(token);
+
+        //Check if user was created
+        assertTrue(tokenService.doesUserExist(username));
         throw new io.cucumber.java.PendingException();
     }
     @When("a customer with name {string} requests {int} tokens")
-    public void a_customer_with_name_requests_tokens(String string, Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
+    public void a_customer_with_name_requests_tokens(String username, Integer int1) {
+        List<String> emptyList = new ArrayList<String>();
+        token = new Token(username, emptyList);
+        tokenService.createUser(token);
+
+        //Check if user was created
+        assertTrue(tokenService.doesUserExist(username));
         throw new io.cucumber.java.PendingException();
     }
     /*
