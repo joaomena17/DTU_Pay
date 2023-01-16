@@ -15,7 +15,7 @@ import io.cucumber.java.After;
 import java.math.BigDecimal;
 
 /* Scenario: Merchant registers and unregisters successfully
-    Given a merchant with name "John" "Doe" and bank account with balance 1000
+    Given a merchant with name "Tiago" "Silverio" and bank account with balance 1000
     When the merchant registers with DTU Pay
     Then the merchant is saved in the merchant list
     And the merchant can be retrieved from the merchant list
@@ -33,7 +33,7 @@ public class ManageMerchantServiceSteps {
     @Given("a merchant with name {string} {string} and bank account with balance {int}")
     public void a_merchant_with_name_and_bank_id(String firstName, String lastName, int balance) {
 
-        user.setCprNumber("399-1234");
+        user.setCprNumber("499-1234");
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
@@ -82,8 +82,7 @@ public class ManageMerchantServiceSteps {
         try {
             bank.retireAccount(bankId);
         } catch (BankServiceException_Exception e) {
-
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 

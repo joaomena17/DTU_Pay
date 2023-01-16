@@ -27,7 +27,14 @@ public class AccountStorage implements IAccountStorage {
 
     @Override
     public boolean deleteAccount(DTUPayUser account) {
-        return CustomerList.remove(account);
+
+        if (account.getRole().equals("customer")){
+            return CustomerList.remove(account);
+        } else if (account.getRole().equals("merchant")) {
+            return MerchantList.remove(account);
+        } else {
+            throw new IllegalArgumentException("Invalid Role");
+        }
     }
 
     @Override
