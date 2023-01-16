@@ -10,14 +10,14 @@ public class reportService {
     MessageQueue queue;
     public reportService(MessageQueue mq,PaymentRepository p) {
         queue = mq;
-        queue.addHandler("paymentRegistered", this::handlePaymentRegisterEvent);
+        queue.addHandler("RequestPaymentCompleted", this::handlePaymentRegisterEvent);
         queue.addHandler("generateCustomerReport", this::handleCustomerReport);
         queue.addHandler("generateMerchantReport",this::handleMerchantReport);
         queue.addHandler("generateManagerReport", this::handleManagerReport);
         this.p = p;
     }
     public void handlePaymentRegisterEvent(Event event){
-        var payment = event.getArgument(0, Payment.class);
+        var payment = event.getArgument(0, PaymentReport.class);
         p.addPayment(payment);
     }
     public void handleCustomerReport(Event event){

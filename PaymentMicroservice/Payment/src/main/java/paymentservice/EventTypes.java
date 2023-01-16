@@ -1,0 +1,26 @@
+package paymentservice;
+
+public final class EventTypes {
+        public static final String GET_BANK_ACCOUNT_ID_REQUEST = "BankAccountIdRequest";
+        public static final String GET_BANK_ACCOUNT_ID_SUCCESS = "BankAccountIdRequestCompleted";
+        public static final String GET_BANK_ACCOUNT_ID_FAILED = "BankAccountIdRequestCompleted";
+
+        public static final String VALIDATE_TOKEN = "ValidateTokenRequest";
+        public static final String VALIDATE_FAILED = "ValidateTokenRequestCompleted";
+        public static final String VALIDATE_SUCCESS = "ValidateTokenRequestCompleted";
+
+        public static final String REQUEST_PAYMENT = "RequestPayment";
+        public static final String REQUEST_PAYMENTFAILED = "RequestPaymentCompleted";
+        public static final String REQUEST_PAYMENTSUCESS = "RequestPaymentFailed";
+
+
+
+
+
+    private EventTypes(){
+            //this prevents even the native class from
+            //calling this ctor as well :
+            throw new AssertionError();
+        }
+
+    }

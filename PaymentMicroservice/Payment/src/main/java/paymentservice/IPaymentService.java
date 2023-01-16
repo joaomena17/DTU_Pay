@@ -9,9 +9,5 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IPaymentService {
-    List<Payment> getPaymentList();
-
-    Response getBalance(String id);
-
     void makePayment(Event ev);
 }

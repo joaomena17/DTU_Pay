@@ -13,7 +13,7 @@ import io.cucumber.java.en.Given;
 import messaging.Event;
 import messaging.MessageQueue;
 import ReportService.reportService;
-import ReportService.Payment;
+import ReportService.PaymentReport;
 import Repository.PaymentRepository;
 
 public class reportsStep {
@@ -36,13 +36,13 @@ public class reportsStep {
 
     private reportService service = new reportService(q,repo);
 
-    private Payment p;
+    private PaymentReport p;
     public reportsStep() {
     }
 
     @Given("there is a registered payment with customer id {String} and merchant id {String}")
     public void thereIsARegisteredPaymentWithCustomerIdCidAndMerchantIdMid(String cid, String mid) {
-        p = new Payment();
+        p = new PaymentReport();
         p.cid = cid;
         p.mid = mid;
         p.amount = new BigDecimal(20);
@@ -58,7 +58,7 @@ public class reportsStep {
     public void theReportIsCreatedContainingOnlyCustomersPaymentsIsCreated(String cid) {
 
       var list =  repo.GetCustomerPayments(cid);
-      assertTrue(list.stream().allMatch(payment -> payment.cid.equals(cid)));
+      assertTrue(list.stream().allMatch(paymentReport -> paymentReport.cid.equals(cid)));
     }
 
     @And("event CustomerReportReturnEvent is sent")

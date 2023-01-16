@@ -32,7 +32,7 @@ public class PaymentResource {
     @Path("/transfer")
     @Consumes(MediaType.APPLICATION_JSON)
     public void transferMoney(Payment p) {
-        pService.makePayment(p);
+       // pService.makePayment(p);
         //return pService.makePayment(p);
     }
 
