@@ -29,7 +29,6 @@ public class AccountManagementService {
         this.queue.addHandler(EventTypes.GET_LIST_ACCOUNTS_REQUEST, this::handleGetListAccountsRequest);
         this.queue.addHandler(EventTypes.REGISTER_USER_TOKEN_SUCCESS, this::handleRegisterUserTokenSuccess);
         this.queue.addHandler(EventTypes.REGISTER_USER_TOKEN_FAILED, this::handleRegisterUserTokenFailed);
-
     }
 
     public void handleRegisterAccountRequest(Event ev) {
