@@ -5,6 +5,8 @@ import Utils.CorrelationId;
 import messaging.Event;
 import messaging.MessageQueue;
 
+import java.util.ArrayList;
+
 //TODO: Make this look better refactor etc etc
 public class reportService {
     PaymentRepository paymentRepo;
@@ -35,6 +37,11 @@ public class reportService {
         var merchantId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1, CorrelationId.class);
         var list = paymentRepo.GetMerchantPayments(merchantId);
+        //Hack to hide customer id from merchant. Can't just alter the payment since its reference types
+        var newlist = new ArrayList<PaymentReport>();
+        for (PaymentReport p : list) {
+            newlist.add(new PaymentReport("",p.mid,p.amount,p.customerToken));
+        }
         Event e = new Event("MerchantReportReturnEvent", new Object[] {list,corrId});
         queue.publish(e);
     }

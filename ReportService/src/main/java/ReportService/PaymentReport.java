@@ -1,8 +1,13 @@
 package ReportService;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
 //TODO: Make this the same as payment in paymentService
+@NoArgsConstructor // Needed for JSON deserialization and XML serialization and deserialization
+@AllArgsConstructor
 public class PaymentReport {
     public String cid;
    public String mid;
