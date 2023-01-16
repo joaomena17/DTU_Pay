@@ -1,8 +1,8 @@
 Feature: Account Management
 
-# Customer ------------------------
+# ----------------------------- Customer -----------------------------
 
-## Customer Registration ------------------------
+# ------------------------ Customer Registration ------------------------
 
 Scenario: Customer registers and unregisters successfully
     Given a customer with name "Joao" "Afonso" and bank account with balance 1000
@@ -22,7 +22,8 @@ Scenario: Register customer is unsuccsessful
     Then a failure "RegisterAccountRequestFailed" event is sent
     And the customer is not registered
 
-## Customer Unregistration ------------------------
+
+# ------------------------ Customer Unregistration ------------------------
 
 Scenario: Unregister customer is succsessful
     Given a customer that is registered with DTU Pay
@@ -31,14 +32,15 @@ Scenario: Unregister customer is succsessful
     And the customer is unregistered
 
 Scenario: Unregister customer is unsuccsessful
+    Given a customer that is registered with DTU Pay
     When an unsuccsessful "UnregisterAccountRequested" unregister event for a customer "Joao" "Afonso" is received
     Then a failure "UnregisterAccountRequestFailed" event is sent
     And the customer is not unregistered
 
 
-# Merchant ------------------------
+# ----------------------------- Merchant -----------------------------
 
-## Merchant Registration
+# ------------------------ Merchant Registration ------------------------
 
 Scenario: Merchant registers and unregisters successfully
     Given a merchant with name "Tiago" "Silverio" and bank account with balance 1000
@@ -58,14 +60,16 @@ Scenario: Register merchant is unsuccsessful
     Then a failure "RegisterAccountRequestFailed" event is sent
     And the merchant is not registered
 
-# Merchant Unregistration ------------------------
+# ------------------------ Merchant Unregistration ------------------------
 
 Scenario: Unregister merchant is succsessful
-    When a succsessful "UnregisterAccountRequested" unregister event for a merchant "Joao" "Silva" is received
+    Given a merchant that is registered with DTU Pay that succeeds in unregistering
+    When a succsessful "UnregisterAccountRequested" unregister event for a registered merchant is received
     Then a success "UnregisterAccountSuccess" event is sent
     And the merchant is unregistered
 
 Scenario: Unregister merchant is unsuccsessful
-    When an unsuccsessful "UnregisterAccountRequested" unregister event for a merchant "Joao" "Silva" is received
+    Given a merchant that is registered with DTU Pay that fails to register
+    When an unsuccsessful "UnregisterAccountRequested" unregister event for a registered merchant is received
     Then a failure "UnregisterAccountRequestFailed" event is sent
     And the merchant is not unregistered

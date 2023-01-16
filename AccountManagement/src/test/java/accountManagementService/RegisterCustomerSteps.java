@@ -65,7 +65,8 @@ public class RegisterCustomerSteps {
         String name = firstName + " " + lastName;
         customer = new DTUPayUser(name, bankId, "customer");
 
-        customerService.handleRegisterAccountRequest(new Event(eventName, new Object[] { customer }));
+        Event event = new Event(eventName, new Object[] { customer });
+        customerService.handleRegisterAccountRequest(event);
     }
 
     @Then("a success {string} event is sent")
