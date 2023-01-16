@@ -63,7 +63,7 @@ public class ManageMerchantServiceSteps {
 
     @And("the merchant can be retrieved from the merchant list")
     public void the_merchant_can_get_correctly_retrieved_from_the_list() {
-        assertEquals(merchant, merchantService.getAccountList(merchant.getAccountID()));
+        assertEquals(merchant, merchantService.getAccount(merchant.getAccountID(), "merchant"));
     }
 
     @And("the merchant unregisters from DTU Pay")

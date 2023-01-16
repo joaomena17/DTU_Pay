@@ -63,7 +63,7 @@ public class ManageCustomerServiceSteps {
 
     @And("the customer can be retrieved from the customer list")
     public void the_customer_can_get_correctly_retrieved_from_the_list() {
-        assertEquals(customer, customerService.getAccountList(customer.getAccountID()));
+        assertEquals(customer, customerService.getAccount(customer.getAccountID(), "customer"));
     }
 
     @And("the customer unregisters from DTU Pay")
@@ -82,11 +82,6 @@ public class ManageCustomerServiceSteps {
         try {
             bank.retireAccount(bankId);
         } catch (BankServiceException_Exception e) {
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
             e.printStackTrace();
         }
     }

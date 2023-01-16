@@ -31,13 +31,8 @@ public class AccountService implements IAccountService {
 
     @Override
     public List<DTUPayUser> getAccountList(String role) throws IllegalArgumentException {
-        switch (role){
-            case "customer":
-                return AccountList.getCustomerStorage();
-            case "merchant":
-                return AccountList.getMerchantStorage();
-            default:
-                throw new IllegalArgumentException("Invalid role");
-        }
+        if(role.equals("customer")) return AccountList.getCustomerStorage();
+        else if (role.equals("merchant")) return AccountList.getMerchantStorage();
+        else throw new IllegalArgumentException(String.format("Invalid role acc list - role: %s", role));
     }
 }
