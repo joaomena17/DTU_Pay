@@ -5,54 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d3d81c7f-7703-4da6-83fd-fc4f316b3d47" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/AccountMicroservice.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AccountManagement/features/accountmanagement.feature" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/features/accountmanagement.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/CustomersStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/CustomersStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/DTUPayUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/DTUPayUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/ICustomersStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/customerservice/ICustomersStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/AccountInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/AccountInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceException_Exception.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceException_Exception.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/BankServiceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/CreateAccountWithBalance.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/CreateAccountWithBalance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/CreateAccountWithBalanceResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/CreateAccountWithBalanceResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccountResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccountResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccounts.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccounts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccountsResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/GetAccountsResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/ObjectFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/ObjectFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/RetireAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/RetireAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/RetireAccountResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/RetireAccountResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/TransferMoneyFromTo.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/TransferMoneyFromTo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/TransferMoneyFromToResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/TransferMoneyFromToResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/dtu/ws/fastmoney/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/main/java/resources/CustomerResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/main/java/resources/CustomerResources.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/CucumberTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/CucumberTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/ManageCustomerServiceSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/ManageCustomerServiceSteps.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/ManageMerchantServiceSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/AccountManagement/src/test/java/accountManagementService/ManageMerchantServiceSteps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__com_aayushatharva_brotli4j_native_osx_x86_64_1_7_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/libraries/Maven__com_aayushatharva_brotli4j_native_windows_x86_64_1_7_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__jakarta_el_jakarta_el_api_5_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__jakarta_servlet_jakarta_servlet_api_5_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__jakarta_xml_soap_jakarta_xml_soap_api_3_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__jakarta_xml_ws_jakarta_xml_ws_api_4_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_activation_javax_activation_api_1_2_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_annotation_javax_annotation_api_1_3_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_jws_javax_jws_api_1_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_xml_bind_jaxb_api_2_3_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_xml_soap_javax_xml_soap_api_1_4_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/libraries/Maven__javax_xml_ws_jaxws_api_2_3_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/Client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Client.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/features/accountmanagement.feature" beforeDir="false" afterPath="$PROJECT_DIR$/Client/features/accountmanagement.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/test/java/resources/CustomerResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/test/java/resources/CustomerResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/src/test/java/resources/ManageCustomerServiceSteps.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/test/java/resources/ManageCustomerServiceSteps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../PaymentMicroservice/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,13 +27,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Tiago Daily/git_repos/DTU_Pay/AccountMicroservice/AccountManagement"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Tiago Daily/git_repos/DTU_Pay/AccountMicroservice/AccountManagement&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Cucumber Java.Scenario: Customer registers and unregisters successfully">
     <configuration name="Scenario: Customer registers and unregisters successfully" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="1" />
