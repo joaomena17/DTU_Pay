@@ -17,51 +17,33 @@ public class TokenResource{
     public TokenResource(){
 
     }
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Token> getTokenJson() {
-        return this.tService.getTokenList();
-    }
-    @Path("/{tokenId}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getTokenById(@PathParam("tokenId") String tokenId) {
-        return tService.getTokenById(tokenId);
-    }
 
-    @Path("/user/{userId}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getTokenByUser(@PathParam("userId") String userId) {
-        return tService.getTokenByUser(userId);
-    }
-
-    @Path("/customertoken")
+    @Path("/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response requestSingleToken(RequestSingleToken T) {
         return tService.requestSingleToken(T);
     }
 
-    @Path("/request")
+    @Path("/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response requestToken(TokenRequest T) {
         return tService.requestToken(T);
     }
     @DELETE
-    @Path("/deletetoken")
+    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteToken(RequestSingleToken T) {
         return tService.deleteToken(T);
     }
 
 
-    @Path("/user")
     @POST
+    @Path("/user")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUser(Token T) {
-        return tService.createUser(T);
+    public Response createUser(CreateUser user) {
+        return tService.createUser(user);
     }
 
 
