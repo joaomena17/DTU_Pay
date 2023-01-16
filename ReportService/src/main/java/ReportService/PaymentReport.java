@@ -10,4 +10,13 @@ public class PaymentReport {
 
    public String customerToken;
 
+   public PaymentReport paymentToPaymentReport(Payment p, String cid){
+       PaymentReport pr = new PaymentReport();
+       pr.cid = cid;
+       pr.mid = p.getMerchantBankID();
+       pr.amount = p.getAmount();
+       pr.customerToken = pr.customerToken;
+       return pr;
+   }
+
 }

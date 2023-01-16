@@ -6,7 +6,7 @@ import messaging.MessageQueue;
 
 //TODO: Make this look better refactor etc etc
 public class reportService {
-    PaymentRepository p;
+    PaymentRepository paymentRepo;
     MessageQueue queue;
     public reportService(MessageQueue mq,PaymentRepository p) {
         queue = mq;
@@ -14,26 +14,29 @@ public class reportService {
         queue.addHandler("generateCustomerReport", this::handleCustomerReport);
         queue.addHandler("generateMerchantReport",this::handleMerchantReport);
         queue.addHandler("generateManagerReport", this::handleManagerReport);
-        this.p = p;
+        this.paymentRepo = p;
     }
     public void handlePaymentRegisterEvent(Event event){
-        var payment = event.getArgument(0, PaymentReport.class);
-        p.addPayment(payment);
+        var payment = event.getArgument(0, Payment.class);
+        var customerId = event.getArgument(1,String.class);
+        PaymentReport pr = new PaymentReport();
+        pr.paymentToPaymentReport(payment,customerId);
+        paymentRepo.addPayment(pr);
     }
     public void handleCustomerReport(Event event){
         var customerId = event.getArgument(0,String.class);
-        var list = p.GetCustomerPayments(customerId);
+        var list = paymentRepo.GetCustomerPayments(customerId);
         Event e = new Event("CustomerReportReturnEvent", new Object[] {list});
         queue.publish(e);
     }
     public void handleMerchantReport(Event event){
         var merchantId = event.getArgument(0,String.class);
-        var list = p.GetMerchantPayments(merchantId);
+        var list = paymentRepo.GetMerchantPayments(merchantId);
         Event e = new Event("MerchantReportReturnEvent", new Object[] {list});
         queue.publish(e);
     }
     public void handleManagerReport(Event event){
-        var list = p.GetAllPayments();
+        var list = paymentRepo.GetAllPayments();
         Event e = new Event("ManagerReportReturnEvent", new Object[] {list});
         queue.publish(e);
     }

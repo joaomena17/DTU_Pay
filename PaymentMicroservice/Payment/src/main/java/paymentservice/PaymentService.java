@@ -23,7 +23,7 @@ public class PaymentService implements IPaymentService {
         this.mq = mq;
         mq.addHandler(EventTypes.REQUEST_PAYMENT, this::makePayment);
         mq.addHandler(EventTypes.VALIDATE_SUCCESS,this::handleTokenSuccessResponse);
-        mq.addHandler(EventTypes.VALIDATE_FAILED,this::handleTokenSuccessResponse);
+        mq.addHandler(EventTypes.VALIDATE_FAILED,this::handleTokenFailResponse);
         mq.addHandler(EventTypes.GET_BANK_ACCOUNT_ID_SUCCESS,this::handleBankAccountIdSuccess);
         mq.addHandler(EventTypes.GET_BANK_ACCOUNT_ID_FAILED,this::handleTokenSuccessResponse);
     }
@@ -38,6 +38,11 @@ public class PaymentService implements IPaymentService {
     public void handleTokenSuccessResponse(Event event){
         var customerId = event.getArgument(0,String.class);
         mq.publish(new Event(EventTypes.GET_BANK_ACCOUNT_ID_REQUEST,new Object[]{customerId,"corrid"}));
+    }
+
+    public void handleTokenFailResponse(Event event){
+        var customerId = event.getArgument(0,String.class);
+        mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED,new Object[]{"Invalid token"}));
     }
 
     public void handleBankAccountIdSuccess(Event event){

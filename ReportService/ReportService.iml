@@ -40,5 +40,7 @@
     <orderEntry type="module" module-name="messaging-utilities" />
     <orderEntry type="library" name="Maven: com.rabbitmq:amqp-client:5.10.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
+    <orderEntry type="library" name="Maven: org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.3_spec:2.0.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.24" level="project" />
   </component>
 </module>
