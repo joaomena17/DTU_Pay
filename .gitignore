@@ -15,7 +15,7 @@
 .settings/
 
 # IntelliJ
-.idea
+*.idea
 *.ipr
 *.iml
 *.iws

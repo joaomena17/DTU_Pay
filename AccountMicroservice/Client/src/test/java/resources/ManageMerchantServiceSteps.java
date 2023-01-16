@@ -5,7 +5,7 @@ import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 
-import services.Customer;
+import services.Merchant;
 
 import jakarta.ws.rs.core.Response;
 
@@ -19,24 +19,24 @@ import java.math.BigDecimal;
 
 import static org.junit.Assert.assertTrue;
 
-/* Scenario: Customer registers and unregisters successfully
-    Given a customer with name "John" "Doe" and bank account with balance 1000
-    When the customer registers with DTU Pay using "json"
-    Then the register customer request is successful
-    And the customer unregisters from DTU Pay using "json"
-    And the unregister customer request is successful */
+/* Scenario: Merchant registers and unregisters successfully
+    Given a merchant with name "John" "Doe" and bank account with balance 1000
+    When the merchant registers with DTU Pay using "json"
+    Then the register merchant request is successful
+    And the merchant unregisters from DTU Pay using "json"
+    And the unregister merchant request is successful */
 
-public class ManageCustomerServiceSteps {
+public class ManageMerchantServiceSteps {
 
     private User user = new User();
     private String bankId;
     private BankService bank = new BankServiceService().getBankServicePort();
-    private CustomerResource customerResource = new CustomerResource();
-    private Customer customer;
+    private MerchantResource merchantResource = new MerchantResource();
+    private Merchant merchant;
     private Response response;
 
-    @Given("a customer with name {string} {string} and bank account with balance {int}")
-    public void a_customer_with_name_and_bank_account_with_balance(String firstName, String lastName, Integer balance) {
+    @Given("a merchant with name {string} {string} and bank account with balance {int}")
+    public void a_merchant_with_name_and_bank_account_with_balance(String firstName, String lastName, Integer balance) {
 
         user.setCprNumber("381299-1234");
         user.setFirstName(firstName);
@@ -53,37 +53,37 @@ public class ManageCustomerServiceSteps {
 
         // make full name from first and last name
         String name = firstName + " " + lastName;
-        customer = new Customer(name, bankId);
+        merchant = new Merchant(name, bankId);
 
     }
 
-    @When("the customer registers with DTU Pay using {string}")
-    public void the_customer_registers_with_dtu_pay_using(String mediaType) {
+    @When("the merchant registers with DTU Pay using {string}")
+    public void the_merchant_registers_with_dtu_pay_using(String mediaType) {
 
         // build media type string from media type
         String mediaTypeString = "application/" + mediaType;
 
-        response = customerResource.registerCustomerAccount(customer, mediaTypeString);
+        response = merchantResource.registerMerchantAccount(merchant, mediaTypeString);
     }
 
-    @Then("the register customer request is successful")
-    public void the_customer_request_is_successful() {
+    @Then("the register merchant request is successful")
+    public void the_merchant_request_is_successful() {
         boolean success = response.getStatus() == 200;
         assertTrue(success);
     }
 
-    @And("the customer unregisters from DTU Pay using {string}")
-    public void the_customer_unregisters_from_dtu_pay_using(String mediaType) {
+    @And("the merchant unregisters from DTU Pay using {string}")
+    public void the_merchant_unregisters_from_dtu_pay_using(String mediaType) {
 
         // build media type string from media type
         String mediaTypeString = "application/" + mediaType;
-        String customerId = customer.getCustomerID();
+        String merchantId = merchant.getMerchantID();
 
-        response = customerResource.unregisterCustomerAccount(customerId, mediaTypeString);
+        response = merchantResource.unregisterMerchantAccount(merchantId, mediaTypeString);
     }
 
-    @And("the unregister customer request is successful")
-    public void the_unregister_customer_request_is_successful() {
+    @And("the unregister merchant request is successful")
+    public void the_unregister_merchant_request_is_successful() {
         boolean success = response.getStatus() == 200;
         assertTrue(success);
     }

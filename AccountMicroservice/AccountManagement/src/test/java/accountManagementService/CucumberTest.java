@@ -6,8 +6,8 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(plugin="summary"
-			   , publish= false
-			   , features = "features"  // directory of the feature files
-			   )
+		, publish= false
+		, features = "features"  // directory of the feature files
+)
 public class CucumberTest {
 }
