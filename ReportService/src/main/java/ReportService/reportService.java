@@ -1,6 +1,7 @@
 package ReportService;
 
 import Repository.PaymentRepository;
+import Utils.CorrelationId;
 import messaging.Event;
 import messaging.MessageQueue;
 
@@ -25,19 +26,22 @@ public class reportService {
     }
     public void handleCustomerReport(Event event){
         var customerId = event.getArgument(0,String.class);
+        var corrId = event.getArgument(1, CorrelationId.class);
         var list = paymentRepo.GetCustomerPayments(customerId);
-        Event e = new Event("CustomerReportReturnEvent", new Object[] {list});
+        Event e = new Event("CustomerReportReturnEvent", new Object[] {list,corrId});
         queue.publish(e);
     }
     public void handleMerchantReport(Event event){
         var merchantId = event.getArgument(0,String.class);
+        var corrId = event.getArgument(1, CorrelationId.class);
         var list = paymentRepo.GetMerchantPayments(merchantId);
-        Event e = new Event("MerchantReportReturnEvent", new Object[] {list});
+        Event e = new Event("MerchantReportReturnEvent", new Object[] {list,corrId});
         queue.publish(e);
     }
     public void handleManagerReport(Event event){
         var list = paymentRepo.GetAllPayments();
-        Event e = new Event("ManagerReportReturnEvent", new Object[] {list});
+        var corrId = event.getArgument(1, CorrelationId.class);
+        Event e = new Event("ManagerReportReturnEvent", new Object[] {list,corrId});
         queue.publish(e);
     }
 }
