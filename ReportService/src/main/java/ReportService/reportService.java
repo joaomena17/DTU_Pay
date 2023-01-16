@@ -42,7 +42,7 @@ public class reportService {
         for (PaymentReport p : list) {
             newlist.add(new PaymentReport("",p.mid,p.amount,p.customerToken));
         }
-        Event e = new Event("MerchantReportReturnEvent", new Object[] {list,corrId});
+        Event e = new Event("MerchantReportReturnEvent", new Object[] {newlist,corrId});
         queue.publish(e);
     }
     public void handleManagerReport(Event event){
