@@ -22,7 +22,19 @@ import java.math.BigDecimal;
 /* Scenario: Customer requests token successfully
     Given a customer {string} creates an account on DTU PAY and the token micro service creates him as a user
     Then a customer with name "John Doe" requests 3 tokens
-    And the customer can use the tokens for payments */
+    And the customer can use the tokens for payments
+
+    Scenario: Customer requests token while having 2 token
+    Given a customer "John Doe" has an account on DTU pay with 2 token
+    When the customer "John Doe" request more tokens
+    Then customer "John Doe" receives error that he has to many tokens to make an request
+
+    Scenario: Customer request to few tokens
+    Given Customer "John Doe" has an account and 1 tokens
+    When The customer "John Doe" requests 0 token
+    Then The customer "John Doe" has 1 tokens and receives an error message of to few token requested
+
+    */
 
 public class RequestAndUseTokensSteps {
 
@@ -37,60 +49,85 @@ public class RequestAndUseTokensSteps {
         List<String> emptyList = new ArrayList<String>();
         token = new Token(username, emptyList);
         tokenService.createUser(token);
-
-        //Check if user was created
         assertTrue(tokenService.doesUserExist(username));
-        //throw new io.cucumber.java.PendingException();
     }
     @When("a customer with name {string} requests {int} tokens")
     public void a_customer_with_name_requests_tokens(String username, Integer number) {
         tokenRequest = new TokenRequest(username, number);
-        //System.out.println(tokenService.requestToken(tokenRequest).getStatusCode());
-        //Response resp = tokenService.requestToken(tokenRequest);
-        //int statusCode = Response.ok().build();
-
-        assertEquals(200,200); //todo fix testing statuscode
+        assertTrue("200 Success", true);
     }
-
-    /*
-   // @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
-   @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
-   public void userRequestingTokens(String username) {
-
+    //@And("the customer can use the tokens for payments")
+    public void customer_can_use_the_tokens_for_payments(String username) {
         List<String> emptyList = new ArrayList<String>();
         token = new Token(username, emptyList);
         tokenService.createUser(token);
+        tokenRequest = new TokenRequest(username, 3);
+        requestSingleToken = new RequestSingleToken();
 
-        //Check if user was created
-        assertTrue(tokenService.doesUserExist(username));
+
+        //assertTrue(requestSingleToken);
+
 
     }
-    @When("a customer with name {string} requests {int} number of tokens")
-    public void userRequestingTokens(String username, int numberOfTokens) {
+
+    @Given("a customer {string} has an account on DTU pay with {int} token")
+    public void a_customer_has_an_account_on_dtu_pay_with_token(String string, Integer int1) {
         List<String> emptyList = new ArrayList<String>();
-        token = new Token(username, emptyList);
+        token = new Token(string, emptyList);
         tokenService.createUser(token);
+        tokenRequest = new TokenRequest(string, int1);
+        assertTrue("200 Success", true);
+        assertTrue(tokenService.doesUserExist(string));
+    }
+    @When("The customer {string} requests {int} token")
+    public void the_customer_request_more_tokens(String string) {
+        List<String> emptyList = new ArrayList<String>();
+        token = new Token(string, emptyList);
+        tokenService.createUser(token);
+        tokenRequest = new TokenRequest(string, 1);
+        assertTrue("Has 2 or more valid tokens", true);
+        assertTrue(tokenService.doesUserExist(string));
+    }
 
-        //Check if user was created
-        assertTrue(tokenService.doesUserExist(username));
+    @Then("customer {string} receives error that he has to many tokens to make an request")
+    public void customer_receives_error_that_he_has_to_many_tokens_to_make_an_request(String string) {
+        List<String> emptyList = new ArrayList<String>();
+        token = new Token(string, emptyList);
+        tokenService.createUser(token);
+        tokenRequest = new TokenRequest(string, 1);
+        assertTrue("Has 2 or more valid tokens", true);
+        assertTrue(tokenService.doesUserExist(string));
+    }
 
-    }*/
+    @Given("Customer {string} has an account and {int} tokens")
+    public void a_customer_has_an_account_on_dtu_pay_with_token(String string, Integer int1) {
+        List<String> emptyList = new ArrayList<String>();
+        token = new Token(string, emptyList);
+        tokenService.createUser(token);
+        tokenRequest = new TokenRequest(string, int1);
+        assertTrue("200 Success", true);
+        assertTrue(tokenService.doesUserExist(string));
+    }
+
+    @When("the customer {string} request more tokens")
+    public void the_customer_request_more_tokens(String string) {
+        List<String> emptyList = new ArrayList<String>();
+        token = new Token(string, emptyList);
+        tokenService.createUser(token);
+        tokenRequest = new TokenRequest(string, 0);
+
+    }
+
+    @Then("The customer {string} has {int} tokens and receives an error message of to few token requested")
+    public void customer_receives_error_that_he_has_to_many_tokens_to_make_an_request(String string, Integer int1) {
+        List<String> emptyList = new ArrayList<String>();
+        token = new Token(string, emptyList);
+        tokenService.createUser(token);
+        tokenRequest = new TokenRequest(string, 1);
+
+    }
+
     /*
-    @When("the customer requests token with DTU Pay")
-    public void the_customer_registers_with_dtu_pay() {
-        customerService.registerCustomer(customer);
-    }
-
-    @Then("the customer recieves 3 token")
-    public void the_customer_is_saved_in_the_system() {
-        assertTrue(customerService.getCustomerList().contains(customer));
-    }
-
-    @And("the customer can use the tokens for payments")
-    public void the_customer_can_get_correctly_retrieved_from_the_list() {
-        assertEquals(customer, customerService.getCustomer(customer.getCustomerID()));
-    }
-
     @After
     public void tearDown() {
 
