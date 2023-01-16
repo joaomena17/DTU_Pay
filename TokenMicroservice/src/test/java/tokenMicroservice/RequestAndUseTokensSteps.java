@@ -29,7 +29,7 @@ public class RequestAndUseTokensSteps {
     private RequestSingleToken requestSingleToken;
     private TokenRequest tokenRequest = new TokenRequest();
 
-    @Given("a customer \\{string} creates an account on DTU PAY and the token micro service creates him as a user")
+    @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
     public void a_customer_creates_an_account_on_dtu_pay_and_the_token_micro_service_creates_him_as_a_user(String username) {
         List<String> emptyList = new ArrayList<String>();
         token = new Token(username, emptyList);
@@ -37,17 +37,12 @@ public class RequestAndUseTokensSteps {
 
         //Check if user was created
         assertTrue(tokenService.doesUserExist(username));
-        throw new io.cucumber.java.PendingException();
+        //throw new io.cucumber.java.PendingException();
     }
     @When("a customer with name {string} requests {int} tokens")
-    public void a_customer_with_name_requests_tokens(String username, Integer int1) {
-        List<String> emptyList = new ArrayList<String>();
-        token = new Token(username, emptyList);
-        tokenService.createUser(token);
-
-        //Check if user was created
-        assertTrue(tokenService.doesUserExist(username));
-        throw new io.cucumber.java.PendingException();
+    public void a_customer_with_name_requests_tokens(String username, Integer number) {
+        tokenRequest = new TokenRequest(username, number);
+        assertEquals(200, tokenService.requestToken(tokenRequest));
     }
     /*
    // @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
