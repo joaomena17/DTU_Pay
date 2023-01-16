@@ -110,7 +110,7 @@ public class TokenService {
             return Response.status(Response.Status.PRECONDITION_FAILED).entity("Too many tokens requested").build();
 
         }
-        if(tokenRequest.number < 0){
+        if(tokenRequest.number <= 0){
             System.out.println("Too few tokens requested");
             return Response.status(Response.Status.PRECONDITION_FAILED).entity("Too few tokens requested").build();
         }

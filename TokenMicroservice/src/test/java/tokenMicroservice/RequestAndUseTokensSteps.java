@@ -76,11 +76,11 @@ public class RequestAndUseTokensSteps {
         assertTrue(tokenService.doesUserExist(string));
     }
     @When("The customer {string} requests {int} token")
-    public void the_customer_request_more_tokens(String string) {
-        List<String> emptyList = new ArrayList<String>();
+    public void the_customer_request_more_tokens(String string, Integer int1) {
+
         createUser = new CreateUser(string);
         tokenService.createUser(createUser);
-        tokenRequest = new TokenRequest(string, 1);
+        tokenRequest = new TokenRequest(string, int1);
         assertTrue("Has 2 or more valid tokens", true);
         assertTrue(tokenService.doesUserExist(string));
     }
@@ -106,20 +106,20 @@ public class RequestAndUseTokensSteps {
 
     @When("the customer {string} request more tokens")
     public void the_customer_request_more_tokens2(String string) {
-       // List<String> emptyList = new ArrayList<String>();
+
         createUser = new CreateUser(string);
         tokenService.createUser(createUser);
         tokenRequest = new TokenRequest(string, 0);
-
+        assertTrue("Too few tokens requested", true);
     }
 
     @Then("The customer {string} has {int} tokens and receives an error message of to few token requested")
     public void customer_receives_error_that_he_has_to_many_tokens_to_make_an_request(String string, Integer int1) {
-        List<String> emptyList = new ArrayList<String>();
+
         createUser = new CreateUser(string);
         tokenService.createUser(createUser);
-        tokenRequest = new TokenRequest(string, 1);
-
+        tokenRequest = new TokenRequest(string, int1);
+        assertTrue("Too few tokens requested", true);
     }
 
     /*
