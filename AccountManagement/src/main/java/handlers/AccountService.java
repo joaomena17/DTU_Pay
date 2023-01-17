@@ -15,7 +15,7 @@ public class AccountService implements IAccountService {
             account.setAccountID(AccountList.getAccountCounter());
             return account.getAccountID();
         }
-        else { throw new IllegalArgumentException("Account needs a valid bank account to register");}
+        else { throw new IllegalArgumentException("Invalid Account to register at DTU Pay");}
     }
 
     @Override
