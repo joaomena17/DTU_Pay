@@ -1,5 +1,6 @@
 package resource;
 
+<<<<<<< HEAD:Facade/facadeservice/src/main/java/resource/DTUPayFactory.java
 import service.DTUPayService;
 import messaging.implementations.RabbitMqQueue;
 
@@ -26,3 +27,7 @@ public class DTUPayFactory {
         return DTUPay;
     }
 }
+=======
+public class DTUPayResource {
+}
+>>>>>>> parent of e6115e5 (added event handling to AccountService in Facade):Facade/facadeservice/src/main/java/resource/DTUPayResource.java
