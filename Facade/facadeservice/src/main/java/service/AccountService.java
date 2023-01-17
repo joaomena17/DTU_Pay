@@ -12,7 +12,6 @@ import messaging.MessageQueue;
 public class AccountService {
 
     private MessageQueue queue;
-    //public CorrelationID tokenCorrelationID;
     private Map<CorrelationID, CompletableFuture<DTUPayUser>> correlations = new ConcurrentHashMap<>();
 
     public AccountService(MessageQueue q){

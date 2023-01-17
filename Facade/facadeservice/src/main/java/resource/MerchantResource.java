@@ -3,7 +3,7 @@ package resource;
 import entities.DTUPayUser;
 import service.AccountService;
 
-import javax.ws.rs.Produces;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
@@ -15,15 +15,13 @@ public class MerchantResource {
 
     @POST
     @Path("/register")
-    @Produces(MediaType.APPLICATION_JSON)
-    public DTUPayUser registerMerchant(DTUPayUser merchant){
-        return service.requestAccountRegister(merchant);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void registerMerchant(DTUPayUser merchant){ service.requestAccountRegister(merchant);
     }
 
     @POST
     @Path("/unregister")
-    @Produces(MediaType.APPLICATION_JSON)
-    public DTUPayUser unregisterMerchant(DTUPayUser merchant){
-        return service.requestAccountDelete(merchant);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void unregisterMerchant(DTUPayUser merchant){ service.requestAccountDelete(merchant);
     }
 }
