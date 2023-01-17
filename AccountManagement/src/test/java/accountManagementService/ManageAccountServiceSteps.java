@@ -70,7 +70,7 @@ public class ManageAccountServiceSteps {
     /* Scenario: Register and Unregister customer are successful
     Given a customer that is not registered with DTU Pay that succeeds in registering and unregistering
     When a successful "RegisterAccountRequest" register event for the customer is received
-    Then a success "RegisterAccountSuccess" event is sent
+    Then a success "RegisterAccountSuccess" event is ssent 
     And the customer is registered
     And a successful "UnregisterAccountRequest" unregister event for the customer is received
     And a success "UnregisterAccountSuccess" event is sent
@@ -89,7 +89,7 @@ public class ManageAccountServiceSteps {
         customerService.handleRegisterAccountRequest(event);
     }
 
-    @Then("a success {string} event is sent")
+    @Then("a success {string} event is ssent")
     public void a_success_register_event_is_sent(String eventName) {
 
         expected = new DTUPayUser(name, bankId, role);

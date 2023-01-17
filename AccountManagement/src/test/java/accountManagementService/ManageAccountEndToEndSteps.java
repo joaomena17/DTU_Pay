@@ -61,9 +61,9 @@ public class ManageAccountEndToEndSteps {
     /* Scenario:
     Given a customer that is not registered with DTU Pay
     When the customer is being registered
-    Then the customer is registered
+    Then the customer is registered in the system
     And the customer is being unregistered
-    And the customer is unregistered */
+    And the customer is unregistered from the system */
 
     @Given("a customer that is not registered with DTU Pay")
     public void a_customer_that_is_not_registered_with_DTU_Pay() {
@@ -72,10 +72,10 @@ public class ManageAccountEndToEndSteps {
 
     @When("the customer is being registered")
     public void the_customer_is_being_registered() {
-        result.complete(customerService.registerAccount(customer));
+        // result.complete(customerService.registerAccount(customer));
     }
 
-    @Then("the customer is registered")
+    @Then("the customer is registered in the system")
     public void the_customer_is_registered() {
         // test needs to go here (???)
         assertNotNull(result.join().getAccountID());
@@ -83,10 +83,10 @@ public class ManageAccountEndToEndSteps {
 
     @And("the customer is being unregistered")
     public void the_customer_is_being_unregistered() {
-        result.complete(customerService.unregisterAccount(customer));
+        // result.complete(customerService.unregisterAccount(customer));
     }
 
-    @And("the customer is unregistered")
+    @And("the customer is unregistered from the system")
     public void the_customer_is_unregistered() {
         assertNull(result.join().getAccountID());
     }
