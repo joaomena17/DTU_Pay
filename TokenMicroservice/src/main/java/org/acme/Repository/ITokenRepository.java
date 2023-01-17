@@ -1,13 +1,13 @@
-package Repository;
+package org.acme.Repository;
 
-import TokenService.*;
+import org.acme.RequestSingleToken;
 
 import java.util.List;
 
 public interface ITokenRepository {
 
-    void addPayment(PaymentReport p);
-
+    void getToken(RequestSingleToken T);
+/*
     List<PaymentReport> GetAllPayments();
 
     List<PaymentReport> GetCustomerPayments(String cid);
@@ -15,5 +15,5 @@ public interface ITokenRepository {
     List<PaymentReport> GetMerchantPayments(String mid);
 
 
-
+*/
 }

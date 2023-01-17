@@ -1,4 +1,9 @@
-package org.acme;
+package org.acme.TokenService;
+
+import org.acme.CreateUser;
+import org.acme.RequestSingleToken;
+import org.acme.TokenRequest;
+import org.acme.*;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.Consumes;
@@ -10,10 +15,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-
+/*
 @Path("/token")
 public class TokenResource{
-    private TokenService tService = new TokenService();
+    //private tokenService tService = new tokenService();
     public TokenResource(){
 
     }
@@ -35,7 +40,7 @@ public class TokenResource{
     //@Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteToken(RequestSingleToken T) {
-        return tService.deleteToken(T);
+       // return tService.deleteToken(T);
     }
 
 
@@ -49,4 +54,4 @@ public class TokenResource{
 
 
 
-}
+}*/

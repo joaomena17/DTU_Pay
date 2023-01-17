@@ -1,11 +1,12 @@
-package ReportService;
-import Repository.PaymentRepository;
+package org.acme.TokenService;
 import messaging.implementations.RabbitMqQueue;
+import org.acme.Repository.TokenRepository;
+
 //Copied from studentregistration example, perhaps change
 public class TokenFactory {
-    static TokenService service = null;
+    static tokenService service = null;
 
-    public synchronized TokenService getService() {
+    public synchronized tokenService getService() {
         // The singleton pattern.
         // Ensure that there is at most
         // one instance of a PaymentService
@@ -24,7 +25,7 @@ public class TokenFactory {
         // without sending actual messages to RabbitMq.
         var mq = new RabbitMqQueue("rabbitMq");
         var repo = new TokenRepository();
-        service = new TokenService(mq,repo);
+        service = new tokenService(mq,repo);
 //		new StudentRegistrationServiceAdapter(service, mq);
         return service;
     }

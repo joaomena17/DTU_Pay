@@ -13,4 +13,6 @@ public class RequestSingleToken {
     public String user;
     public String token;
 
+    public RequestSingleToken(String customerId) {
+    }
 }

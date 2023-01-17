@@ -1,21 +1,47 @@
-package org.acme;
+package org.acme.TokenService;
 
-import java.math.BigDecimal;
+import Utils.CorrelationId;
+import messaging.Event;
+import messaging.MessageQueue;
+import org.acme.CreateUser;
+import org.acme.Repository.TokenRepository;
+import org.acme.RequestSingleToken;
+import org.acme.Token;
+import org.acme.TokenRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.PathParam;
-import java.util.*;
 import java.util.Random;
 
-public class TokenService {
+public class tokenService {
+    private TokenRepository tokenRepository;
+    private RequestSingleToken requestSingleToken;
+    private MessageQueue queue;
     private List<String> usedTokens = new ArrayList<String>();
-    private List<Token> TokenList = new ArrayList<Token>();
+    private static List<Token> TokenList = new ArrayList<Token>();
 
     public List<Token> getTokenList() {
         return TokenList;
     }
-    public Token getTokenByUser(String username) {
+
+    public void handleToken(Event event){
+        String customerId = event.getArgument(0,String.class);
+        RequestSingleToken requestSingleToken = new RequestSingleToken(customerId);
+        var corrId = event.getArgument(1, CorrelationId.class);
+      //  var list = TokenRepository.;
+        Event e = new Event("getTokenEvent", new Object[] {getSingleToken(requestSingleToken),corrId});
+        queue.publish(e);
+    }
+    public tokenService(MessageQueue mq, TokenRepository p) {
+        queue = mq;
+        queue.addHandler("getToken", this::handleToken);
+        this.tokenRepository = p;
+    }
+    public tokenService() {
+
+    }
+    public static Token getTokenByUser(String username) {
         for(Token t : TokenList) {
             System.out.println(t.user);
             if (t.user.equals(username)) {
@@ -25,9 +51,7 @@ public class TokenService {
         return null;
     }
 
-    public TokenService (){
 
-    }
     public String createRandomString() {
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
         String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz-_";
@@ -68,7 +92,7 @@ public class TokenService {
         TokenList.add(token);
         return Response.ok().build();
     }
-    public boolean doesUserExist(String username){
+    public static boolean doesUserExist(String username){
         System.out.println(username);
         for(Token t : TokenList) {
             System.out.println(t.user);

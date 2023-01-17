@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class reportService {
     PaymentRepository paymentRepo;
     MessageQueue queue;
+
     public reportService(MessageQueue mq,PaymentRepository p) {
         queue = mq;
         queue.addHandler("RequestPaymentCompleted", this::handlePaymentRegisterEvent);
