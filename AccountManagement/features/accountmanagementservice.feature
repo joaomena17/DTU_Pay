@@ -26,7 +26,7 @@ Scenario: Register customer is successful and Unregister customer is unsuccessfu
 Scenario: Register and Unregister customer are unsuccessful
     Given a customer that is not registered with DTU Pay that fails to register
     When an unsuccessful "RegisterAccountRequest" register event for the customer is received
-    Then a failure "RegisterAccountSuccess" event is sent
+    Then a failure "RegisterAccountSuccess" event is ssent
     And the customer that cannot register is unregistered
     And an unsuccessful "UnregisterAccountRequest" unregister event for the customer is received
     And a failure "UnregisterAccountFailed" event is sent
