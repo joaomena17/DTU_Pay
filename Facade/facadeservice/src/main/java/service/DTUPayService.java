@@ -4,6 +4,7 @@ import messaging.MessageQueue;
 import java.util.concurrent.CompletableFuture;
 
 public class DTUPayService {
+    /*
     private final AccountService<> account;
     private final PaymentService<> payment;
     private final ReportService<> report;
@@ -28,5 +29,5 @@ public class DTUPayService {
 
     public TokenService<T> getTokenService() {
         return token;
-    }
+    } */
 }
