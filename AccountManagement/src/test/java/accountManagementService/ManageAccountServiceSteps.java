@@ -34,8 +34,9 @@ public class ManageAccountServiceSteps {
     private DTUPayUser customer;
     private DTUPayUser expected;
     private CorrelationId correlationId;
-    private AccountManagementService customerService = new AccountManagementFactory().getService();
-    private MessageQueue queue = customerService.queue;
+
+    private MessageQueue queue = mock(MessageQueue.class);
+    private AccountManagementService customerService = new AccountManagementService(queue);
 
     @Before
     public void setup() {
