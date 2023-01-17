@@ -50,14 +50,5 @@ public class DTUPayUser {
 
         return false;
     }
-
-    /*
-
-    private List<Payment> customerPayments = new ArrayList<>();
-
-    public void addCustomerPayment(Payment payment) { this.customerPayments.add(payment); }
-
-    public List<Payment> getCustomerPayments() { return List.copyOf(this.customerPayments);}
-
-    * */
+    
 }

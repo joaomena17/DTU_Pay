@@ -1,11 +1,12 @@
 package service;
 
 import messaging.MessageQueue;
+import java.util.concurrent.CompletableFuture;
 
-public class DTUPayService<T> {
-    private final AccountService<T> account;
-    private final PaymentService<T> payment;
-    private final ReportService<T> report;
+public class DTUPayService {
+    private final AccountService<> account;
+    private final PaymentService<> payment;
+    private final ReportService<> report;
     private final TokenService<T> token;
 
     public DTUPayService(MessageQueue q){

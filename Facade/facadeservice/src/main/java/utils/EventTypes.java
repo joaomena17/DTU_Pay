@@ -1,4 +1,4 @@
-package service;
+package utils;
 
 public class EventTypes {
 

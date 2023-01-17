@@ -1,13 +1,12 @@
 package resource;
 
-<<<<<<< HEAD:Facade/facadeservice/src/main/java/resource/DTUPayFactory.java
 import service.DTUPayService;
 import messaging.implementations.RabbitMqQueue;
 
 public class DTUPayFactory {
     static DTUPayService DTUPay = null;
 
-    public synchronized StudentRegistrationService getService() {
+    public synchronized DTUPayService getService() {
         // The singleton pattern.
         // Ensure that there is at most
         // one instance of a PaymentService
@@ -27,7 +26,3 @@ public class DTUPayFactory {
         return DTUPay;
     }
 }
-=======
-public class DTUPayResource {
-}
->>>>>>> parent of e6115e5 (added event handling to AccountService in Facade):Facade/facadeservice/src/main/java/resource/DTUPayResource.java
