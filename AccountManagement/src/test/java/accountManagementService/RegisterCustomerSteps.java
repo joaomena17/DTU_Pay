@@ -60,18 +60,16 @@ public class RegisterCustomerSteps {
         //event is received
         customerService.handleRegisterAccountRequest(new Event(eventName, new Object[] { customer ,correlationId}));
     }
-
+    @And("a successful {string} event is received")
+    public void aSuccessfulEventIsReceived(String eventName) {
+        customerService.handleRegisterUserTokenSuccess(new Event(eventName, new Object[] { customer,customerService.tokenCorrelationId}));
+    }
     @Then("a success {string} event is sent")
     public void a_successful_event_is_sent(String eventName) {
 
         expectedCorrelationId=correlationId;
         var event = new Event(eventName, new Object[] { "1",expectedCorrelationId});
         verify(queue).publish(event);
-    }
-
-    @And("the customer is registered")
-    public void the_customer_is_registered() {
-        /*not sure what to put*/
     }
 
     /* Scenario: Register customer is unsuccessful
@@ -110,8 +108,4 @@ public class RegisterCustomerSteps {
 
     }
 
-    @And("a successful {string} event is received")
-    public void aSuccessfulEventIsReceived(String eventName) {
-        /*??????*/
-    }
 }

@@ -9,9 +9,11 @@
         <module name="dtu_pay" />
         <module name="ReportService" />
         <module name="demo-client" />
+        <module name="AccountManagement" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="AccountManagement" target="11" />
       <module name="demo-client" target="11" />
       <module name="dtu_pay" target="11" />
       <module name="messaging-utilities" target="11" />
@@ -20,6 +22,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="AccountManagement" options="-parameters" />
       <module name="dtu_pay" options="-parameters" />
     </option>
   </component>

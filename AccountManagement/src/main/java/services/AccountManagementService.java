@@ -24,7 +24,7 @@ public class AccountManagementService {
     AccountService accountService = new AccountService();
 
     private Map<CorrelationId, CompletableFuture<Boolean>> correlations = new ConcurrentHashMap<>();
-
+    public CorrelationId tokenCorrelationId ;
     public AccountManagementService(MessageQueue q) {
         this.queue = q;
         this.queue.addHandler(EventTypes.REGISTER_ACCOUNT_REQUEST, this::handleRegisterAccountRequest);
@@ -44,7 +44,7 @@ public class AccountManagementService {
 
         try{
             String newAccountId = accountService.registerAccount(newAccount);
-            var tokenCorrelationId = CorrelationId.randomId();
+            tokenCorrelationId= CorrelationId.randomId();
             correlations.put(tokenCorrelationId,new CompletableFuture<>());
             //Create an "RegisterUserTokenRequest" event
             Event tokenEventCreated=new Event(EventTypes.REGISTER_USER_TOKEN_REQUEST,new Object[] {newAccountId, tokenCorrelationId});
