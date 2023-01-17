@@ -7,9 +7,6 @@ import handlers.*;
 
 import Utils.CorrelationId;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.Assert.assertTrue;
-
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -19,8 +16,8 @@ import io.cucumber.java.en.And;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-// import static org.mockito.Mockito.mock;
-// import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import messaging.Event;
 import messaging.MessageQueue;
@@ -37,7 +34,7 @@ public class UnregisterCustomerServiceSteps {
     private DTUPayUser customer;
     private DTUPayUser expected;
     private CorrelationId correlationId;
-    private AccountService customerService = new AccountService();
+    private AccountManagementService customerService = new AccountManagementFactory().getService();
     private MessageQueue queue = mock(MessageQueue.class);
 
     /* Scenario: Unregister customer is successful

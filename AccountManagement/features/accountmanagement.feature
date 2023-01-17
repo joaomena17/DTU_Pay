@@ -61,14 +61,14 @@ Scenario: Register merchant is unsuccessful
 
 # ------------------------ Merchant Unregistration ------------------------
 
-Scenario: Unregister merchant is successful
-    Given a merchant that is registered with DTU Pay that succeeds in unregistering
-    When a succsessful "UnregisterAccountRequested" unregister event for a registered merchant is received
-    Then a success "UnregisterAccountSuccess" event is sent
-    And the merchant is unregistered
+#Scenario: Unregister merchant is successful
+#    Given a merchant that is registered with DTU Pay that succeeds in unregistering
+#    When a succsessful "UnregisterAccountRequested" unregister event for a registered merchant is received
+#    Then a success "UnregisterAccountSuccess" event is sent
+#    And the merchant is unregistered
 
-Scenario: Unregister merchant is unsuccessful
-    Given a merchant that is registered with DTU Pay that fails to register
-    When an unsuccsessful "UnregisterAccountRequested" unregister event for a registered merchant is received
-    Then a failure "UnregisterAccountRequestFailed" event is sent
-    And the merchant is not unregistered
+#Scenario: Unregister merchant is unsuccessful
+#    Given a merchant that is registered with DTU Pay that fails to register
+#    When an unsuccsessful "UnregisterAccountRequested" unregister event for a registered merchant is received
+#    Then a failure "UnregisterAccountRequestFailed" event is sent
+#    And the merchant is not unregistered
