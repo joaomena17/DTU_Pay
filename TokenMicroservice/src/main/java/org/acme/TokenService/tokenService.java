@@ -8,6 +8,7 @@ import org.acme.Repository.TokenRepository;
 import org.acme.RequestSingleToken;
 import org.acme.Token;
 import org.acme.TokenRequest;
+import org.acme.Utils.EventTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,10 +73,10 @@ public class tokenService {
         validateToken(token);
         String response = validateToken(token);
         if (response == "Error"){
-            queue.publish(new Event(EventTypes.ValidateTokenRequestSuccess,new Object[]{customerId,corrId}));
+            queue.publish(new Event(EventTypes.VALIDATE_SUCCESS,new Object[]{customerId,corrId}));
         }
         else {
-            queue.publish(new Event(EventTypes.ValidateTokenRequestFailed,new Object[]{customerId,corrId}));
+            queue.publish(new Event(EventTypes.VALIDATE_FAILED,new Object[]{customerId,corrId}));
         }
     }
 
@@ -99,13 +100,12 @@ public class tokenService {
 
     public tokenService(MessageQueue mq, TokenRepository p) {
         queue = mq;
-        queue.addHandler("getToken", this::handleToken);
-        queue.addHandler("deleteToken", this::handleDeleteToken);
-        queue.addHandler("createUser", this::handleCreateUser);
-        queue.addHandler("requestToken", this::handleRequestToken);
-        queue.addHandler("ValidateTokenRequest", this::handleValidateToken);
-        queue.addHandler("ValidateTokenRequestSuccess", this::handleValidateTokenRequestSuccess);
-        queue.addHandler("RegisterUserTokenRequest",this::handleRegisterUserTokenRequest);
+        queue.addHandler(EventTypes.GET_TOKEN, this::handleToken);
+        queue.addHandler(EventTypes.DELETE_TOKEN, this::handleDeleteToken);
+        queue.addHandler(EventTypes"requestToken", this::handleRequestToken);
+        queue.addHandler(EventTypes.VALIDATE_TOKEN, this::handleValidateToken);
+        queue.addHandler(EventTypes."ValidateTokenRequestSuccess", this::handleValidateTokenRequestSuccess);
+        queue.addHandler(EventTypes.REGISTER_TOKEN_USER,this::handleRegisterUserTokenRequest);
         this.tokenRepository = p;
     }
     public tokenService() {
