@@ -5,6 +5,9 @@ Tiago Machado s222963
  */
 
 import java.util.List;
+
+import Utils.CorrelationId;
+import Utils.EventTypes;
 import handlers.AccountService;
 import messaging.Event;
 import java.util.concurrent.CompletableFuture;
@@ -12,6 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import messaging.MessageQueue;
 import Entities.DTUPayUser;
+import Utils.EventTypes;
+import Utils.CorrelationId;
 
 public class AccountManagementService {
 

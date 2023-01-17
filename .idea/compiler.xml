@@ -9,7 +9,6 @@
         <module name="dtu_pay" />
         <module name="ReportService" />
         <module name="demo-client" />
-        <module name="messaging-utilities" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
