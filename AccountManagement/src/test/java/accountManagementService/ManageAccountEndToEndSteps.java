@@ -31,7 +31,7 @@ public class ManageAccountEndToEndSteps {
     // private AccountManagementService customerService = new AccountManagementFactory().getService();
     private AccountService customerService = new AccountService();
 
-    @Before
+    /* @Before
     public void setup() {
 
         user.setCprNumber("289-1234");
@@ -56,7 +56,7 @@ public class ManageAccountEndToEndSteps {
         } catch (BankServiceException_Exception e) {
             e.printStackTrace();
         }
-    }
+    } */
     
     /* Scenario:
     Given a customer that is not registered with DTU Pay

@@ -39,7 +39,7 @@ public class ManageAccountUnitSteps {
         /* DEBUG */
         System.out.println("DEBUG: \n\n!!!!!!!!!!!\n\n");
 
-        user.setCprNumber("289-1234");
+        user.setCprNumber("28719-1234");
         user.setFirstName(firstName);
         user.setLastName(lastName);
 
@@ -82,7 +82,7 @@ public class ManageAccountUnitSteps {
         assertTrue(!customerService.getAccountList("customer").contains(customer));
     }
 
-    /* @After
+    @After
     public void tearDown() {
 
         try {
@@ -90,6 +90,6 @@ public class ManageAccountUnitSteps {
         } catch (BankServiceException_Exception e) {
             e.printStackTrace();
         }
-    } */
+    }
 
 }

@@ -2,11 +2,12 @@ Feature: Account Management Service
 
 # ------------------------ Account Registration and Unregistration ------------------------
 
-@DontRun
+
 Scenario: Register and Unregister customer are successful
     Given a customer that is not registered with DTU Pay that succeeds in registering and unregistering
     When a successful "RegisterAccountRequest" register event for the customer is received
-    Then a success "RegisterAccountSuccess" event is sent
+    And a successful "RegisterUserTokenSuccess" event is received
+    Then a success "RegisterAccountRequestCompleted" event is ssent
     And the customer is registered
     And a successful "UnregisterAccountRequest" unregister event for the customer is received
     And a success "UnregisterAccountSuccess" event is sent
@@ -16,7 +17,7 @@ Scenario: Register and Unregister customer are successful
 Scenario: Register customer is successful and Unregister customer is unsuccessful
     Given a customer that is not registered with DTU Pay that succeeds in registering but not unregistering
     When a successful "RegisterAccountRequest" register event for the customer that cannot unregister is received
-    Then a success "RegisterAccountSuccess" event is sent for the customer that cannot unregister
+    Then a success "RegisterAccountRequestCompleted" event is sent for the customer that cannot unregister
     And the customer that cannot unregister is registered
     And an unsuccessful "UnregisterAccountRequest" unregister event for the registered customer is received
     And a failure "UnregisterAccountFailed" event is sent to the registered customer
@@ -26,7 +27,7 @@ Scenario: Register customer is successful and Unregister customer is unsuccessfu
 Scenario: Register and Unregister customer are unsuccessful
     Given a customer that is not registered with DTU Pay that fails to register
     When an unsuccessful "RegisterAccountRequest" register event for the customer is received
-    Then a failure "RegisterAccountSuccess" event is ssent
+    Then a failure "RegisterAccountRequestCompleted" event is ssent
     And the customer that cannot register is unregistered
     And an unsuccessful "UnregisterAccountRequest" unregister event for the customer is received
     And a failure "UnregisterAccountFailed" event is sent
