@@ -29,4 +29,6 @@ Scenario: Unregister merchant is unsuccessful
     When an unsuccsessful "UnregisterAccountRequest" unregister event for a merchant is received
     Then a failure "UnregisterAccountRequestFailed" event is sent
     And the merchant is not unregistered
+
+
     

@@ -31,8 +31,10 @@ public class RegisterCustomerSteps {
     And the customer is registered */
 
     private BankService bank = new BankServiceService().getBankServicePort();
-    private MessageQueue queue = mock(MessageQueue.class); //mock object to mimic the behaviour of real objects
+
     private AccountManagementService customerService = new AccountManagementFactory().getService();
+
+    private MessageQueue queue =  customerService.queue;
     private DTUPayUser customer;
     private String bankId;
     private User user = new User();
@@ -99,7 +101,7 @@ public class RegisterCustomerSteps {
     public void an_unsuccessful_event_is_sent(String eventName) {
 
 
-        var event = new Event(eventName, new Object[] { "Account needs a valid bank account to register",correlationId2 });
+        var event = new Event(eventName, new Object[] { "Invalid Account to register at DTU Pay",correlationId2 });
         verify(queue).publish(event);
     }
 
@@ -107,5 +109,6 @@ public class RegisterCustomerSteps {
     public void the_customer_is_not_registered() {
 
     }
+
 
 }

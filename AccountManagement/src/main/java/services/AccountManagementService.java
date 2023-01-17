@@ -20,7 +20,7 @@ import Utils.CorrelationId;
 
 public class AccountManagementService {
 
-    MessageQueue queue;
+    public MessageQueue queue;
     AccountService accountService = new AccountService();
 
     private Map<CorrelationId, CompletableFuture<Boolean>> correlations = new ConcurrentHashMap<>();
@@ -37,13 +37,13 @@ public class AccountManagementService {
 
     }
 
-    public void handleRegisterAccountRequest(Event ev) {
+    public String handleRegisterAccountRequest(Event ev) {
         Event finalEventCreated;
         var newAccount= ev.getArgument(0, DTUPayUser.class);
         var correlationId= ev.getArgument(1,CorrelationId.class);
-
+        String newAccountId;
         try{
-            String newAccountId = accountService.registerAccount(newAccount);
+            newAccountId = accountService.registerAccount(newAccount);
             tokenCorrelationId= CorrelationId.randomId();
             correlations.put(tokenCorrelationId,new CompletableFuture<>());
             //Create an "RegisterUserTokenRequest" event
@@ -60,8 +60,10 @@ public class AccountManagementService {
         }catch (Exception e){
             // Create an "AccountRegistrationFailed" event
             finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED,new Object[] {e.getMessage(),correlationId});
+            newAccountId="";
         }
         queue.publish(finalEventCreated);
+        return newAccountId;
     }
 
     public void handleBankAccountIdRequest(Event ev){
