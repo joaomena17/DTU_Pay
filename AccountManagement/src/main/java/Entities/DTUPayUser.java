@@ -7,19 +7,17 @@ import dtu.ws.fastmoney.BankServiceService;
 import java.util.List;
 
 public class DTUPayUser {
+
     private String _name;
     private String _bankID;
-
     private String _userRole;
-
+    private String accountID;
 
     public DTUPayUser(String name, String bankID, String role){
         _name=name;
         _bankID=bankID;
         _userRole=role;
     }
-
-    private String accountID;
 
     public String getName(){
         return this._name;

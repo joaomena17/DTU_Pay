@@ -1,12 +1,12 @@
 Feature: Account Management Service
 
-# ----------------------------- Customer -----------------------------
-
-# ------------------------ Customer Unregistration ------------------------
+# ------------------------ Account Registration and Unregistration ------------------------
 
 Scenario:
-    Given a customer that is registered with DTU Pay
-    When the customer is being unregistered
-    Then the customer is unregistered
+    Given a customer that is not registered with DTU Pay
+    When the customer is being registered
+    Then the customer is registered
+    And the customer is being unregistered
+    And the customer is unregistered
 
-# ------------------------ Merchant Unregistration ------------------------
+#Scenario: Customer Registration Race Condition (???)

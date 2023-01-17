@@ -1,5 +1,7 @@
 package accountManagementService;
 
+/* author: Joao Silva s222961 */
+
 import dtu.ws.fastmoney.*;
 import handlers.*;
 
@@ -23,7 +25,7 @@ import java.math.BigDecimal;
     And the customer unregisters from DTU Pay
     And the customer is removed from the customer list */
 
-public class ManageCustomerServiceSteps {
+public class ManageAccountUnitSteps {
 
     private User user = new User();
     private String bankId;
