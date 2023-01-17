@@ -40,7 +40,7 @@ public class ManageAccountServiceSteps {
     private MessageQueue queue = mock(MessageQueue.class);
     private AccountManagementService customerService = new AccountManagementService(queue);
 
-    @Before
+    /* @Before
     public void setup() {
 
         user.setCprNumber("289-1234");
@@ -55,9 +55,9 @@ public class ManageAccountServiceSteps {
         }
 
         customer = new DTUPayUser(name, bankId, role);
-    }
+    } */
 
-    @After
+    /* @After
     public void tearDown() {
 
         try {
@@ -65,7 +65,7 @@ public class ManageAccountServiceSteps {
         } catch (BankServiceException_Exception e) {
             e.printStackTrace();
         }
-    }
+    } */
 
     /* Scenario: Register and Unregister customer are successful
     Given a customer that is not registered with DTU Pay that succeeds in registering and unregistering

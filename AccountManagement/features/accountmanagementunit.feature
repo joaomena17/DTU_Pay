@@ -1,7 +1,5 @@
 Feature: Account Management
 
-# ------------------------ Account Registration and Unregistration ------------------------
-
 Scenario: Customer registers and unregisters successfully
     Given a customer with name "Joao" "Afonso" and bank account with balance 1000
     When the customer registers with DTU Pay

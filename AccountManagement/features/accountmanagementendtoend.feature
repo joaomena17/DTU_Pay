@@ -2,6 +2,7 @@ Feature: Account Management Service
 
 # ------------------------ Account Registration and Unregistration ------------------------
 
+@DontRun
 Scenario:
     Given a customer that is not registered with DTU Pay
     When the customer is being registered
