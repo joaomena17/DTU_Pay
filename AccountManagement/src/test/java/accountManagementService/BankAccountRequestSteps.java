@@ -11,8 +11,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import messaging.Event;
 import messaging.MessageQueue;
-import services.AccountManagementFactory;
 import services.AccountManagementService;
+
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
@@ -20,9 +21,9 @@ import java.math.BigDecimal;
 public class BankAccountRequestSteps {
     private BankService bank = new BankServiceService().getBankServicePort();
 
-    private AccountManagementService customerService = new AccountManagementFactory().getService();
-
-    private MessageQueue queue =  customerService.queue;
+    private MessageQueue queue = mock(MessageQueue.class);
+    private AccountManagementService customerService = new AccountManagementService(queue);
+    
     private DTUPayUser customer;
     private String bankId,accountId;
     private User user = new User();
