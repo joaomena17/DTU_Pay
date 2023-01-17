@@ -33,9 +33,38 @@ public class tokenService {
         Event e = new Event("getTokenEvent", new Object[] {getSingleToken(requestSingleToken),corrId});
         queue.publish(e);
     }
+
+    public void handleDeleteToken(Event event){
+        String customerId = event.getArgument(0,String.class);
+        RequestSingleToken requestSingleToken = new RequestSingleToken(customerId);
+        var corrId = event.getArgument(1, CorrelationId.class);
+        Event e = new Event("getTokenEvent", new Object[] {deleteToken(requestSingleToken),corrId});
+        queue.publish(e);
+    }
+
+    public void handleCreateUser(Event event){
+        String customerId = event.getArgument(0,String.class);
+        CreateUser createUser = new CreateUser(customerId);
+        var corrId = event.getArgument(1, CorrelationId.class);
+        Event e = new Event("createTokenUserEvent", new Object[] {createUser(createUser),corrId});
+        queue.publish(e);
+    }
+
+    public void handleRequestToken(Event event){
+        String customerId = event.getArgument(0,String.class);
+        int number = event.getArgument(2, int.class);
+        TokenRequest tokenRequest = new TokenRequest(customerId, number);
+        var corrId = event.getArgument(1, CorrelationId.class);
+        Event e = new Event("createTokenUserEvent", new Object[] {requestToken(tokenRequest),corrId});
+        queue.publish(e);
+    }
     public tokenService(MessageQueue mq, TokenRepository p) {
         queue = mq;
         queue.addHandler("getToken", this::handleToken);
+        queue.addHandler("deleteToken", this::handleDeleteToken);
+        queue.addHandler("createUser", this::handleCreateUser);
+        queue.addHandler("requestToken", this::handleRequestToken);
+
         this.tokenRepository = p;
     }
     public tokenService() {
