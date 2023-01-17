@@ -15,6 +15,7 @@ public class AccountService {
     public AccountService(MessageQueue q){
         queue = q;
         queue.addHandler(REGISTER_ACCOUNT_COMPLETED, this::handleAccountRegistration);
+        // add remaining events and respective handle functions
     }
 
     public DTUPayUser registerAccount(DTUPayUser account){
