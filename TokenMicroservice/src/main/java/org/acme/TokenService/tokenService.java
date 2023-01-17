@@ -29,7 +29,6 @@ public class tokenService {
         String customerId = event.getArgument(0,String.class);
         RequestSingleToken requestSingleToken = new RequestSingleToken(customerId);
         var corrId = event.getArgument(1, CorrelationId.class);
-      //  var list = TokenRepository.;
         Event e = new Event("getTokenEvent", new Object[] {getSingleToken(requestSingleToken),corrId});
         queue.publish(e);
     }
@@ -58,12 +57,30 @@ public class tokenService {
         Event e = new Event("createTokenUserEvent", new Object[] {requestToken(tokenRequest),corrId});
         queue.publish(e);
     }
+    public void handleValidateToken(Event event){
+        String token = event.getArgument(0,String.class);
+        int number = event.getArgument(2, int.class);
+        TokenRequest tokenRequest = new TokenRequest(customerId, number);
+        var corrId = event.getArgument(1, CorrelationId.class);
+        String response = validateToken(token);
+        Event e = new Event("createTokenUserEvent", new Object[] {validateToken(token),corrId});
+        queue.publish(e);
+    }
+    public void handleValidateTokenRequestSuccess(Event event){
+        var customerId = event.getArgument(0,String.class);
+        var corrId = event.getArgument(1,CorrelationId.class);
+        queue.publish(new Event(EventTypes.ValidateTokenRequestSuccess,new Object[]{customerId,corrId}));
+    }
+
     public tokenService(MessageQueue mq, TokenRepository p) {
         queue = mq;
         queue.addHandler("getToken", this::handleToken);
         queue.addHandler("deleteToken", this::handleDeleteToken);
         queue.addHandler("createUser", this::handleCreateUser);
         queue.addHandler("requestToken", this::handleRequestToken);
+        queue.addHandler("ValidateTokenRequest", this::handleValidateToken);
+        queue.addHandler("ValidateTokenRequestSuccess", this::handleValidateTokenRequestSuccess);
+
 
         this.tokenRepository = p;
     }
@@ -130,6 +147,25 @@ public class tokenService {
             }
         }
         return false;
+    }
+
+    public String validateToken(String t){
+        String userFound = "";
+
+        for(Token tok: TokenList){
+
+                if(tok.tokens.size()>= 1){
+                    System.out.println("Token found:");
+                    System.out.println(tok.tokens.get(0));
+                    tok.tokens.remove(t);
+                    usedTokens.add(t);
+
+                    queue.publish(new Event(EventTypes.ValidateTokenRequestSuccess,new Object[]{p,user,corId}));
+                    return tok.user;
+                }
+
+        }
+        return "Error";
     }
     public Response requestSingleToken(RequestSingleToken t){
         if(doesUserExist(t.user) == false){
