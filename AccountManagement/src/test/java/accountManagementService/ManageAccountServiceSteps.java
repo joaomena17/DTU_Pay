@@ -15,6 +15,8 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -118,7 +120,8 @@ public class ManageAccountServiceSteps {
 
     @And("the customer is unregistered")
     public void the_customer_is_unregistered() {
-        assertNull(expected.getAccountID());
+        AccountService accountService = customerService.getAccountService();
+        assertFalse(accountService.getAccountList(role).contains(customer));
     }
 
     /* Scenario: Register customer is successful and Unregister customer is unsuccessful
@@ -174,7 +177,8 @@ public class ManageAccountServiceSteps {
 
     @And("the registered customer is registered")
     public void the_registered_customer_is_registered() {
-        assertNotNull(expected.getAccountID());
+        AccountService accountService = customerService.getAccountService();
+        assertTrue(accountService.getAccountList(role).contains(customer));
     }
 
     /* Scenario: Register and Unregister customer are unsuccessful
@@ -230,6 +234,7 @@ public class ManageAccountServiceSteps {
 
     @And("the customer that could not register is unregistered")
     public void the_customer_that_could_not_register_is_unregistered() {
-        assertNull(expected.getAccountID());
+        AccountService accountService = customerService.getAccountService();
+        assertFalse(accountService.getAccountList(role).contains(customer));
     }
 }

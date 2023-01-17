@@ -37,6 +37,10 @@ public class AccountManagementService {
 
     }
 
+    public AccountService getAccountService() {
+        return accountService;
+    }
+
     public String handleRegisterAccountRequest(Event ev) {
         Event finalEventCreated;
         var newAccount= ev.getArgument(0, DTUPayUser.class);
