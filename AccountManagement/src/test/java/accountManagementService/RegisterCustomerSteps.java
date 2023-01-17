@@ -1,27 +1,25 @@
 package accountManagementService;
 
 import dtu.ws.fastmoney.*;
-import accountservice.*;
+import Entities.DTUPayUser;
+import handlers.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import dtu.ws.fastmoney.*;
-
 import messaging.Event;
 import messaging.MessageQueue;
+import services.AccountManagementFactory;
+import services.AccountManagementService;
 
 import java.math.BigDecimal;
 
@@ -34,7 +32,7 @@ public class RegisterCustomerSteps {
 
     private BankService bank = new BankServiceService().getBankServicePort();
     private MessageQueue queue = mock(MessageQueue.class);
-    private AccountService customerService = new AccountService();
+    private AccountManagementService customerService = new AccountManagementFactory().getService();
     private DTUPayUser customer;
     private DTUPayUser expectedCustomer;
     private String bankId;
@@ -44,8 +42,8 @@ public class RegisterCustomerSteps {
     private User user = new User();
 
 
-    @When("a succsessful {string} event for a customer {string} {string} with balance {int} is received")
-    public void a_succsessful_event_for_a_customer_is_received(String eventName, String firstName, String lastName, int balance) {
+    @When("a successful {string} event for a customer {string} {string} with balance {int} is received")
+    public void a_successful_event_for_a_customer_is_received(String eventName, String firstName, String lastName, int balance) {
 
         user.setCprNumber("289-1234");
         user.setFirstName(firstName);

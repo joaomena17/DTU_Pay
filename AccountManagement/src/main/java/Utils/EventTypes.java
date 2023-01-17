@@ -1,4 +1,4 @@
-package services;
+package Utils;
 
 public final class EventTypes {
 
@@ -28,7 +28,6 @@ public final class EventTypes {
     public static final String REGISTER_USER_TOKEN_SUCCESS = "RegisterUserTokenSuccess";
 
     public static final String REGISTER_USER_TOKEN_REQUEST = "RegisterUserTokenRequest";
-
 
 
 

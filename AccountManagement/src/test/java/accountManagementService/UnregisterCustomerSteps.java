@@ -1,7 +1,9 @@
 package accountManagementService;
 
 import dtu.ws.fastmoney.*;
-import accountservice.*;
+import services.*;
+import Entities.*;
+import handlers.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.Assert.assertTrue;
