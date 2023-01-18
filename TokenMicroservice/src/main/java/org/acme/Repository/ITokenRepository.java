@@ -7,7 +7,7 @@ import java.util.List;
 public interface ITokenRepository {
 
     void getToken(RequestSingleToken T);
-/*
+
     List<PaymentReport> GetAllPayments();
 
     List<PaymentReport> GetCustomerPayments(String cid);

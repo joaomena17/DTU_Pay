@@ -26,6 +26,7 @@ import org.acme.RequestSingleToken;
 import org.acme.Token;
 import org.acme.TokenRequest;
 import org.acme.TokenService.tokenService;
+import org.acme.Utils.EventTypes;
 import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.concurrent.CompletableFuture;
@@ -55,14 +56,26 @@ public class TokenMessageSteps {
 
     private TokenRepository repo = new TokenRepository();
     private tokenService service = new tokenService(queue, repo);
+    private TokenRequest tokenRequest = new TokenRequest();
+    private Token token = new Token();
+    private CreateUser createUser = new CreateUser();
 
-    private Token
+
+
     public TokenMessageSteps() {}
 
 
-    @Given("A customer {string} requests token while having {int} token")
-    public void customer_requests_token_while_having_tokens(String string, Integer int1) {
+    @Given("A customer is created with the username {string}")
+    public void A_customer_is_created_with_the_username(String user) {
+        //service.handleRegisterUserTokenRequest(new Event(new Object[] {user}));
+        service.handleRegisterUserTokenRequest(new Event(EventTypes.REGISTER_TOKEN_USER,new Object[]{user}));
+    }
+
+    @Then("a customer with name {string} then exists")
+    public void a_customer_with_name_then_exists(String user) {
+        assertEquals(service.doesUserExist(user), true);
 
     }
+
 
 }

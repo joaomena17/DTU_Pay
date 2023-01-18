@@ -18,9 +18,9 @@ import java.util.Random;
 public class tokenService {
     private TokenRepository tokenRepository;
     private RequestSingleToken requestSingleToken;
-    private MessageQueue queue;
+    MessageQueue queue;
     private List<String> usedTokens = new ArrayList<String>();
-    private static List<Token> TokenList = new ArrayList<Token>();
+    private List<Token> TokenList = new ArrayList<Token>();
 
     public List<Token> getTokenList() {
         return TokenList;
@@ -87,7 +87,7 @@ public class tokenService {
     public tokenService() {
 
     }
-    public static Token getTokenByUser(String username) {
+    public Token getTokenByUser(String username) {
         for(Token t : TokenList) {
             System.out.println(t.user);
             if (t.user.equals(username)) {
@@ -146,7 +146,7 @@ public class tokenService {
         TokenList.add(token);
         return true;
     }
-    public static boolean doesUserExist(String username){
+    public boolean doesUserExist(String username){
         System.out.println(username);
         for(Token t : TokenList) {
             System.out.println(t.user);
