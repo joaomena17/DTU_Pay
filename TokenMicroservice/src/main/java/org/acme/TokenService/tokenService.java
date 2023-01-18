@@ -25,7 +25,36 @@ public class tokenService {
     public List<Token> getTokenList() {
         return TokenList;
     }
+    public void handleRegisterUserTokenRequest(Event event){
+        var customerId = event.getArgument(0,String.class);
+        var corrId = event.getArgument(1,CorrelationId.class);
+        boolean register = registerUser(customerId);
+        if(register){
+            queue.publish(new Event(EventTypes.REGISTER_TOKEN_USER_SUCCESS,new Object[]{true,corrId}));
 
+        }else{
+            queue.publish(new Event(EventTypes.REGISTER_TOKEN_USER_FAILED,new Object[]{false,corrId}));
+
+        }
+    }
+    public void handleValidateToken(Event event){
+        var token = event.getArgument(0,String.class);
+        var corrId = event.getArgument(1,CorrelationId.class);
+        validateToken(token);
+        String response = validateToken(token);
+        if (response == "Error"){
+            queue.publish(new Event(EventTypes.VALIDATE_SUCCESS,new Object[]{customerId,corrId}));
+        }
+        else {
+            queue.publish(new Event(EventTypes.VALIDATE_FAILED,new Object[]{customerId,corrId}));
+        }
+    }
+    public void handleRegisterUserTokenFailed(Event event){
+        var customerId = event.getArgument(0,String.class);
+        var corrId = event.getArgument(1,CorrelationId.class);
+        queue.publish(new Event(EventTypes.RegisterUserTokenFailed,new Object[]{customerId,corrId}));
+    }
+    
     public void handleToken(Event event){
         String customerId = event.getArgument(0,String.class);
         RequestSingleToken requestSingleToken = new RequestSingleToken(customerId);
@@ -58,15 +87,7 @@ public class tokenService {
         Event e = new Event("createTokenUserEvent", new Object[] {requestToken(tokenRequest),corrId});
         queue.publish(e);
     }
-    public void handleValidateToken(Event event){
-        String token = event.getArgument(0,String.class);
-        int number = event.getArgument(2, int.class);
-        TokenRequest tokenRequest = new TokenRequest(customerId, number);
-        var corrId = event.getArgument(1, CorrelationId.class);
-        String response = validateToken(token);
-        Event e = new Event("createTokenUserEvent", new Object[] {validateToken(token),corrId});
-        queue.publish(e);
-    }
+
     public void handleValidateTokenRequestSuccess(Event event){
         var token = event.getArgument(0,String.class);
         var corrId = event.getArgument(1,CorrelationId.class);
@@ -80,32 +101,13 @@ public class tokenService {
         }
     }
 
-
-    public void handleRegisterUserTokenSuccess(Event event){
-        var customerId = event.getArgument(0,String.class);
-        var corrId = event.getArgument(1,CorrelationId.class);
-        queue.publish(new Event(EventTypes.RegisterUserTokenSuccess,new Object[]{customerId,corrId}));
-    }
-    public void handleRegisterUserTokenFailed(Event event){
-        var customerId = event.getArgument(0,String.class);
-        var corrId = event.getArgument(1,CorrelationId.class);
-        queue.publish(new Event(EventTypes.RegisterUserTokenFailed,new Object[]{customerId,corrId}));
-    }
-
-    public void handleRegisterUserTokenRequest(Event event){
-        var customerId = event.getArgument(0,String.class);
-        var corrId = event.getArgument(1,CorrelationId.class);
-        queue.publish(new Event(EventTypes.RegisterUserTokenFailed,new Object[]{customerId,corrId}));
-    }
-
     public tokenService(MessageQueue mq, TokenRepository p) {
         queue = mq;
+        queue.addHandler(EventTypes.REGISTER_TOKEN_USER,this::handleRegisterUserTokenRequest);
+        queue.addHandler(EventTypes.VALIDATE_TOKEN, this::handleValidateToken);
         queue.addHandler(EventTypes.GET_TOKEN, this::handleToken);
         queue.addHandler(EventTypes.DELETE_TOKEN, this::handleDeleteToken);
-        queue.addHandler(EventTypes"requestToken", this::handleRequestToken);
-        queue.addHandler(EventTypes.VALIDATE_TOKEN, this::handleValidateToken);
-        queue.addHandler(EventTypes."ValidateTokenRequestSuccess", this::handleValidateTokenRequestSuccess);
-        queue.addHandler(EventTypes.REGISTER_TOKEN_USER,this::handleRegisterUserTokenRequest);
+        queue.addHandler(EventTypes.REQUEST_TOKEN,this::handleRequestToken);
         this.tokenRepository = p;
     }
     public tokenService() {
@@ -161,6 +163,18 @@ public class tokenService {
         Token token = new Token(t.user, emptyList);
         TokenList.add(token);
         return Response.ok().build();
+    }
+
+    public boolean registerUser(String user){
+        System.out.println("Creating user");
+        if(doesUserExist(user)){
+            System.out.println("User Already exists");
+            return false;
+        }
+        List<String> emptyList = new ArrayList<String>();
+        Token token = new Token(user, emptyList);
+        TokenList.add(token);
+        return true;
     }
     public static boolean doesUserExist(String username){
         System.out.println(username);

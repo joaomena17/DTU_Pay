@@ -9,9 +9,20 @@ public final class EventTypes {
         public static final String VALIDATE_FAILED = "ValidateTokenRequestFailed";
         public static final String VALIDATE_SUCCESS = "ValidateTokenRequestSuccess";
 
-        public static final String REQUEST_PAYMENT = "RequestPayment";
-        public static final String REQUEST_PAYMENTFAILED = "RequestPaymentCompleted";
-        public static final String REQUEST_PAYMENTSUCESS = "RequestPaymentFailed";
+        public static final String REQUEST_TOKEN = "RequestToken";
+        public static final String REQUEST_TOKEN_SUCCESS = "RequestTokenSuccess";
+        public static final String REQUEST_TOKEN_FAILED = "RequestTokenFailed";
+
+
+        public static final String GET_TOKEN = "GetToken";
+        public static final String GET_TOKEN_SUCCESS = "GetTokenSuccess";
+
+        public static final String GET_TOKEN_FAILED = "GetTokenFailed";
+
+        public static final String DELETE_TOKEN = "DeleteToken";
+        public static final String DELETE_TOKEN_SUCCESS = "DeleteTokenSuccess";
+        public static final String DELETE_TOKEN_FAILED = "DeleteTokenFailed";
+
 
 
 
