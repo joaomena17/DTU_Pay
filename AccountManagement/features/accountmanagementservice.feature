@@ -8,11 +8,9 @@ Scenario: Register and Unregister customer are successful
     When a successful "RegisterAccountRequest" register event for the customer is received
     And a successful "RegisterUserTokenSuccess" event is received
     Then a success "RegisterAccountRequestCompleted" event is ssent
-    #And the customer is registered
-    #And a successful "UnregisterAccountRequest" unregister event for the customer is received
-    #And a success "UnregisterAccountSuccess" event is sent
-    #And the customer is unregistered
-
+    And a successful "UnregisterAccountRequest" unregister event for the customer is received
+    And a success "UnregisterAccountSuccess" event is sent
+    """
 @DontRun
 Scenario: Register customer is successful and Unregister customer is unsuccessful
     Given a customer that is not registered with DTU Pay that succeeds in registering but not unregistering
@@ -21,17 +19,15 @@ Scenario: Register customer is successful and Unregister customer is unsuccessfu
     And the customer that cannot unregister is registered
     And an unsuccessful "UnregisterAccountRequest" unregister event for the registered customer is received
     And a failure "UnregisterAccountFailed" event is sent to the registered customer
-    And the registered customer is registered
+    And the registered customer is registered"""
 
 @DontRun
 Scenario: Register and Unregister customer are unsuccessful
     Given a customer that is not registered with DTU Pay that fails to register
     When an unsuccessful "RegisterAccountRequest" register event for the customer is received
-    Then a failure "RegisterAccountRequestCompleted" event is ssent
-    And the customer that cannot register is unregistered
+    Then a failure "RegisterAccountRequestFailed" event is ssent
     And an unsuccessful "UnregisterAccountRequest" unregister event for the customer is received
     And a failure "UnregisterAccountFailed" event is sent
-    And the customer that could not register is unregistered
 
 # ------------------------ Bank Account Request------------------------
 

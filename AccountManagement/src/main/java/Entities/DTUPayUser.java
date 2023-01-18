@@ -48,7 +48,7 @@ public class DTUPayUser {
         }
         return false;
     }
-
+    public void set_name(String name){ this._name=name;}
     /*
 
     private List<Payment> customerPayments = new ArrayList<>();
