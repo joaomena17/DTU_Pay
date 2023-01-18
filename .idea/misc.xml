@@ -8,8 +8,14 @@
         <option value="$PROJECT_DIR$/PaymentMicroservice/pom.xml" />
         <option value="$PROJECT_DIR$/messaging-utilities-3.3/pom.xml" />
         <option value="$PROJECT_DIR$/PaymentMicroservice/Payment/pom.xml" />
+        <option value="$PROJECT_DIR$/TokenMicroservice/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="jpab" />
+  </component>
 </project>

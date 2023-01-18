@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/ReportService/ReportService.iml" filepath="$PROJECT_DIR$/ReportService/ReportService.iml" />
       <module fileurl="file://$PROJECT_DIR$/DTUPay-Test/demo-client.iml" filepath="$PROJECT_DIR$/DTUPay-Test/demo-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/PaymentMicroservice/Payment/dtu_pay.iml" filepath="$PROJECT_DIR$/PaymentMicroservice/Payment/dtu_pay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TokenMicroservice/dtu_pay (1).iml" filepath="$PROJECT_DIR$/TokenMicroservice/dtu_pay (1).iml" />
       <module fileurl="file://$PROJECT_DIR$/messaging-utilities-3.3/messaging-utilities.iml" filepath="$PROJECT_DIR$/messaging-utilities-3.3/messaging-utilities.iml" />
     </modules>
   </component>

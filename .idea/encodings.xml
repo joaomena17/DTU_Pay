@@ -9,6 +9,8 @@
     <file url="file://$PROJECT_DIR$/PaymentMicroservice/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ReportService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ReportService/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TokenMicroservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TokenMicroservice/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/messaging-utilities-3.3/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/messaging-utilities-3.3/src/main/resources" charset="UTF-8" />
   </component>
