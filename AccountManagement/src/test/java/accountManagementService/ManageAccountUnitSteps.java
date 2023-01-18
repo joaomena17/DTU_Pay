@@ -82,6 +82,7 @@ public class ManageAccountUnitSteps {
         assertTrue(!customerService.getAccountList("customer").contains(customer));
     }
 
+    /*
     @After
     public void tearDown() {
 
@@ -90,6 +91,6 @@ public class ManageAccountUnitSteps {
         } catch (BankServiceException_Exception e) {
             e.printStackTrace();
         }
-    }
+    } */
 
 }

@@ -43,9 +43,9 @@ public class ManageAccountServiceSteps {
     @Before
     public void setup() {
 
-        user.setCprNumber("289-1234");
-        user.setFirstName("Joao");
-        user.setLastName("Silva");
+        user.setCprNumber("354-1235");
+        user.setFirstName("Tiago");
+        user.setLastName("Gomes");
         BigDecimal bigDecimalBalance = new BigDecimal(1000);
 
         try {
@@ -92,17 +92,19 @@ public class ManageAccountServiceSteps {
 
     @And("a successful {string} event is received")
     public void a_succsessful_register_event_is_received(String eventName) {
-
-        Event event = new Event(eventName, new Object[] { true, correlationId });
-        customerService.handleRegisterUserTokenSuccess(event);
+        new Thread(() -> {
+            var tokenCorrId = customerService.tokenCorrelationId;
+            Event event = new Event(eventName, new Object[] { true, tokenCorrId });
+            customerService.handleRegisterUserTokenSuccess(event);
+        }).start();
     }
 
 
     @Then("a success {string} event is ssent")
     public void a_success_register_event_is_sent(String eventName) {
-
-        var event = new Event(eventName, new Object[] {expected, correlationId});
-        verify(queue).publish(event);
+        var tokenCorrId = customerService.tokenCorrelationId;
+        var event = new Event(eventName, new Object[] {expected, tokenCorrId});
+        verify(customerService.queue).publish(event);
     }
 
     @And("the customer is registered")

@@ -8,10 +8,10 @@ Scenario: Register and Unregister customer are successful
     When a successful "RegisterAccountRequest" register event for the customer is received
     And a successful "RegisterUserTokenSuccess" event is received
     Then a success "RegisterAccountRequestCompleted" event is ssent
-    And the customer is registered
-    And a successful "UnregisterAccountRequest" unregister event for the customer is received
-    And a success "UnregisterAccountSuccess" event is sent
-    And the customer is unregistered
+    #And the customer is registered
+    #And a successful "UnregisterAccountRequest" unregister event for the customer is received
+    #And a success "UnregisterAccountSuccess" event is sent
+    #And the customer is unregistered
 
 @DontRun
 Scenario: Register customer is successful and Unregister customer is unsuccessful

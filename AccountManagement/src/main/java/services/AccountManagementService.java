@@ -53,7 +53,8 @@ public class AccountManagementService {
             //Create an "RegisterUserTokenRequest" event
             Event tokenEventCreated=new Event(EventTypes.REGISTER_USER_TOKEN_REQUEST,new Object[] {newAccountId, tokenCorrelationId});
             queue.publish(tokenEventCreated);
-            if (correlations.get(correlationId).join()) {
+
+            if (correlations.get(tokenCorrelationId).join()) {
                 // Create an "AccountRegistrationCompleted" event
                 finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[]{newAccountId, correlationId});
             }
@@ -62,6 +63,8 @@ public class AccountManagementService {
                 throw new IllegalArgumentException("Error requesting to register user token");
             }
         }catch (Exception e){
+
+            System.out.println(String.format("Exception: %s", e.getMessage()));
             // Create an "AccountRegistrationFailed" event
             finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED,new Object[] {e.getMessage(),correlationId});
             newAccountId="";
@@ -138,8 +141,10 @@ public class AccountManagementService {
         queue.publish(eventCreated);
     }
     public void handleRegisterUserTokenSuccess(Event ev) {
+        System.out.println("PENULTIMO HANDLE");
         var success = ev.getArgument(0, boolean.class);
         var correlationId = ev.getArgument(1, CorrelationId.class);
+        System.out.println(String.format("PENULTIMO HANDLE CORR ID: %s", correlationId));
         correlations.get(correlationId).complete(success);
     }
     public void handleRegisterUserTokenFailed(Event ev) {
