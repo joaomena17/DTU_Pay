@@ -2,6 +2,7 @@ package paymentservice;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,7 @@ import messaging.MessageQueue;
 public class PaymentService implements IPaymentService {
 
     BankService service = (new BankServiceService()).getBankServicePort();
-    public Map<CorrelationId, Payment > paymentRequest;
-
-    private List<Payment> paymentList = new ArrayList<>();
-
+    public Map<CorrelationId, Payment > paymentRequest = new HashMap<>();
     MessageQueue mq;
 
     public PaymentService(MessageQueue mq){
@@ -30,7 +28,7 @@ public class PaymentService implements IPaymentService {
     }
     @Override
     public void makePayment(Event ev) {
-        CorrelationId corrId = CorrelationId.randomId();
+        CorrelationId corrId = ev.getArgument(1,CorrelationId.class);
         Payment payment = ev.getArgument(0, Payment.class);
         paymentRequest.put(corrId,payment);
         //Validate customer token.

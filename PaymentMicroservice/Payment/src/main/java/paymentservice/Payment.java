@@ -27,7 +27,7 @@ public class Payment {
     }
 
     public void setCustomerToken(String customerToken) {
-        customerToken = customerToken;
+        this.customerToken = customerToken;
     }
     public String getMerchantBankID(){ return this.merchantBankID; }
 
