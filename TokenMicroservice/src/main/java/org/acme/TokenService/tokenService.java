@@ -115,7 +115,7 @@ public class tokenService implements interfaceTokenService {
         }
         return null;
     }
-    public List<String> getAllTokenByUser(String username) {
+    public List<String> getAllTokensByUser(String username) {
         for(Token t : TokenList) {
             if (t.user.equals(username)) {
                 return t.tokens;
