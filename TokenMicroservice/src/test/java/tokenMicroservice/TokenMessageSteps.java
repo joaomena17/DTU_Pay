@@ -87,7 +87,6 @@ public class TokenMessageSteps {
         };
     }
 
-
     @Given("A customer is created with the username {string}")
     public void A_customer_is_created_with_the_username(String user) {
         //service.handleRegisterUserTokenRequest(new Event(new Object[] {user}));
@@ -101,5 +100,23 @@ public class TokenMessageSteps {
 
     }
 
+
+    @Given("A customer {string} has an account on DTU pay with {int} token")
+    public void A_customer_has_account_and_tokens(String user, Integer number) {
+        corrId = CorrelationId.randomId();
+        //service.handleRegisterUserTokenRequest(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{user,corrId}));
+        //service.handleRequestToken(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{user,corrId}));
+    }
+
+    @When("The customer {string} request {int} token")
+    public void The_customer_request_token(String user, Integer number) {
+        tokenRequest = new TokenRequest(user, number);
+        service.handleRequestToken(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{tokenRequest,corrId}));
+    }
+
+    @Then("Customer {string} does not receive more tokens")
+    public void Customer_does_not_receive_more_tokens(String user) {
+
+    }
 
 }
