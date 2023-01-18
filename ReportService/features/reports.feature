@@ -5,11 +5,6 @@ Feature: ReportFeature
     When a "RequestPaymentCompleted" event is received to complete a payment
     Then the payment of 10 kr from "cid1" to "mid1" is added to the repository
 
-  #Scenario: Add payment to repository with cid2 and mid2
-  #  Given there is an unregistered payment of 20 kr with customer "cid2" and merchant "mid2"
-  #  When a "RequestPaymentCompleted" event is received to complete a payment
-  #  Then the payment of 20 kr from "cid2" to "mid2" is added to the repository
-
   Scenario: Return customer report
     Given there is a registered payment of 20 kr with customer "cid2" and merchant "mid2"
     When a "generateCustomerReport" event is received for customer report

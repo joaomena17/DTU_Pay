@@ -34,6 +34,7 @@ public class reportService {
         Event e = new Event("CustomerReportReturnEvent", new Object[] {list,corrId});
         queue.publish(e);
     }
+
     public void handleMerchantReport(Event event){
         var merchantId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1, CorrelationId.class);
