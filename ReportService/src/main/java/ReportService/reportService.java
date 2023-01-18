@@ -23,8 +23,9 @@ public class reportService {
         var payment = event.getArgument(0, Payment.class);
         var customerId = event.getArgument(1,String.class);
         PaymentReport pr = new PaymentReport();
-        pr.paymentToPaymentReport(payment,customerId);
+        pr = pr.paymentToPaymentReport(payment,customerId);
         paymentRepo.addPayment(pr);
+        System.out.println("List has: " + paymentRepo.GetAllPayments().size());
     }
     public void handleCustomerReport(Event event){
         var customerId = event.getArgument(0,String.class);
@@ -38,16 +39,16 @@ public class reportService {
         var corrId = event.getArgument(1, CorrelationId.class);
         var list = paymentRepo.GetMerchantPayments(merchantId);
         //Hack to hide customer id from merchant. Can't just alter the payment since its reference types
-        var newlist = new ArrayList<PaymentReport>();
+        /*var newlist = new ArrayList<PaymentReport>();
         for (PaymentReport p : list) {
             newlist.add(new PaymentReport("",p.mid,p.amount,p.customerToken));
-        }
-        Event e = new Event("MerchantReportReturnEvent", new Object[] {newlist,corrId});
+        }*/
+        Event e = new Event("MerchantReportReturnEvent", new Object[] {list,corrId});
         queue.publish(e);
     }
     public void handleManagerReport(Event event){
         var list = paymentRepo.GetAllPayments();
-        var corrId = event.getArgument(1, CorrelationId.class);
+        var corrId = event.getArgument(0, CorrelationId.class);
         Event e = new Event("ManagerReportReturnEvent", new Object[] {list,corrId});
         queue.publish(e);
     }

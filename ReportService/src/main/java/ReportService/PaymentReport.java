@@ -12,7 +12,6 @@ public class PaymentReport {
     public String cid;
    public String mid;
    public BigDecimal amount;
-
    public String customerToken;
 
    public PaymentReport paymentToPaymentReport(Payment p, String cid){
