@@ -3,9 +3,11 @@ package resource;
 import entities.DTUPayUser;
 import entities.PaymentReport;
 import service.AccountService;
+import service.TokenService;
 import service.ReportService;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
@@ -15,27 +17,36 @@ import java.util.List;
 @Path("/customers")
 public class CustomerResource {
 
-    private AccountService service = new DTUPayFactory().getService().getAccountService();
+    private AccountService accountservice = new DTUPayFactory().getService().getAccountService();
     private ReportService reportService = new DTUPayFactory().getService().getReportService();
+
+    private TokenService tokenService = new DTUPayFactory().getService().getTokenService();
 
     @GET
     @Path("/report")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<PaymentReport> customerRequestReport(DTUPayUser customer){
         return reportService.requestCustomerReport(customer.getAccountID());
+    }
+
+    @GET
+    @Path("/getTokens")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> getCustomerTokens(String customerID){
+        return tokenService.customerTokensRequest(customerID);
     }
 
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public String registerCustomer(DTUPayUser customer){
-        return service.requestAccountRegister(customer);
+        return accountservice.requestAccountRegister(customer);
     }
 
     @POST
     @Path("/unregister")
     @Consumes(MediaType.APPLICATION_JSON)
     public Boolean unregisterCustomer(DTUPayUser customer){
-        return service.requestAccountDelete(customer);
+        return accountservice.requestAccountDelete(customer);
     }
 }

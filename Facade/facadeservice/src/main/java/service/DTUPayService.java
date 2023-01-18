@@ -12,13 +12,13 @@ public class DTUPayService {
     private final AccountService account;
     private final PaymentService payment;
     private final ReportService report;
-    //private final TokenService token;
+    private final TokenService token;
 
     public DTUPayService(MessageQueue q){
         this.account = new AccountService(q);
         this.payment = new PaymentService(q);
         this.report = new ReportService(q);
-        //this.token = new TokenService(q);
+        this.token = new TokenService(q);
     }
 
     public AccountService getAccountService(){ return account; }
@@ -30,8 +30,6 @@ public class DTUPayService {
     public ReportService getReportService() {
         return report;
     }
-  /*
-    public TokenService<T> getTokenService() {
-        return token;
-    } */
+
+    public TokenService getTokenService() { return token; }
 }

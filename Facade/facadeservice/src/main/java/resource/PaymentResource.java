@@ -11,10 +11,10 @@ import service.PaymentService;
 @Path("/merchants")
 public class PaymentResource {
 
-    private PaymentService service = new DTUPayFactory().getService().getPaymentService();
+    private PaymentService paymentservice = new DTUPayFactory().getService().getPaymentService();
 
     @POST
     @Path("/pay")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void requestPayment(Payment payment){ service.requestPayment(payment); }
+    public void requestPayment(Payment payment){ paymentservice.requestPayment(payment); }
 }
