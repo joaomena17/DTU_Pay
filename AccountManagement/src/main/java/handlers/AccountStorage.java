@@ -56,11 +56,11 @@ public class AccountStorage implements IAccountStorage {
     public DTUPayUser searchAccountByID(String accountID) {
 
         for (DTUPayUser customer : CustomerList){ // consider use of .stream() .filter() .collect()
-            if (customer.getAccountID() == accountID){ return customer; }
+            if (customer.getAccountID().equals(accountID)){ return customer; }
         }
 
         for (DTUPayUser merchant : MerchantList){
-            if (merchant.getAccountID() == accountID){ return merchant; }
+            if (merchant.getAccountID().equals(accountID)){ return merchant; }
         }
 
         return null;

@@ -21,7 +21,8 @@ public class AccountService implements IAccountService {
     @Override
     public boolean unregisterAccount(DTUPayUser account) throws IllegalArgumentException {
         try{
-            return AccountList.deleteAccount(account);
+            DTUPayUser accountToDelete = AccountList.searchAccountByID(account.getAccountID());
+            return AccountList.deleteAccount(accountToDelete);
         }
         catch (Exception e) {
             return false;

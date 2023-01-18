@@ -48,7 +48,8 @@ public class AccountManagementService {
         String newAccountId;
 
         newAccountId = accountService.registerAccount(newAccount);
-        if(newAccountId!=null){
+
+        if(!newAccountId.equals("")) {
             finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[]{newAccountId, correlationId});
         }
         else {
@@ -61,39 +62,37 @@ public class AccountManagementService {
     }
 
     public void handleBankAccountIdRequest(Event ev){
-        Event eventCreated;
 
+        Event eventCreated;
         String DTUUserId = ev.getArgument(0,String.class);
         var correlationId= ev.getArgument(1,CorrelationId.class);
 
-        try{
+        try {
 
             var userAccount= accountService.getAccount(DTUUserId);
             var bankAccountId=userAccount.getBankID();
             eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_SUCCESS, new Object[] {bankAccountId, correlationId});
         }
         catch (Exception e) {
-            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_FAILED,new Object[] { e.getMessage(),correlationId});
+
+            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_FAILED,new Object[] { "",correlationId});
         }
         queue.publish(eventCreated);
     }
 
     public void handleUnregisterAccountRequest(Event ev){
         Event eventCreated;
-        var unregisterAccount = ev.getArgument(0, DTUPayUser.class);
+        var accountToUnregister = ev.getArgument(0, DTUPayUser.class);
         var correlationId= ev.getArgument(1,CorrelationId.class);
-        try{
-            boolean accountDeleted =  accountService.unregisterAccount(unregisterAccount);
-            if(accountDeleted){
-                eventCreated = new Event(EventTypes.UNREGISTER_ACCOUNT_SUCCESS,new Object[] {true,correlationId});
-            }
-            else{
-                eventCreated = new Event(EventTypes.UNREGISTER_ACCOUNT_NOT_EXIST,new Object[] {false,correlationId });
-            }
+
+        boolean accountDeleted =  accountService.unregisterAccount(accountToUnregister);
+        if(accountDeleted){
+            eventCreated = new Event(EventTypes.UNREGISTER_ACCOUNT_SUCCESS,new Object[] {true,correlationId});
         }
-        catch (Exception e){
-            eventCreated = new Event(EventTypes.UNREGISTER_ACCOUNT_FAILED,new Object[] {e.getMessage(),correlationId});
+        else{
+            eventCreated = new Event(EventTypes.UNREGISTER_ACCOUNT_FAILED,new Object[] {false,correlationId });
         }
+
         queue.publish(eventCreated);
     }
 

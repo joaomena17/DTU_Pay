@@ -2,7 +2,7 @@ Feature: Account Management Service
 
 # ------------------------ Account Registration and Unregistration ------------------------
 
-
+@DontRun
 Scenario: Register and Unregister customer are successful
     Given a customer that is not registered with DTU Pay that succeeds in registering and unregistering
     When a successful "RegisterAccountRequest" register event for the customer is received

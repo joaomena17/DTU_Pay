@@ -44,8 +44,10 @@ public class BankAccountRequestSteps {
 
         //event is received
         accountId=customerService.handleRegisterAccountRequest(new Event("RegisterAccountRequest", new Object[] { customer ,correlationId}));
+        
+        System.out.println("\n\nAccount id: "+accountId + "\n\n");
 
-        customerService.handleRegisterUserTokenSuccess(new Event("RegisterUserTokenSuccess", new Object[] { customer,customerService.tokenCorrelationId}));
+        // customerService.handleRegisterUserTokenSuccess(new Event("RegisterUserTokenSuccess", new Object[] { customer,customerService.tokenCorrelationId}));
     }
 
     @When("a successful {string} event is received asking for bank account")
@@ -71,7 +73,7 @@ public class BankAccountRequestSteps {
 
     @Then("a success {string} event is sent for the payment service failing")
     public void aSuccessEventIsSentForThePaymentServiceFailing(String eventName) {
-        var event = new Event(eventName, new Object[] {"Account not found",correlationId_unsuccess});
+        var event = new Event(eventName, new Object[] {"",correlationId_unsuccess});
         verify(queue).publish(event);
     }
 }

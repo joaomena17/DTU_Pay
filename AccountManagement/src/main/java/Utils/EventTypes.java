@@ -17,7 +17,7 @@ public final class EventTypes {
 
     public static final String BANK_ACCOUNT_ID_REQUEST = "BankAccountIdRequest";
     public static final String BANK_ACCOUNT_ID_SUCCESS = "BankAccountIdRequestCompleted";
-    public static final String BANK_ACCOUNT_ID_FAILED = "BankAccountIdRequestCompleted";
+    public static final String BANK_ACCOUNT_ID_FAILED = "BankAccountIdRequestFailed";
 
     public static final String GET_LIST_ACCOUNTS_REQUEST = "GetListAccountsRequest";
     public static final String GET_LIST_ACCOUNTS_COMPLETED = "GetListAccountsRequestCompleted";
