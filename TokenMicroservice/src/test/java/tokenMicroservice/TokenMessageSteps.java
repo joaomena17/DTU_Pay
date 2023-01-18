@@ -86,7 +86,7 @@ public class TokenMessageSteps {
             }
         };
     }
-
+//Scenario 1
     @Given("A customer is created with the username {string}")
     public void A_customer_is_created_with_the_username(String user) {
         corrId = CorrelationId.randomId();
@@ -99,23 +99,56 @@ public class TokenMessageSteps {
 
     }
 
-
-    @Given("A customer {string} has an account on DTU pay with {int} token")
-    public void A_customer_has_account_and_tokens(String user, Integer number) {
+/// Scenario 2
+    @Given("A customer {string} has an account on DTU pay")
+    public void A_customer_has_account_and_tokens(String user) {
         corrId = CorrelationId.randomId();
-        //service.handleRegisterUserTokenRequest(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{user,corrId}));
-        //service.handleRequestToken(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{user,corrId}));
+        service.handleRegisterUserTokenRequest(new Event(EventTypes.REGISTER_TOKEN_USER,new Object[]{user, corrId}));
     }
 
-    @When("The customer {string} request {int} token")
-    public void The_customer_request_token(String user, Integer number) {
-        tokenRequest = new TokenRequest(user, number);
-        service.handleRequestToken(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{tokenRequest,corrId}));
+    @When("The customer {string} requests {int} tokens")
+    public void The_customer_request_token(String user, int number) {
+        corrId = CorrelationId.randomId();
+        service.handleRequestToken(new Event(EventTypes.REQUEST_TOKEN,new Object[]{user,corrId, number}));
     }
 
-    @Then("Customer {string} does not receive more tokens")
-    public void Customer_does_not_receive_more_tokens(String user) {
+    @Then("Customer {string} he should have {int} tokens")
+    public void Customer_does_not_receive_more_tokens(String user, int number) {
+        assertEquals(number,service.getAllTokensByUser(user).size());
+    }
+
+    @When("The customer {string} requests again {int} tokens")
+    public void The_customer_request_token_again(String user, int number) {
+        corrId = CorrelationId.randomId();
+        //service.handleRequestToken(new Event(EventTypes.REQUEST_TOKEN,new Object[]{service.getTokenByUser(user).tokens.get(0),corrId}));
+
+        service.handleRequestToken(new Event(EventTypes.REQUEST_TOKEN,new Object[]{user,corrId, number}));
+    }
+
+    @Then("Customer {string} he should still have {int} tokens")
+    public void Customer_does_not_receive_more_tokens_still(String user, int number) {
+        assertEquals(number,service.getAllTokensByUser(user).size());
+    }
+/// Scenario 3
+    @Given("A customer {string} has an account on DTU pay with {int} token")
+    public void A_customer_has_account_and_tokens2(String user, int number) {
+        corrId = CorrelationId.randomId();
+        service.handleRegisterUserTokenRequest(new Event(EventTypes.REGISTER_TOKEN_USER,new Object[]{user, corrId}));
+        service.handleRequestToken(new Event(EventTypes.REQUEST_TOKEN, new Object[]{user,corrId, number}));
 
     }
+
+    @When("The customer {string} validates a tokens")
+    public void The_customer_validates_a_token(String user) {
+        corrId = CorrelationId.randomId();
+
+        service.handleValidateToken(new Event(EventTypes.VALIDATE_TOKEN,new Object[]{service.getTokenByUser(user).tokens.get(0),corrId}));
+    }
+
+    @Then("Customer {string} he should have {int} unused tokens")
+    public void check_unused_tokens(String user, int number) {
+        assertEquals(number,service.getAllTokensByUser(user).size());
+    }
+
 
 }

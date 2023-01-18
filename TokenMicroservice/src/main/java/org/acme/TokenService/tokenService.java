@@ -81,10 +81,12 @@ public class tokenService implements interfaceTokenService {
         }
     }
     public void handleRequestToken(Event event){
+        System.out.println("!!!!!!!!");
+        System.out.println(event.toString());
         String customerId = event.getArgument(0,String.class);
-        int number = event.getArgument(2, int.class);
-        TokenRequest tokenRequest = new TokenRequest(customerId, number);
         var corrId = event.getArgument(1, CorrelationId.class);
+        var number = event.getArgument(2, int.class);
+        TokenRequest tokenRequest = new TokenRequest(customerId, number);
         String reqToken = requestTokenMessageQueue(tokenRequest);
         if(reqToken.equals("success")) {
             queue.publish(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{true,corrId}));
