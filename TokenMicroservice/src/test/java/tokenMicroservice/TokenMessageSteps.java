@@ -1,5 +1,6 @@
 package tokenMicroservice;
 
+import Utils.CorrelationId;
 import dtu.ws.fastmoney.*;
 import io.netty.util.concurrent.CompleteFuture;
 import messaging.Event;
@@ -58,6 +59,7 @@ public class TokenMessageSteps {
     private TokenRequest tokenRequest = new TokenRequest();
     private Token token = new Token();
     private CreateUser createUser = new CreateUser();
+    CorrelationId corrId;
 
 
 
@@ -89,7 +91,8 @@ public class TokenMessageSteps {
     @Given("A customer is created with the username {string}")
     public void A_customer_is_created_with_the_username(String user) {
         //service.handleRegisterUserTokenRequest(new Event(new Object[] {user}));
-        service.handleRegisterUserTokenRequest(new Event(EventTypes.REGISTER_TOKEN_USER,new Object[]{user}));
+        corrId = CorrelationId.randomId();
+        service.handleRegisterUserTokenRequest(new Event(EventTypes.REGISTER_TOKEN_USER,new Object[]{user, corrId}));
     }
 
     @Then("a customer with name {string} then exists")
