@@ -115,6 +115,15 @@ public class tokenService implements interfaceTokenService {
         }
         return null;
     }
+    public List<String> getAllTokenByUser(String username) {
+        for(Token t : TokenList) {
+            if (t.user.equals(username)) {
+                return t.tokens;
+            }
+        }
+        return null;
+    }
+
 
 
     public String createRandomString() {
