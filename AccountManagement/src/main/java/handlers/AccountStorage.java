@@ -63,7 +63,7 @@ public class AccountStorage implements IAccountStorage {
             if (merchant.getAccountID() == accountID){ return merchant; }
         }
 
-        throw new IllegalArgumentException("No user found with this accountID");
+        return null;
 
     }
 

@@ -15,7 +15,7 @@ public class AccountService implements IAccountService {
             account.setAccountID(AccountList.getAccountCounter());
             return account.getAccountID();
         }
-        else { throw new IllegalArgumentException("Invalid Account to register at DTU Pay");}
+        else return "";
     }
 
     @Override
@@ -24,15 +24,13 @@ public class AccountService implements IAccountService {
             return AccountList.deleteAccount(account);
         }
         catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
+            return false;
         }
     }
 
     @Override
     public DTUPayUser getAccount(String accountID) throws IllegalArgumentException {
-        DTUPayUser account = AccountList.searchAccountByID(accountID);
-        if (account != null) return account;
-        else throw new IllegalArgumentException("Account not found");
+        return AccountList.searchAccountByID(accountID);
     }
 
     @Override

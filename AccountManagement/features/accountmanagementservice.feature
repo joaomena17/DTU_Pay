@@ -6,20 +6,11 @@ Feature: Account Management Service
 Scenario: Register and Unregister customer are successful
     Given a customer that is not registered with DTU Pay that succeeds in registering and unregistering
     When a successful "RegisterAccountRequest" register event for the customer is received
+    #Then a TokenUserRequest event is sent
     And a successful "RegisterUserTokenSuccess" event is received
     Then a success "RegisterAccountRequestCompleted" event is ssent
     And a successful "UnregisterAccountRequest" unregister event for the customer is received
     And a success "UnregisterAccountSuccess" event is sent
-    """
-@DontRun
-Scenario: Register customer is successful and Unregister customer is unsuccessful
-    Given a customer that is not registered with DTU Pay that succeeds in registering but not unregistering
-    When a successful "RegisterAccountRequest" register event for the customer that cannot unregister is received
-    Then a success "RegisterAccountRequestCompleted" event is sent for the customer that cannot unregister
-    And the customer that cannot unregister is registered
-    And an unsuccessful "UnregisterAccountRequest" unregister event for the registered customer is received
-    And a failure "UnregisterAccountFailed" event is sent to the registered customer
-    And the registered customer is registered"""
 
 @DontRun
 Scenario: Register and Unregister customer are unsuccessful

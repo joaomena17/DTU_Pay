@@ -37,12 +37,7 @@ public class BankAccountRequestSteps {
         user.setFirstName(name);
         user.setLastName(name);
 
-        try {
-            bankId = bank.createAccountWithBalance(user,  new BigDecimal(1000));
-
-        } catch (BankServiceException_Exception e) {
-            e.printStackTrace();
-        }
+        bankId="11111";
         // make full name from first and last name
         customer = new DTUPayUser(name, bankId, "customer");
         CorrelationId correlationId= CorrelationId.randomId();

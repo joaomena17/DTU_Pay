@@ -46,8 +46,9 @@ public class AccountManagementService {
         var newAccount= ev.getArgument(0, DTUPayUser.class);
         var correlationId= ev.getArgument(1,CorrelationId.class);
         String newAccountId;
-        try{
-            newAccountId = accountService.registerAccount(newAccount);
+
+        newAccountId = accountService.registerAccount(newAccount);
+        if(newAccountId!=null){
             tokenCorrelationId= CorrelationId.randomId();
             correlations.put(tokenCorrelationId,new CompletableFuture<>());
             //Create an "RegisterUserTokenRequest" event
@@ -60,14 +61,13 @@ public class AccountManagementService {
             }
             else {
                 accountService.unregisterAccount(newAccount);
-                throw new IllegalArgumentException("Error requesting to register user token");
-            }
-        }catch (Exception e){
+                // Create an "AccountRegistrationFailed" event
+                finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED, new Object[]{e.getMessage(), correlationId});
 
-            System.out.println(String.format("Exception: %s", e.getMessage()));
+            }
+        }else {
             // Create an "AccountRegistrationFailed" event
-            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED,new Object[] {e.getMessage(),correlationId});
-            newAccountId="";
+            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED, new Object[]{e.getMessage(), correlationId});
         }
         queue.publish(finalEventCreated);
         return newAccountId;
@@ -141,10 +141,8 @@ public class AccountManagementService {
         queue.publish(eventCreated);
     }
     public void handleRegisterUserTokenSuccess(Event ev) {
-        System.out.println("PENULTIMO HANDLE");
         var success = ev.getArgument(0, boolean.class);
         var correlationId = ev.getArgument(1, CorrelationId.class);
-        System.out.println(String.format("PENULTIMO HANDLE CORR ID: %s", correlationId));
         correlations.get(correlationId).complete(success);
     }
     public void handleRegisterUserTokenFailed(Event ev) {
