@@ -30,21 +30,23 @@ public class reportsStep {
 
     public reportsStep() {
     }
-    @Given("there is a registered payment of {int} kr with customer {string} and merchant {string}")
-    public void thereIsARegisteredPaymentOfKrWithCustomerAndMerchant(int amount, String cid, String mid) {
+    @Given("there is a registered payment of {int} kr with customer {string} and merchant {string} with token {string}")
+    public void thereIsARegisteredPaymentOfKrWithCustomerAndMerchant(int amount, String cid, String mid, String tok) {
         p = new PaymentReport();
         p.cid = cid;
         p.mid = mid;
         p.amount = BigDecimal.valueOf(amount);
+        p.customerToken = tok;
         repo.addPayment(p);
     }
 
-    @Given("there is an unregistered payment of {int} kr with customer {string} and merchant {string}")
-    public void thereIsAnUnregisteredPaymentOfKrWithCustomerAndMerchant(int amount, String cid, String mid) {
+    @Given("there is an unregistered payment of {int} kr with customer {string} and merchant {string} with token {string}")
+    public void thereIsAnUnregisteredPaymentOfKrWithCustomerAndMerchant(int amount, String cid, String mid, String tok) {
         p = new PaymentReport();
         p.cid = cid;
         p.mid = mid;
         p.amount = BigDecimal.valueOf(amount);
+        p.customerToken = tok;
     }
 
     @When("a {string} event is received for customer report")
@@ -65,12 +67,12 @@ public class reportsStep {
         service.handleManagerReport(new Event(eventType, new Object[] {corrId}));
     }
 
-
     @When("a {string} event is received to complete a payment")
-    public void aEventIsReceived(String eventType) {
+    public void aEventIsReceivedToCompleteAPayment(String eventType) {
         Payment payment = new Payment();
         payment.setAmount(p.amount);
         payment.setMerchantBankID(p.mid);
+        payment.setCustomerToken(p.customerToken);
         service.handlePaymentRegisterEvent(new Event(eventType, new Object[] {payment,p.cid}));
     }
 
@@ -89,15 +91,14 @@ public class reportsStep {
     @Then("the report is created containing customer {string} and {string}'s payments")
     public void theReportIsCreatedContainingCustomerAndPayments(String cid1, String cid2) {
         var list =  repo.GetAllPayments();
-        assertTrue(list.stream().anyMatch(payment -> payment.cid.equals(cid1)));
-        assertTrue(list.stream().anyMatch(payment -> payment.cid.equals(cid2)));
+        assertTrue(list.stream().allMatch(payment -> payment.cid.equals(cid1) || payment.cid.equals(cid2)));
     }
 
-    @Then("the payment of {int} kr from {string} to {string} is added to the repository")
-    public void thePaymentIsAddedToTheRepository(int amount, String cid, String mid) {
+    @Then("the payment of {int} kr from {string} to {string} with token {string} is added to the repository")
+    public void thePaymentIsAddedToTheRepository(int amount, String cid, String mid, String tok) {
         var list =  repo.GetAllPayments();
         boolean match;
-        match = list.stream().allMatch(payment -> payment.cid.equals(cid) && payment.mid.equals(mid) && payment.amount.equals(BigDecimal.valueOf(amount)));
+        match = list.stream().allMatch(payment -> payment.cid.equals(cid) && payment.mid.equals(mid) && payment.amount.equals(BigDecimal.valueOf(amount)) && payment.customerToken.equals(tok));
         assertTrue(match);
     }
 

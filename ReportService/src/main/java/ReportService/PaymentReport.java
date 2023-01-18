@@ -19,7 +19,7 @@ public class PaymentReport {
        pr.cid = cid;
        pr.mid = p.getMerchantBankID();
        pr.amount = p.getAmount();
-       pr.customerToken = pr.customerToken;
+       pr.customerToken = p.getCustomerToken();
        return pr;
    }
 

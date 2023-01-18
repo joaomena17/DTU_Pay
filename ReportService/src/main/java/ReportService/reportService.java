@@ -19,13 +19,13 @@ public class reportService {
         queue.addHandler("generateManagerReport", this::handleManagerReport);
         this.paymentRepo = p;
     }
+
     public void handlePaymentRegisterEvent(Event event){
         var payment = event.getArgument(0, Payment.class);
         var customerId = event.getArgument(1,String.class);
         PaymentReport pr = new PaymentReport();
         pr = pr.paymentToPaymentReport(payment,customerId);
         paymentRepo.addPayment(pr);
-        System.out.println("List has: " + paymentRepo.GetAllPayments().size());
     }
     public void handleCustomerReport(Event event){
         var customerId = event.getArgument(0,String.class);
