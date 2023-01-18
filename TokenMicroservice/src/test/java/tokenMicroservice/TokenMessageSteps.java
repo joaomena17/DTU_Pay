@@ -90,7 +90,6 @@ public class TokenMessageSteps {
 
     @Given("A customer is created with the username {string}")
     public void A_customer_is_created_with_the_username(String user) {
-        //service.handleRegisterUserTokenRequest(new Event(new Object[] {user}));
         corrId = CorrelationId.randomId();
         service.handleRegisterUserTokenRequest(new Event(EventTypes.REGISTER_TOKEN_USER,new Object[]{user, corrId}));
     }
