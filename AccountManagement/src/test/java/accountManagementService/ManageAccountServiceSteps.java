@@ -1,9 +1,11 @@
 package accountManagementService;
 
 import dtu.ws.fastmoney.*;
+import groovy.xml.Entity;
 import services.*;
 import Entities.*;
 import handlers.*;
+import Utils.EventTypes;
 
 // import Utils.CorrelationId;
 
@@ -72,20 +74,23 @@ public class ManageAccountServiceSteps {
 
         correlationId = CorrelationId.randomId();
         Event event = new Event(eventName, new Object[] { customer, correlationId });
-        new Thread(() -> {
-            expected=customerService.handleRegisterAccountRequest(event);
-        }).start();
+        // new Thread(() -> {
+        expected=customerService.handleRegisterAccountRequest(event);
+        // }).start();
     }
-    @And("a successful {string} event is received")
+
+    /* @And("a successful {string} event is received")
     public void a_succsessful_register_event_is_received(String eventName) {
         var tokenCorrId = customerService.tokenCorrelationId;
         Event event = new Event(eventName, new Object[] { true, tokenCorrId });
         customerService.handleRegisterUserTokenSuccess(event);
-    }
+    } */
+
     @Then("a success {string} event is ssent")
     public void a_success_register_event_is_sent(String eventName) {
-        var tokenCorrId = customerService.tokenCorrelationId;
-        var event = new Event(eventName, new Object[] {expected, tokenCorrId});
+
+        // var event = new Event(eventName, new Object[] {expected, correlationId});
+        var event = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[] {expected, correlationId});
         verify(customerService.queue).publish(event);
     }
 

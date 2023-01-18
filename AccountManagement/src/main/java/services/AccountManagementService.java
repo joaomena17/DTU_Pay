@@ -16,7 +16,7 @@ import java.util.Map;
 import messaging.MessageQueue;
 import Entities.DTUPayUser;
 import Utils.EventTypes;
-import Utils.CorrelationId;
+//import Utils.CorrelationId;
 
 public class AccountManagementService {
 
@@ -27,13 +27,13 @@ public class AccountManagementService {
     public CorrelationId tokenCorrelationId ;
     public AccountManagementService(MessageQueue q) {
         this.queue = q;
-        this.queue.addHandler(EventTypes.REGISTER_ACCOUNT_REQUEST, this::handleRegisterAccountRequest);
-        this.queue.addHandler(EventTypes.BANK_ACCOUNT_ID_REQUEST, this::handleBankAccountIdRequest);
-        this.queue.addHandler(EventTypes.UNREGISTER_ACCOUNT_REQUEST, this::handleUnregisterAccountRequest);
-        this.queue.addHandler(EventTypes.GET_ACCOUNT_REQUEST, this::handleGetAccountRequest);
-        this.queue.addHandler(EventTypes.GET_LIST_ACCOUNTS_REQUEST, this::handleGetListAccountsRequest);
-        this.queue.addHandler(EventTypes.REGISTER_USER_TOKEN_SUCCESS, this::handleRegisterUserTokenSuccess);
-        this.queue.addHandler(EventTypes.REGISTER_USER_TOKEN_FAILED, this::handleRegisterUserTokenFailed);
+        q.addHandler(EventTypes.REGISTER_ACCOUNT_REQUEST, this::handleRegisterAccountRequest);
+        q.addHandler(EventTypes.BANK_ACCOUNT_ID_REQUEST, this::handleBankAccountIdRequest);
+        q.addHandler(EventTypes.UNREGISTER_ACCOUNT_REQUEST, this::handleUnregisterAccountRequest);
+        q.addHandler(EventTypes.GET_ACCOUNT_REQUEST, this::handleGetAccountRequest);
+        q.addHandler(EventTypes.GET_LIST_ACCOUNTS_REQUEST, this::handleGetListAccountsRequest);
+        q.addHandler(EventTypes.REGISTER_USER_TOKEN_SUCCESS, this::handleRegisterUserTokenSuccess);
+        q.addHandler(EventTypes.REGISTER_USER_TOKEN_FAILED, this::handleRegisterUserTokenFailed);
 
     }
 
@@ -49,26 +49,13 @@ public class AccountManagementService {
 
         newAccountId = accountService.registerAccount(newAccount);
         if(newAccountId!=null){
-            tokenCorrelationId= CorrelationId.randomId();
-            correlations.put(tokenCorrelationId,new CompletableFuture<>());
-            //Create an "RegisterUserTokenRequest" event
-            Event tokenEventCreated=new Event(EventTypes.REGISTER_USER_TOKEN_REQUEST,new Object[] {newAccountId, tokenCorrelationId});
-            queue.publish(tokenEventCreated);
-
-            if (correlations.get(tokenCorrelationId).join()) {
-                // Create an "AccountRegistrationCompleted" event
-                finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[]{newAccountId, correlationId});
-            }
-            else {
-                accountService.unregisterAccount(newAccount);
-                // Create an "AccountRegistrationFailed" event
-                finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED, new Object[]{e.getMessage(), correlationId});
-
-            }
-        }else {
-            // Create an "AccountRegistrationFailed" event
-            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED, new Object[]{e.getMessage(), correlationId});
+            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[]{newAccountId, correlationId});
         }
+        else {
+            // Create an "AccountRegistrationFailed" event
+            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED, new Object[]{newAccountId, correlationId});
+        }
+
         queue.publish(finalEventCreated);
         return newAccountId;
     }
@@ -142,7 +129,7 @@ public class AccountManagementService {
     }
     public void handleRegisterUserTokenSuccess(Event ev) {
         var success = ev.getArgument(0, boolean.class);
-        var correlationId = ev.getArgument(1, CorrelationId.class);
+        var correlationId = ev.getArgument(1, CorrelationId.class);        
         correlations.get(correlationId).complete(success);
     }
     public void handleRegisterUserTokenFailed(Event ev) {

@@ -36,9 +36,6 @@ public class ManageAccountUnitSteps {
     @Given("a customer with name {string} {string} and bank account with balance {int}")
     public void a_customer_with_name_and_bank_id(String firstName, String lastName, int balance) {
 
-        /* DEBUG */
-        System.out.println("DEBUG: \n\n!!!!!!!!!!!\n\n");
-
         user.setCprNumber("28719-1234");
         user.setFirstName(firstName);
         user.setLastName(lastName);

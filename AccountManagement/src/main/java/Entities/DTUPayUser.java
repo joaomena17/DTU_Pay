@@ -33,8 +33,6 @@ public class DTUPayUser {
 
     public String getRole() { return this._userRole; }
     public boolean validAccount(){
-        BankService bank = new BankServiceService().getBankServicePort();
-        List<AccountInfo> bankAccounts = bank.getAccounts();
         if(!this._userRole.equals("customer") && !this._userRole.equals("merchant")) return false;
         if(this._name.equals("")) return false;
         return true;

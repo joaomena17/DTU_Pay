@@ -7,7 +7,7 @@ Scenario: Register and Unregister customer are successful
     Given a customer that is not registered with DTU Pay that succeeds in registering and unregistering
     When a successful "RegisterAccountRequest" register event for the customer is received
     #Then a TokenUserRequest event is sent
-    And a successful "RegisterUserTokenSuccess" event is received
+    #And a successful "RegisterUserTokenSuccess" event is received
     Then a success "RegisterAccountRequestCompleted" event is ssent
     And a successful "UnregisterAccountRequest" unregister event for the customer is received
     And a success "UnregisterAccountSuccess" event is sent

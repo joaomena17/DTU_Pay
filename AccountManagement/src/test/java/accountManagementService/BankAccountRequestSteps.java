@@ -1,7 +1,7 @@
 package accountManagementService;
 
 import Entities.DTUPayUser;
-import Utils.CorrelationId;
+//import Utils.CorrelationId;
 import dtu.ws.fastmoney.BankService;
 import dtu.ws.fastmoney.BankServiceException_Exception;
 import dtu.ws.fastmoney.BankServiceService;
