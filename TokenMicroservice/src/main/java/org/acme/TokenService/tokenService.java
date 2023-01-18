@@ -4,7 +4,6 @@ import Utils.CorrelationId;
 import messaging.Event;
 import messaging.MessageQueue;
 import org.acme.CreateUser;
-import org.acme.Repository.TokenRepository;
 import org.acme.RequestSingleToken;
 import org.acme.Token;
 import org.acme.TokenRequest;
@@ -15,12 +14,32 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import java.util.Random;
 
-public class tokenService {
-    private TokenRepository tokenRepository;
+public class tokenService implements interfaceTokenService {
     private RequestSingleToken requestSingleToken;
     MessageQueue queue;
     private List<String> usedTokens = new ArrayList<String>();
     private List<Token> TokenList = new ArrayList<Token>();
+    private interfaceTokenService interfaceTokenService = new interfaceTokenService() {
+        @Override
+        public boolean registerUser(String user) {
+            return false;
+        }
+
+        @Override
+        public String validateToken(String t) {
+            return null;
+        }
+
+        @Override
+        public String getSingleToken(RequestSingleToken t) {
+            return null;
+        }
+
+        @Override
+        public String requestTokenMessageQueue(TokenRequest tokenRequest) {
+            return null;
+        }
+    };
 
     public List<Token> getTokenList() {
         return TokenList;
@@ -76,13 +95,13 @@ public class tokenService {
     }
 
 
-    public tokenService(MessageQueue mq, TokenRepository p) {
+    public tokenService(MessageQueue mq, interfaceTokenService p) {
         queue = mq;
         queue.addHandler(EventTypes.REGISTER_TOKEN_USER,this::handleRegisterUserTokenRequest);
         queue.addHandler(EventTypes.VALIDATE_TOKEN, this::handleValidateToken);
         queue.addHandler(EventTypes.GET_TOKEN, this::handleGetToken);
         queue.addHandler(EventTypes.REQUEST_TOKEN,this::handleRequestToken);
-        this.tokenRepository = p;
+        this.interfaceTokenService = p;
     }
     public tokenService() {
 
@@ -135,6 +154,7 @@ public class tokenService {
         return Response.ok().build();
     }
 
+    @Override
     public boolean registerUser(String user){
         System.out.println("Creating user");
         if(doesUserExist(user)){
@@ -156,7 +176,7 @@ public class tokenService {
         }
         return false;
     }
-
+    @Override
     public String validateToken(String t){
         String userFound = "";
 
@@ -189,6 +209,7 @@ public class tokenService {
         }
         return Response.status(Response.Status.PRECONDITION_FAILED).entity("412, user does not have any tokens").build();
     }
+    @Override
     public String getSingleToken(RequestSingleToken t){
         if(doesUserExist(t.user) == false){
             System.out.println("User does not exists");
@@ -205,7 +226,6 @@ public class tokenService {
         }
         return "error";
     }
-
 
     public Response deleteToken(RequestSingleToken t){
         if(doesUserExist(t.user) == false){
@@ -229,7 +249,7 @@ public class tokenService {
         }
         return Response.status(Response.Status.PRECONDITION_FAILED).entity("Error").build();
     }
-
+    @Override
     public String requestTokenMessageQueue(TokenRequest tokenRequest) {
         //doesUserExist(tokenRequest.user);
         if(doesUserExist(tokenRequest.user) == false){

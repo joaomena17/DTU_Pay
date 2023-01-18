@@ -21,7 +21,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.acme.CreateUser;
-import org.acme.Repository.TokenRepository;
 import org.acme.RequestSingleToken;
 import org.acme.Token;
 import org.acme.TokenRequest;
@@ -34,7 +33,7 @@ import java.util.function.Consumer;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-
+import org.acme.TokenService.interfaceTokenService;
 import org.junit.Test;
 
 
@@ -54,15 +53,37 @@ public class TokenMessageSteps {
 
     private MessageQueue queue = mock(MessageQueue.class);
 
-    private TokenRepository repo = new TokenRepository();
-    private tokenService service = new tokenService(queue, repo);
+    private interfaceTokenService interfaceTokenService;
+    private tokenService service = new tokenService(queue, interfaceTokenService);
     private TokenRequest tokenRequest = new TokenRequest();
     private Token token = new Token();
     private CreateUser createUser = new CreateUser();
 
 
 
-    public TokenMessageSteps() {}
+    public TokenMessageSteps() {
+        interfaceTokenService = new interfaceTokenService() {
+            @Override
+            public boolean registerUser(String user) {
+                return false;
+            }
+
+            @Override
+            public String validateToken(String t) {
+                return null;
+            }
+
+            @Override
+            public String getSingleToken(RequestSingleToken t) {
+                return null;
+            }
+
+            @Override
+            public String requestTokenMessageQueue(TokenRequest tokenRequest) {
+                return null;
+            }
+        };
+    }
 
 
     @Given("A customer is created with the username {string}")

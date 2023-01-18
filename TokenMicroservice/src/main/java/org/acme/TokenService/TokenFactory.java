@@ -1,6 +1,7 @@
 package org.acme.TokenService;
 import messaging.implementations.RabbitMqQueue;
-import org.acme.Repository.TokenRepository;
+import org.acme.RequestSingleToken;
+import org.acme.TokenRequest;
 
 //Copied from studentregistration example, perhaps change
 public class TokenFactory {
@@ -24,7 +25,27 @@ public class TokenFactory {
         // At the end, we can use the PaymentService in tests
         // without sending actual messages to RabbitMq.
         var mq = new RabbitMqQueue("rabbitMq");
-        var repo = new TokenRepository();
+        var repo = new interfaceTokenService() {
+            @Override
+            public boolean registerUser(String user) {
+                return false;
+            }
+
+            @Override
+            public String validateToken(String t) {
+                return null;
+            }
+
+            @Override
+            public String getSingleToken(RequestSingleToken t) {
+                return null;
+            }
+
+            @Override
+            public String requestTokenMessageQueue(TokenRequest tokenRequest) {
+                return null;
+            }
+        };
         service = new tokenService(mq,repo);
 //		new StudentRegistrationServiceAdapter(service, mq);
         return service;
