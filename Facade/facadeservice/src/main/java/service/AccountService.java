@@ -12,7 +12,8 @@ import messaging.MessageQueue;
 public class AccountService {
 
     private MessageQueue queue;
-    private Map<CorrelationID, CompletableFuture<DTUPayUser>> correlations = new ConcurrentHashMap<>();
+    private Map<CorrelationID, CompletableFuture<String>> correlationsRegister = new ConcurrentHashMap<>();
+    private Map<CorrelationID, CompletableFuture<Boolean>> correlationsUnregister = new ConcurrentHashMap<>();
 
     public AccountService(MessageQueue q){
         this.queue = q;
@@ -23,48 +24,48 @@ public class AccountService {
         this.queue.addHandler(EventTypes.UNREGISTER_ACCOUNT_NOT_EXIST, this::handleAccountDeleteNotExist);
     }
 
-    public DTUPayUser requestAccountRegister(DTUPayUser user){
+    public String requestAccountRegister(DTUPayUser user){ //change
         var correlationID = utils.CorrelationID.randomID();
-        correlations.put(correlationID, new CompletableFuture<>());
+        correlationsRegister.put(correlationID, new CompletableFuture<>());
         Event event = new Event(EventTypes.REGISTER_ACCOUNT_REQUEST, new Object[]{ user, correlationID });
         queue.publish(event);
-        return correlations.get(correlationID).join();
+        return correlationsRegister.get(correlationID).join();
     }
     public void handleAccountRegistrationCompleted(Event event){
-        var user = event.getArgument(0, DTUPayUser.class);
+        var userID = event.getArgument(0, String.class);
         var correlationID = event.getArgument(1, CorrelationID.class);
-        correlations.get(correlationID).complete(user);
+        correlationsRegister.get(correlationID).complete(userID);
     }
 
     public void handleAccountRegistrationFailed(Event event){
-        var user = event.getArgument(0, DTUPayUser.class);
+        var userID = event.getArgument(0, String.class);
         var correlationID = event.getArgument(1, CorrelationID.class);
-        correlations.get(correlationID).complete(user);
+        correlationsRegister.get(correlationID).complete(userID);
     }
 
-    public DTUPayUser requestAccountDelete(DTUPayUser user){
+    public Boolean requestAccountDelete(DTUPayUser user){
         var correlationID = utils.CorrelationID.randomID();
-        correlations.put(correlationID, new CompletableFuture<>());
+        correlationsUnregister.put(correlationID, new CompletableFuture<>());
         Event event = new Event(EventTypes.UNREGISTER_ACCOUNT_REQUEST, new Object[]{ user, correlationID });
         queue.publish(event);
-        return correlations.get(correlationID).join();
+        return correlationsUnregister.get(correlationID).join();
     }
 
     public void handleAccountDeleteSuccess(Event event){
-        var user = event.getArgument(0, DTUPayUser.class);
+        var result = event.getArgument(0, Boolean.class);
         var correlationID = event.getArgument(1, CorrelationID.class);
-        correlations.get(correlationID).complete(user);
+        correlationsUnregister.get(correlationID).complete(result);
     }
 
     public void handleAccountDeleteFailed(Event event){
-        var user = event.getArgument(0, DTUPayUser.class);
+        var result = event.getArgument(0, Boolean.class);
         var correlationID = event.getArgument(1, CorrelationID.class);
-        correlations.get(correlationID).complete(user);
+        correlationsUnregister.get(correlationID).complete(result);
     }
 
     public void handleAccountDeleteNotExist(Event event){
-        var user = event.getArgument(0, DTUPayUser.class);
+        var result = event.getArgument(0, Boolean.class);
         var correlationID = event.getArgument(1, CorrelationID.class);
-        correlations.get(correlationID).complete(user);
+        correlationsUnregister.get(correlationID).complete(result);
     }
 }

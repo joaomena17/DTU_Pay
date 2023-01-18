@@ -29,12 +29,12 @@ public class MerchantResource {
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void registerMerchant(DTUPayUser merchant){ service.requestAccountRegister(merchant);
+    public String registerMerchant(DTUPayUser merchant){ return service.requestAccountRegister(merchant);
     }
 
     @POST
     @Path("/unregister")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void unregisterMerchant(DTUPayUser merchant){ service.requestAccountDelete(merchant);
+    public Boolean unregisterMerchant(DTUPayUser merchant){ return service.requestAccountDelete(merchant);
     }
 }

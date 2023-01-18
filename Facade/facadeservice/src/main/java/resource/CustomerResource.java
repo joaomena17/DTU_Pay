@@ -28,14 +28,14 @@ public class CustomerResource {
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
-    public DTUPayUser registerCustomer(DTUPayUser customer){
+    public String registerCustomer(DTUPayUser customer){
         return service.requestAccountRegister(customer);
     }
 
     @POST
     @Path("/unregister")
     @Consumes(MediaType.APPLICATION_JSON)
-    public DTUPayUser unregisterCustomer(DTUPayUser customer){
+    public Boolean unregisterCustomer(DTUPayUser customer){
         return service.requestAccountDelete(customer);
     }
 }
