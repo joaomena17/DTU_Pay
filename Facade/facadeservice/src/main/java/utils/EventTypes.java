@@ -20,4 +20,10 @@ public class EventTypes {
     // Token Service Events
 
     // Report Service Events
+    public static final String MERCHANT_REPORT_RETURN = "MerchantReportReturnEvent";
+    public static final String CUSTOMER_REPORT_RETURN = "CustomerReportReturnEvent";
+    public static final String MANAGER_REPORT_RETURN = "ManagarReportReturnEvent";
+    public static final String REQUEST_MERCHANT_REPORT = "generateMerchantReport";
+    public static final String REQUEST_MANAGER_REPORT = "generateManagerReport";
+    public static final String REQUEST_CUSTOMER_REPORT = "generateCustomerReport";
 }

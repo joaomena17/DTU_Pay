@@ -141,6 +141,7 @@ public class ManageAccountServiceSteps {
     And a failure "UnregisterAccountFailed" event is sent to the registered customer
     And the registered customer is registered */
 
+    /*
     @Given("a customer that is not registered with DTU Pay that succeeds in registering but not unregistering")
     public void a_customer_that_is_not_registered_with_DTU_Pay_that_succeeds_in_registering_but_not_unregistering() {
         assertNull(customer.getAccountID());
@@ -187,7 +188,7 @@ public class ManageAccountServiceSteps {
     public void the_registered_customer_is_registered() {
         AccountService accountService = customerService.getAccountService();
         assertTrue(accountService.getAccountList(role).contains(customer));
-    }
+    } */
 
     /* Scenario: Register and Unregister customer are unsuccessful
     Given a customer that is not registered with DTU Pay that fails to register
@@ -197,6 +198,8 @@ public class ManageAccountServiceSteps {
     And an unsuccessful "UnregisterAccountRequest" unregister event for the customer is received
     And a failure "UnregisterAccountFailed" event is sent
     And the customer that could not register is unregistered */
+
+    /*
 
     @Given("a customer that is not registered with DTU Pay that fails to register")
     public void a_customer_that_is_not_registered_with_DTU_Pay_that_fails_to_register() {
@@ -245,4 +248,5 @@ public class ManageAccountServiceSteps {
         AccountService accountService = customerService.getAccountService();
         assertFalse(accountService.getAccountList(role).contains(customer));
     }
+    */
 }

@@ -18,9 +18,9 @@ public class ReportService {
 
     public ReportService(MessageQueue q){
         this.queue = q;
-        this.queue.addHandler("MerchantReportReturnEvent", this::handleMerchantReport);
-        this.queue.addHandler("ManagerReportReturnEvent", this::handleManagerReport);
-        this.queue.addHandler("CustomerReportReturnEvent", this::handleCustomerReport);
+        this.queue.addHandler(EventTypes.MERCHANT_REPORT_RETURN, this::handleMerchantReport);
+        this.queue.addHandler(EventTypes.MANAGER_REPORT_RETURN, this::handleManagerReport);
+        this.queue.addHandler(EventTypes.CUSTOMER_REPORT_RETURN, this::handleCustomerReport);
 
     }
 
@@ -45,21 +45,21 @@ public class ReportService {
     public List<PaymentReport> requestCustomerReport(String cid){
         var correlationID = CorrelationID.randomID();
         correlations.put(correlationID, new CompletableFuture<>());
-        Event event = new Event("generateCustomerReport", new Object[] { cid, correlationID });
+        Event event = new Event(EventTypes.REQUEST_CUSTOMER_REPORT, new Object[] { cid, correlationID });
         queue.publish(event);
         return correlations.get(correlationID).join();
     }
     public List<PaymentReport> requestMerchantReport(String mid){
         var correlationID = CorrelationID.randomID();
         correlations.put(correlationID, new CompletableFuture<>());
-        Event event = new Event("generateMerchantReport", new Object[] { mid, correlationID });
+        Event event = new Event(EventTypes.REQUEST_MERCHANT_REPORT, new Object[] { mid, correlationID });
         queue.publish(event);
         return correlations.get(correlationID).join();
     }
     public List<PaymentReport> requestManagerReport(){
         var correlationID = CorrelationID.randomID();
         correlations.put(correlationID, new CompletableFuture<>());
-        Event event = new Event("generateManagerReport", new Object[] {correlationID });
+        Event event = new Event(EventTypes.REQUEST_MANAGER_REPORT, new Object[] {correlationID });
         queue.publish(event);
         return correlations.get(correlationID).join();
     }
