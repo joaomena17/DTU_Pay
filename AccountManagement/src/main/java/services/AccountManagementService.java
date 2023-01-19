@@ -61,25 +61,6 @@ public class AccountManagementService {
         return newAccountId;
     }
 
-    public void handleBankAccountIdRequest(Event ev){
-
-        Event eventCreated;
-        String DTUUserId = ev.getArgument(0,String.class);
-        var correlationId= ev.getArgument(1,CorrelationId.class);
-
-        try {
-
-            var userAccount= accountService.getAccount(DTUUserId);
-            var bankAccountId=userAccount.getBankID();
-            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_SUCCESS, new Object[] {bankAccountId, correlationId});
-        }
-        catch (Exception e) {
-
-            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_FAILED,new Object[] { "",correlationId});
-        }
-        queue.publish(eventCreated);
-    }
-
     public void handleUnregisterAccountRequest(Event ev){
         Event eventCreated;
         var accountToUnregister = ev.getArgument(0, DTUPayUser.class);
@@ -126,11 +107,32 @@ public class AccountManagementService {
         }
         queue.publish(eventCreated);
     }
+
+    public void handleBankAccountIdRequest(Event ev){
+
+        Event eventCreated;
+        String DTUUserId = ev.getArgument(0,String.class);
+        var correlationId= ev.getArgument(1,CorrelationId.class);
+
+        try {
+
+            var userAccount= accountService.getAccount(DTUUserId);
+            var bankAccountId=userAccount.getBankID();
+            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_SUCCESS, new Object[] {bankAccountId, correlationId});
+        }
+        catch (Exception e) {
+
+            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_FAILED,new Object[] { "",correlationId});
+        }
+        queue.publish(eventCreated);
+    }
+
     public void handleRegisterUserTokenSuccess(Event ev) {
         var success = ev.getArgument(0, boolean.class);
         var correlationId = ev.getArgument(1, CorrelationId.class);        
         correlations.get(correlationId).complete(success);
     }
+    
     public void handleRegisterUserTokenFailed(Event ev) {
         var success = ev.getArgument(0, boolean.class);
         var correlationId = ev.getArgument(1, CorrelationId.class);

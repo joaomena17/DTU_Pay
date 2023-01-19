@@ -12,7 +12,7 @@ Scenario: Register and Unregister customer are successful
     And a successful "UnregisterAccountRequest" unregister event for the customer is received
     And a success "UnregisterAccountSuccess" event is sent
 
-@DontRun
+
 Scenario: Register and Unregister customer are unsuccessful
     Given a customer that is not registered with DTU Pay that fails to register
     When an unsuccessful "RegisterAccountRequest" register event for the customer is received
@@ -22,13 +22,13 @@ Scenario: Register and Unregister customer are unsuccessful
 
 # ------------------------ Bank Account Request------------------------
 
-@DontRun
+
 Scenario: Bank Account Request is successful
     Given a user called "Tiago" is registered at DTU Pay
     When a successful "BankAccountIdRequest" event is received asking for bank account
     Then a success "BankAccountIdRequestCompleted" event is sent for the payment service
 
-@DontRun
+
 Scenario: Bank Account Request is unsuccessful
     When a unsuccessful "BankAccountIdRequest" event is received asking for a not existing bank account
     Then a success "BankAccountIdRequestFailed" event is sent for the payment service failing
