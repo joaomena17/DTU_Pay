@@ -28,7 +28,6 @@ public class CustomerPort {
             throws Exception  {
         System.out.println("REGISTER CUSTOMER CLIENT");
             Response response = baseUrl.path("register").request().post(Entity.entity(customer, MediaType.APPLICATION_JSON));
-
         if (response.getStatus() != 201) {
             throw new Exception(response.readEntity(String.class));
         }
