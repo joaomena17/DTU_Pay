@@ -1,30 +1,16 @@
 package tokenMicroservice;
-import dtu.ws.fastmoney.*;
-import org.acme.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.Assert.*;
-import java.util.ArrayList;
-import java.util.List;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.After;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.acme.CreateUser;
-import org.acme.RequestSingleToken;
 import org.acme.Token;
-import org.acme.TokenRequest;
 import org.acme.TokenService.tokenService;
-import org.junit.Test;
-import java.math.BigDecimal;
-import static org.junit.Assert.*;
-import org.junit.Test;
 
 /* Scenario: Customer requests token successfully
     Given a customer {string} creates an account on DTU PAY and the token micro service creates him as a user
@@ -46,17 +32,13 @@ import org.junit.Test;
 public class RequestAndUseTokensSteps {
 
     private Token token = new Token();
-    private CreateUser createUser = new CreateUser();
     private tokenService service = new tokenService();
-    //private String requestSingleToken = new RequestSingleToken();
-    private TokenRequest tokenRequest = new TokenRequest();
 
 
     //Scenario 1
     @Given("a customer {string} creates an account on DTU PAY and the token micro service creates him as a user")
     public void a_customer_creates_an_account_on_dtu_pay_and_the_token_micro_service_creates_him_as_a_user(String username) {
-        createUser = new CreateUser(username);
-        service.registerUser(createUser.user);
+        service.registerUser(username);
         //Check if user was created
         assertTrue(service.doesUserExist(username));
     }
@@ -89,9 +71,7 @@ public class RequestAndUseTokensSteps {
 
     @When("the customer {string} request {int} token")
     public void the_customer_request_token(String user, Integer number) {
-        createUser = new CreateUser(user);
-        service.registerUser(createUser.user);
-        tokenRequest = new TokenRequest(user, number);
+        service.registerUser(user);
         service.requestTokenMessageQueue(user, number);
     }
 
@@ -125,9 +105,7 @@ public class RequestAndUseTokensSteps {
     //Scenario 4
     @Given("Customer {string} creates a new account")
     public void Customer_John_Doe_has_an_account_and_1_tokens(String user) {
-        createUser = new CreateUser(user);
-        service.registerUser(createUser.user);
-        //Check if user was created
+        service.registerUser(user);
         assertTrue(service.doesUserExist(user));
     }
     @Then("The customer {string} requests {int} new token")

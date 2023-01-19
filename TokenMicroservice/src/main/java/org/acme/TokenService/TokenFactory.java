@@ -1,7 +1,5 @@
 package org.acme.TokenService;
 import messaging.implementations.RabbitMqQueue;
-import org.acme.RequestSingleToken;
-import org.acme.TokenRequest;
 
 //Copied from studentregistration example, perhaps change
 public class TokenFactory {
