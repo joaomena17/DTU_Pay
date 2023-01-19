@@ -22,12 +22,13 @@ public class PaymentService {
         this.queue.addHandler(EventTypes.PAYMENT_FAILED, this::handlePaymentFailure);
     }
 
-    public void requestPayment(Payment payment){
+    public Boolean requestPayment(Payment payment){
         var correlationID = CorrelationID.randomID();
         correlations.put(correlationID, new CompletableFuture<>());
         Event event = new Event(EventTypes.PAYMENT_REQUEST, new Object[] { payment, correlationID });
         queue.publish(event);
         correlations.get(correlationID).join();
+        return true;
     }
 
     public void handlePaymentSuccess(Event e){

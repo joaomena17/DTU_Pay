@@ -20,10 +20,10 @@ public class TokenService {
         this.queue.addHandler(EventTypes.REQUEST_TOKEN_FAILED, this::handleRequestTokensFail);
     }
 
-    public String customerTokensRequest(String cid){
+    public String customerTokensRequest(String cid, int amount){
         var correlationID = CorrelationID.randomID();
         correlations.put(correlationID, new CompletableFuture<>());
-        Event event = new Event(EventTypes.REQUEST_TOKEN, new Object[] { cid, correlationID });
+        Event event = new Event(EventTypes.REQUEST_TOKEN, new Object[] { cid, correlationID, amount });
         queue.publish(event);
         return correlations.get(correlationID).join();
     }

@@ -2,6 +2,7 @@ package resource;
 
 import entities.DTUPayUser;
 import entities.PaymentReport;
+import entities.TokenRequest;
 import service.AccountService;
 import service.TokenService;
 import service.ReportService;
@@ -32,8 +33,8 @@ public class CustomerResource {
     @GET
     @Path("/getTokens")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getCustomerTokens(String customerID){
-        return tokenService.customerTokensRequest(customerID);
+    public String getCustomerTokens(TokenRequest request){
+        return tokenService.customerTokensRequest(request.getAccountId(), request.getTokenAmount());
     }
 
     @POST
