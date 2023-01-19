@@ -217,7 +217,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>TokenService.StartUp</mainClass>
+                            <mainClass>org.acme.TokenService.StartUp</mainClass>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
                     </archive>
