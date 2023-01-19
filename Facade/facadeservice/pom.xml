@@ -37,6 +37,11 @@
                 <version>3.3</version>
                 <scope>compile</scope>
             </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-jersey-jaxrs</artifactId>
+                <version>1.5.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -66,6 +71,17 @@
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-bom</artifactId>
+            <version>${quarkus.platform.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
         </dependency>
 
         <dependency>
@@ -309,6 +325,11 @@
                     <packageName>dtu.ws.fastmoney</packageName>
                     <sourceDestDir>src/main/java</sourceDestDir>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${quarkus.platform.version}</version>
             </plugin>
         </plugins>
     </build>

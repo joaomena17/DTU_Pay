@@ -21,10 +21,9 @@ public class AccountService {
         this.queue.addHandler(EventTypes.REGISTER_ACCOUNT_FAILED, this::handleAccountRegistrationFailed);
         this.queue.addHandler(EventTypes.UNREGISTER_ACCOUNT_SUCCESS, this::handleAccountDeleteSuccess);
         this.queue.addHandler(EventTypes.UNREGISTER_ACCOUNT_FAILED, this::handleAccountDeleteFailed);
-        this.queue.addHandler(EventTypes.UNREGISTER_ACCOUNT_NOT_EXIST, this::handleAccountDeleteNotExist);
     }
 
-    public String requestAccountRegister(DTUPayUser user){ //change
+    public String requestAccountRegister(DTUPayUser user){
         var correlationID = utils.CorrelationID.randomID();
         correlationsRegister.put(correlationID, new CompletableFuture<>());
         Event event = new Event(EventTypes.REGISTER_ACCOUNT_REQUEST, new Object[]{ user, correlationID });
@@ -58,12 +57,6 @@ public class AccountService {
     }
 
     public void handleAccountDeleteFailed(Event event){
-        var result = event.getArgument(0, Boolean.class);
-        var correlationID = event.getArgument(1, CorrelationID.class);
-        correlationsUnregister.get(correlationID).complete(result);
-    }
-
-    public void handleAccountDeleteNotExist(Event event){
         var result = event.getArgument(0, Boolean.class);
         var correlationID = event.getArgument(1, CorrelationID.class);
         correlationsUnregister.get(correlationID).complete(result);

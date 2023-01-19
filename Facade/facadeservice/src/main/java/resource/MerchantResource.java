@@ -1,8 +1,10 @@
 package resource;
 
 import entities.DTUPayUser;
+import entities.Payment;
 import entities.PaymentReport;
 import service.AccountService;
+import service.PaymentService;
 import service.ReportService;
 
 import javax.ws.rs.Consumes;
@@ -18,6 +20,8 @@ public class MerchantResource {
     private AccountService service = new DTUPayFactory().getService().getAccountService();
 
     private ReportService reportService = new DTUPayFactory().getService().getReportService();
+
+    private PaymentService paymentservice = new DTUPayFactory().getService().getPaymentService();
 
     @GET
     @Path("/report")
@@ -37,4 +41,9 @@ public class MerchantResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Boolean unregisterMerchant(DTUPayUser merchant){ return service.requestAccountDelete(merchant);
     }
+
+    @POST
+    @Path("/pay")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void requestPayment(Payment payment){ paymentservice.requestPayment(payment); }
 }

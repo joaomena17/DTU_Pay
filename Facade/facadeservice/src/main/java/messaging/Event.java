@@ -71,4 +71,5 @@ public class Event implements Serializable {
 		
 		return String.format("event(%s,%s)", type,String.join(",", strs));
 	}
+
 }

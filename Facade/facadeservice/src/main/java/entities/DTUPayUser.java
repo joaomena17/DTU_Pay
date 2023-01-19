@@ -1,25 +1,19 @@
 package entities;
 
-import dtu.ws.fastmoney.AccountInfo;
-import dtu.ws.fastmoney.BankService;
-import dtu.ws.fastmoney.BankServiceService;
-
 import java.util.List;
 
 public class DTUPayUser {
+
     private String _name;
     private String _bankID;
-
     private String _userRole;
-
+    private String accountID;
 
     public DTUPayUser(String name, String bankID, String role){
         _name=name;
         _bankID=bankID;
         _userRole=role;
     }
-
-    private String accountID;
 
     public String getName(){
         return this._name;
@@ -39,16 +33,13 @@ public class DTUPayUser {
 
     public String getRole() { return this._userRole; }
     public boolean validAccount(){
-        BankService bank = new BankServiceService().getBankServicePort();
-        List<AccountInfo> bankAccounts = bank.getAccounts();
-
-        for (AccountInfo account : bankAccounts) {
-            if (account.getAccountId().equals(_bankID)) {
-                return true;
-            }
-        }
-
-        return false;
+        if(!this._userRole.equals("customer") && !this._userRole.equals("merchant")) return false;
+        if(this._name.equals("")) return false;
+        return true;
     }
+    public void set_name(String name){ this._name=name;}
+
+
     
+
 }

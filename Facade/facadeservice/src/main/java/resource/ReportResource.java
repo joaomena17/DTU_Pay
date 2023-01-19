@@ -8,6 +8,7 @@ import service.ReportService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class ReportResource {
 
     @GET
     @Path("/report")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<PaymentReport> managerRequestReport( ){
         return reportService.requestManagerReport();
     }
