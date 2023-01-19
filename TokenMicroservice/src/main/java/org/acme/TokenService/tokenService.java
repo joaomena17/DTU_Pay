@@ -95,6 +95,17 @@ public class tokenService implements interfaceTokenService {
         }
 
     }
+    public void handleCustomerTokens(Event event){
+        String customerId = event.getArgument(0,String.class);
+        var corrId = event.getArgument(1, CorrelationId.class);
+        List<String> tokenList = getAllTokensByUser(customerId);
+        if(tokenList !=  null) {
+            queue.publish(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{tokenList,corrId}));
+        }else {
+            queue.publish(new Event(EventTypes.REQUEST_TOKEN_FAILED,new Object[]{"Error",corrId}));
+        }
+
+    }
 
 
     public tokenService(MessageQueue mq, interfaceTokenService p) {
@@ -103,6 +114,8 @@ public class tokenService implements interfaceTokenService {
         queue.addHandler(EventTypes.VALIDATE_TOKEN, this::handleValidateToken);
         queue.addHandler(EventTypes.GET_TOKEN, this::handleGetToken);
         queue.addHandler(EventTypes.REQUEST_TOKEN,this::handleRequestToken);
+        queue.addHandler(EventTypes.CUSTOMER_TOKENS_REQUEST,this::handleCustomerTokens);
+
         this.interfaceTokenService = p;
     }
     public tokenService() {
@@ -264,6 +277,7 @@ public class tokenService implements interfaceTokenService {
     public String requestTokenMessageQueue(TokenRequest tokenRequest) {
         //doesUserExist(tokenRequest.user);
         if(doesUserExist(tokenRequest.user) == false){
+            registerUser(tokenRequest.user);
             System.out.println("User does not exists");
             return "User does not exists";
         }
@@ -303,6 +317,7 @@ public class tokenService implements interfaceTokenService {
     public Response requestToken(TokenRequest tokenRequest) {
         //doesUserExist(tokenRequest.user);
         if(doesUserExist(tokenRequest.user) == false){
+            registerUser(tokenRequest.user);
             System.out.println("User does not exists");
             return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
         }

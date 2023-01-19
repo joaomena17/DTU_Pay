@@ -19,6 +19,11 @@ public final class EventTypes {
         public static final String REQUEST_TOKEN_FAILED = "RequestTokenFailed";
 
 
+        public static final String CUSTOMER_TOKENS_REQUEST = "CustomerTokensRequest";
+        public static final String CUSTOMER_TOKENS_SUCCESS = "CustomerTokensSuccess";
+        public static final String CUSTOMER_TOKENS_FAILED = "CustomerTokensFailed";
+
+
 
 
 
