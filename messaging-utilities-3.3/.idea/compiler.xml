@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="messaging-utilities" />
+        <module name="messaging-utilities-3.3" />
       </profile>
     </annotationProcessing>
   </component>
