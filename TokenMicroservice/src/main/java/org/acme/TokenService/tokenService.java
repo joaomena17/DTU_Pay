@@ -173,18 +173,24 @@ public class tokenService implements interfaceTokenService {
         }
         return false;
     }
+
+    // Checks if token is valid, marks the token as used and returns the user
     @Override
     public String validateToken(String t){
         for(Token tok: TokenList){
-                if(tok.tokens.size()>= 1){
-                    tok.tokens.remove(t);
-                    usedTokens.add(t);
-                    return tok.user;
+            if(tok.tokens.size()>= 1){
+                for(String token : tok.tokens){
+                    if(token.equals(t)){
+                        tok.tokens.remove(t);
+                        usedTokens.add(t);
+                        return tok.user;
+                    }
                 }
+            }
         }
         return "Error";
     }
-
+    // If the user has a valid token then it returns a token
     @Override
     public String getSingleToken(String user){
         if(doesUserExist(user) == false){
@@ -200,7 +206,7 @@ public class tokenService implements interfaceTokenService {
         return "error";
     }
 
-
+    // Used when customers request new tokens
     @Override
     public String requestTokenMessageQueue(String user, int number) {
         //Check if user exists
