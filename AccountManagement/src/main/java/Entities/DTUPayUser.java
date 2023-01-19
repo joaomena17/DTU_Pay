@@ -32,6 +32,7 @@ public class DTUPayUser {
     }
 
     public String getRole() { return this._userRole; }
+    
     public boolean validAccount(){
         if(!this._userRole.equals("customer") && !this._userRole.equals("merchant")) return false;
         if(this._name.equals("")) return false;
