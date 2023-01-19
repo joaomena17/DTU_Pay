@@ -24,9 +24,13 @@ public class CustomerPort {
         baseUrl = client.target("http://localhost:8080/customers");
     }
 
-    public String registerCustomer(String name, String bankId)
+    public String registerCustomer(DTUPayUser customer)
             throws Exception {
+<<<<<<< Updated upstream
         DTUPayUser customer = new DTUPayUser(name, bankId, "customer");
+=======
+
+>>>>>>> Stashed changes
         Response response = baseUrl.path("register").request()
                 .post(Entity.entity(customer, MediaType.APPLICATION_JSON));
 
