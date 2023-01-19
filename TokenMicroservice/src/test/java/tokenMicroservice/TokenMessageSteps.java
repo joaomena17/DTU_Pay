@@ -76,12 +76,12 @@ public class TokenMessageSteps {
             }
 
             @Override
-            public String getSingleToken(RequestSingleToken t) {
+            public String getSingleToken(String user) {
                 return null;
             }
 
             @Override
-            public String requestTokenMessageQueue(TokenRequest tokenRequest) {
+            public String requestTokenMessageQueue(String user, int number) {
                 return null;
             }
         };

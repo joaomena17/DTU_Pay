@@ -8,7 +8,7 @@ public interface interfaceTokenService {
 
     String validateToken(String t);
 
-    String getSingleToken(RequestSingleToken t);
+    String getSingleToken(String user);
 
-    String requestTokenMessageQueue(TokenRequest tokenRequest);
+    String requestTokenMessageQueue(String token, int number);
 }

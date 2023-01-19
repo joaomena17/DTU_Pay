@@ -37,12 +37,12 @@ public class TokenFactory {
             }
 
             @Override
-            public String getSingleToken(RequestSingleToken t) {
+            public String getSingleToken(String t) {
                 return null;
             }
 
             @Override
-            public String requestTokenMessageQueue(TokenRequest tokenRequest) {
+            public String requestTokenMessageQueue(String user, int number) {
                 return null;
             }
         };

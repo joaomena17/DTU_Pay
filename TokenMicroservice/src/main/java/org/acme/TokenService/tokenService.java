@@ -3,7 +3,6 @@ package org.acme.TokenService;
 import Utils.CorrelationId;
 import messaging.Event;
 import messaging.MessageQueue;
-import org.acme.CreateUser;
 import org.acme.RequestSingleToken;
 import org.acme.Token;
 import org.acme.TokenRequest;
@@ -11,11 +10,10 @@ import org.acme.Utils.EventTypes;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.core.Response;
 import java.util.Random;
 
 public class tokenService implements interfaceTokenService {
-    private RequestSingleToken requestSingleToken;
+   // private RequestSingleToken requestSingleToken;
     MessageQueue queue;
     private List<String> usedTokens = new ArrayList<String>();
     private List<Token> TokenList = new ArrayList<Token>();
@@ -31,12 +29,12 @@ public class tokenService implements interfaceTokenService {
         }
 
         @Override
-        public String getSingleToken(RequestSingleToken t) {
+        public String getSingleToken(String user) {
             return null;
         }
 
         @Override
-        public String requestTokenMessageQueue(TokenRequest tokenRequest) {
+        public String requestTokenMessageQueue(String token, int number) {
             return null;
         }
     };
@@ -70,9 +68,8 @@ public class tokenService implements interfaceTokenService {
     }
     public void handleGetToken(Event event){
         String customerId = event.getArgument(0,String.class);
-        RequestSingleToken requestSingleToken = new RequestSingleToken(customerId);
         var corrId = event.getArgument(1, CorrelationId.class);
-        String token = getSingleToken(requestSingleToken);
+        String token = getSingleToken(customerId);
         if (token.equals("error")){
             queue.publish(new Event(EventTypes.GET_TOKEN_FAILED,new Object[]{false,corrId}));
         }
@@ -81,13 +78,10 @@ public class tokenService implements interfaceTokenService {
         }
     }
     public void handleRequestToken(Event event){
-        System.out.println("!!!!!!!!");
-        System.out.println(event.toString());
         String customerId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1, CorrelationId.class);
         var number = event.getArgument(2, int.class);
-        TokenRequest tokenRequest = new TokenRequest(customerId, number);
-        String reqToken = requestTokenMessageQueue(tokenRequest);
+        String reqToken = requestTokenMessageQueue(customerId, number);
         if(reqToken.equals("success")) {
             queue.publish(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{true,corrId}));
         }else {
@@ -123,7 +117,6 @@ public class tokenService implements interfaceTokenService {
     }
     public Token getTokenByUser(String username) {
         for(Token t : TokenList) {
-            System.out.println(t.user);
             if (t.user.equals(username)) {
                 return t;
             }
@@ -138,9 +131,6 @@ public class tokenService implements interfaceTokenService {
         }
         return null;
     }
-
-
-
     public String createRandomString() {
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
         String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz-_";
@@ -155,7 +145,6 @@ public class tokenService implements interfaceTokenService {
             sb.append(randomChar);
         }
         String randomString = sb.toString();
-        System.out.println("Random String is: " + randomString);
         return randomString;
     }
     public String createRandomToken() {
@@ -166,23 +155,9 @@ public class tokenService implements interfaceTokenService {
         return newToken;
     }
 
-    public Response createUser(CreateUser t){
-        System.out.println("Creating user");
-        if(doesUserExist(t.user)){
-            System.out.println("User Already exists");
-            return Response.status(Response.Status.PRECONDITION_FAILED).entity("User already exists").build();
-        }
-        List<String> emptyList = new ArrayList<String>();
-        Token token = new Token(t.user, emptyList);
-        TokenList.add(token);
-        return Response.ok().build();
-    }
-
     @Override
     public boolean registerUser(String user){
-        System.out.println("Creating user");
         if(doesUserExist(user)){
-            System.out.println("User Already exists");
             return false;
         }
         List<String> emptyList = new ArrayList<String>();
@@ -191,9 +166,7 @@ public class tokenService implements interfaceTokenService {
         return true;
     }
     public boolean doesUserExist(String username){
-        System.out.println(username);
         for(Token t : TokenList) {
-            System.out.println(t.user);
             if (t.user.equals(username)) {
                 return true;
             }
@@ -202,48 +175,24 @@ public class tokenService implements interfaceTokenService {
     }
     @Override
     public String validateToken(String t){
-        String userFound = "";
-
         for(Token tok: TokenList){
-
                 if(tok.tokens.size()>= 1){
-                    System.out.println("Token found:");
-                    System.out.println(tok.tokens.get(0));
                     tok.tokens.remove(t);
                     usedTokens.add(t);
                     return tok.user;
                 }
-
         }
         return "Error";
     }
-    public Response requestSingleToken(RequestSingleToken t){
-        if(doesUserExist(t.user) == false){
-            System.out.println("User does not exists");
-            return Response.status(Response.Status.NOT_FOUND).entity("404, user not found").build();
-        }
-        for(Token tok: TokenList){
-            if(t.user.equals(tok.user)){
-                if(tok.tokens.size()>= 1){
-                    System.out.println("Token found:");
-                    System.out.println(tok.tokens.get(0));
-                    return Response.ok(tok.tokens.get(0)).build();
-                }
-            }
-        }
-        return Response.status(Response.Status.PRECONDITION_FAILED).entity("412, user does not have any tokens").build();
-    }
+
     @Override
-    public String getSingleToken(RequestSingleToken t){
-        if(doesUserExist(t.user) == false){
-            System.out.println("User does not exists");
+    public String getSingleToken(String user){
+        if(doesUserExist(user) == false){
             return "error";
         }
         for(Token tok: TokenList){
-            if(t.user.equals(tok.user)){
+            if(user.equals(tok.user)){
                 if(tok.tokens.size()>= 1){
-                    System.out.println("Token found:");
-                    System.out.println(tok.tokens.get(0));
                     return tok.tokens.get(0);
                 }
             }
@@ -251,59 +200,34 @@ public class tokenService implements interfaceTokenService {
         return "error";
     }
 
-    public Response deleteToken(RequestSingleToken t){
-        if(doesUserExist(t.user) == false){
-            System.out.println("User does not exists");
-            return Response.status(Response.Status.NOT_FOUND).entity("404, User not found").build();
-        }
-        for(Token tok: TokenList){
-            if(t.user.equals(tok.user)){
-                for(String tokenToDelete : tok.tokens){
-                    if(tokenToDelete.equals(t.token)){
-                        System.out.println("Token to delete:");
-                        System.out.println(tokenToDelete);
-                        tok.tokens.remove(t.token);
 
-                        usedTokens.add(tokenToDelete);
-                        return Response.ok("200 Success").build();
-                    }
-                }
-                return Response.status(Response.Status.NOT_FOUND).entity("404, Token not found").build();
-            }
-        }
-        return Response.status(Response.Status.PRECONDITION_FAILED).entity("Error").build();
-    }
     @Override
-    public String requestTokenMessageQueue(TokenRequest tokenRequest) {
-        //doesUserExist(tokenRequest.user);
-        if(doesUserExist(tokenRequest.user) == false){
-            registerUser(tokenRequest.user);
-            System.out.println("User does not exists");
-            return "User does not exists";
+    public String requestTokenMessageQueue(String user, int number) {
+        //Check if user exists
+        if(doesUserExist(user) == false){
+            registerUser(user); // Create user in the token service
         }
-        System.out.println("REQUESTING TOKEN 1");
-        System.out.println(tokenRequest);
-        if(tokenRequest.number > 5){
-            System.out.println("Too many tokens requested");
+        // Check if customer is requesting more than 5 tokens
+        if(number > 5){
             return "Too many tokens requested";
 
         }
-        if(tokenRequest.number <= 0){
-            System.out.println("Too few tokens requested");
+        // Check if customer is requesting more than 0 or negative tokens
+        if(number <= 0){
             return "Too few tokens requested";
         }
         for(Token t : TokenList){
-            if(t.user.equals(tokenRequest.user)){
+            if(t.user.equals(user)){
+                //Check if customer has 2 or more valid tokens
                 if(t.tokens.size()>= 2){
-                    System.out.println("Has 2 or more valid tokens");
                     return "User has 2 or more valid tokens";
                 }
-                if(t.tokens.size() + tokenRequest.number > 6){
-                    System.out.println("number requested plus owned larger than 6");
+                // Check if the combined number of owned tokens + requested is larger than 6
+                if(t.tokens.size() + number > 6){
                     return "Number of tokens requested plus owned larger than 6";
                 }
-                for(int i=1;i<=tokenRequest.number;i++){
-                    System.out.println(i);
+                // create the tokens
+                for(int i=1;i<=number;i++){
                     t.tokens.add(createRandomToken());
                 }
                 return "Success";
@@ -313,43 +237,4 @@ public class tokenService implements interfaceTokenService {
         return "Error";
     }
 
-
-    public Response requestToken(TokenRequest tokenRequest) {
-        //doesUserExist(tokenRequest.user);
-        if(doesUserExist(tokenRequest.user) == false){
-            registerUser(tokenRequest.user);
-            System.out.println("User does not exists");
-            return Response.status(Response.Status.NOT_FOUND).entity("User not found").build();
-        }
-        System.out.println("REQUESTING TOKEN 1");
-        System.out.println(tokenRequest);
-        if(tokenRequest.number > 5){
-            System.out.println("Too many tokens requested");
-            return Response.status(Response.Status.PRECONDITION_FAILED).entity("Too many tokens requested").build();
-
-        }
-        if(tokenRequest.number <= 0){
-            System.out.println("Too few tokens requested");
-            return Response.status(Response.Status.PRECONDITION_FAILED).entity("Too few tokens requested").build();
-        }
-        for(Token t : TokenList){
-            if(t.user.equals(tokenRequest.user)){
-                if(t.tokens.size()>= 2){
-                    System.out.println("Has 2 or more valid tokens");
-                    return Response.status(Response.Status.PRECONDITION_FAILED).entity("Has 2 or more valid tokens").build();
-                }
-                if(t.tokens.size() + tokenRequest.number > 6){
-                    System.out.println("number requested plus owned larger than 6");
-                    return Response.status(Response.Status.PRECONDITION_FAILED).entity("number requested plus owned larger than 6").build();
-                }
-                for(int i=1;i<=tokenRequest.number;i++){
-                    System.out.println(i);
-                    t.tokens.add(createRandomToken());
-                }
-                return Response.ok("200 Success").build();
-            }
-        }
-
-        return Response.status(Response.Status.PRECONDITION_FAILED).entity("User not found").build();
-    }
 }
