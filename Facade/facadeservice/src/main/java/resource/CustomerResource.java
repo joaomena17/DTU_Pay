@@ -2,11 +2,13 @@ package resource;
 
 import entities.DTUPayUser;
 import entities.PaymentReport;
+import entities.TokenRequest;
 import service.AccountService;
 import service.TokenService;
 import service.ReportService;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,15 +27,22 @@ public class CustomerResource {
     @GET
     @Path("/report")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PaymentReport> customerRequestReport(DTUPayUser customer){
-        return reportService.requestCustomerReport(customer.getAccountID());
+    public Response customerRequestReport(DTUPayUser customer){
+        try{
+            var result = reportService.requestCustomerReport(customer.getAccountID());
+            return Response.ok(result).build();
+        }
+        catch (Exception e){
+            return Response.
+        }
     }
 
     @GET
     @Path("/getTokens")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getCustomerTokens(String customerID){
-        return tokenService.customerTokensRequest(customerID);
+    public String getCustomerTokens(TokenRequest request){
+        var result = tokenService.customerTokensRequest(request.getAccountId(), request.getTokenAmount());
+        return 
     }
 
     @POST

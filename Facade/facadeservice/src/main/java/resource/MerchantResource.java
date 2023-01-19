@@ -45,5 +45,5 @@ public class MerchantResource {
     @POST
     @Path("/pay")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void requestPayment(Payment payment){ paymentservice.requestPayment(payment); }
+    public Boolean requestPayment(Payment payment){ return paymentservice.requestPayment(payment); }
 }
