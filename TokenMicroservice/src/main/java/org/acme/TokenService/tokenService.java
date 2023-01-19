@@ -3,9 +3,7 @@ package org.acme.TokenService;
 import Utils.CorrelationId;
 import messaging.Event;
 import messaging.MessageQueue;
-import org.acme.RequestSingleToken;
 import org.acme.Token;
-import org.acme.TokenRequest;
 import org.acme.Utils.EventTypes;
 
 import java.util.ArrayList;
@@ -13,7 +11,6 @@ import java.util.List;
 import java.util.Random;
 
 public class tokenService implements interfaceTokenService {
-   // private RequestSingleToken requestSingleToken;
     MessageQueue queue;
     private List<String> usedTokens = new ArrayList<String>();
     private List<Token> TokenList = new ArrayList<Token>();

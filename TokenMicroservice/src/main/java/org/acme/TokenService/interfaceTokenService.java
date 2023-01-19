@@ -1,8 +1,5 @@
 package org.acme.TokenService;
 
-import org.acme.RequestSingleToken;
-import org.acme.TokenRequest;
-
 public interface interfaceTokenService {
     boolean registerUser(String user);
 
