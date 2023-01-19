@@ -62,6 +62,7 @@ public class CustomerResource {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerCustomer(DTUPayUser customer){
+        System.out.println("REGISTER CUSTOMER");
         String idRegistered;
         try {
             idRegistered = accountservice.requestAccountRegister(customer);

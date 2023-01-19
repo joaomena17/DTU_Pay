@@ -1,17 +1,21 @@
 package Entities;
 
+
+import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@XmlRootElement // Needed for XML serialization and deserialization
+@Data// Automatic getter and setters and equals etc
+@NoArgsConstructor
+@AllArgsConstructor
 public class DTUPayUser {
 
-    private String _name;
-    private String _bankID;
-    private String _userRole;
-    private String accountID;
-
-    public DTUPayUser(String name, String bankID, String role){
-        _name=name;
-        _bankID=bankID;
-        _userRole=role;
-    }
+    public String _name;
+    public String _bankID;
+    public String _userRole;
+    public String accountID;
 
     public String getName(){
         return this._name;

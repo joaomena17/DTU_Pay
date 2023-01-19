@@ -25,14 +25,9 @@ public class CustomerPort {
     }
 
     public String registerCustomer(DTUPayUser customer)
-            throws Exception {
-<<<<<<< Updated upstream
-        DTUPayUser customer = new DTUPayUser(name, bankId, "customer");
-=======
-
->>>>>>> Stashed changes
-        Response response = baseUrl.path("register").request()
-                .post(Entity.entity(customer, MediaType.APPLICATION_JSON));
+            throws Exception  {
+        System.out.println("REGISTER CUSTOMER CLIENT");
+            Response response = baseUrl.path("register").request().post(Entity.entity(customer, MediaType.APPLICATION_JSON));
 
         if (response.getStatus() != 201) {
             throw new Exception(response.readEntity(String.class));

@@ -24,7 +24,7 @@ public class AccountSteps {
         customerUser.setLastName(lastName);
         customerUser.setCprNumber(cpr);
         customerBankID = bank.createAccountWithBalance(customerUser,new BigDecimal( balance));
-        customerAccount= new DTUPayUser(firstName+lastName,customerBankID,"customer");
+        customerAccount= new DTUPayUser(firstName+lastName,customerBankID,"customer","");
     }
 
     @When("the customer registers at DTUPay")
