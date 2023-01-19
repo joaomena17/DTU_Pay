@@ -86,8 +86,8 @@ public class tokenService implements interfaceTokenService {
         var corrId = event.getArgument(1, CorrelationId.class);
         var number = event.getArgument(2, int.class);
         String reqToken = requestTokenMessageQueue(customerId, number);
-        if(reqToken.equals("success")) {
-            queue.publish(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{true,corrId}));
+        if(reqToken.equals("Success")) {
+            queue.publish(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{reqToken,corrId}));
         }else {
             queue.publish(new Event(EventTypes.REQUEST_TOKEN_FAILED,new Object[]{reqToken,corrId}));
         }
