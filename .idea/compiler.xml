@@ -7,25 +7,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="dtu_pay" />
         <module name="ReportService" />
         <module name="demo-client" />
         <module name="messaging-utilities" />
         <module name="dtu_pay (1)" />
+        <module name="dtu_pay (2)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo-client" target="11" />
       <module name="dtu_pay" target="11" />
-      <module name="dtu_pay (1)" target="11" />
-      <module name="messaging-utilities" target="11" />
-      <module name="ReportService" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="dtu_pay" options="-parameters" />
       <module name="dtu_pay (1)" options="-parameters" />
+      <module name="dtu_pay (2)" options="-parameters" />
     </option>
   </component>
 </project>
