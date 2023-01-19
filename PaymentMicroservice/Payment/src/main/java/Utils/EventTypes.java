@@ -10,8 +10,8 @@ public final class EventTypes {
         public static final String VALIDATE_SUCCESS = "ValidateTokenRequestSuccess";
 
         public static final String REQUEST_PAYMENT = "RequestPayment";
-        public static final String REQUEST_PAYMENTFAILED = "RequestPaymentCompleted";
-        public static final String REQUEST_PAYMENTSUCESS = "RequestPaymentFailed";
+        public static final String REQUEST_PAYMENTFAILED = "RequestPaymentFailed";
+        public static final String REQUEST_PAYMENTSUCESS = "RequestPaymentSuccess";
 
 
 
