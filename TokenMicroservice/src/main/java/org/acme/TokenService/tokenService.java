@@ -100,9 +100,9 @@ public class tokenService implements interfaceTokenService {
         var corrId = event.getArgument(1, CorrelationId.class);
         List<String> tokenList = getAllTokensByUser(customerId);
         if(tokenList !=  null) {
-            queue.publish(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{tokenList,corrId}));
+            queue.publish(new Event(EventTypes.CUSTOMER_TOKENS_SUCCESS,new Object[]{tokenList,corrId}));
         }else {
-            queue.publish(new Event(EventTypes.REQUEST_TOKEN_FAILED,new Object[]{"Error",corrId}));
+            queue.publish(new Event(EventTypes.CUSTOMER_TOKENS_FAILED,new Object[]{"Error",corrId}));
         }
 
     }
