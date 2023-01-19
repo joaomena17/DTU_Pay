@@ -39,6 +39,8 @@ public class tokenService implements interfaceTokenService {
     public List<Token> getTokenList() {
         return TokenList;
     }
+
+    // Event that creates new tokens for customers
     public void handleRegisterUserTokenRequest(Event event){
         var customerId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1,CorrelationId.class);
@@ -51,6 +53,8 @@ public class tokenService implements interfaceTokenService {
 
         }
     }
+
+    // Event that validates a token and returns the user/customer id when it is successfully validated
     public void handleValidateToken(Event event){
         var token = event.getArgument(0,String.class);
         var corrId = event.getArgument(1,CorrelationId.class);
@@ -63,6 +67,8 @@ public class tokenService implements interfaceTokenService {
             queue.publish(new Event(EventTypes.VALIDATE_FAILED,new Object[]{response,corrId}));
         }
     }
+
+    // Event that returns an unused token owned by a customer
     public void handleGetToken(Event event){
         String customerId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1, CorrelationId.class);
@@ -74,6 +80,7 @@ public class tokenService implements interfaceTokenService {
             queue.publish(new Event(EventTypes.GET_TOKEN_SUCCESS,new Object[]{token,corrId}));
         }
     }
+    // Event creates new tokens for a customer
     public void handleRequestToken(Event event){
         String customerId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1, CorrelationId.class);
@@ -86,6 +93,7 @@ public class tokenService implements interfaceTokenService {
         }
 
     }
+    // Event that returns a list of unused tokens owned by a customer
     public void handleCustomerTokens(Event event){
         String customerId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1, CorrelationId.class);
@@ -97,7 +105,6 @@ public class tokenService implements interfaceTokenService {
         }
 
     }
-
 
     public tokenService(MessageQueue mq, interfaceTokenService p) {
         queue = mq;
