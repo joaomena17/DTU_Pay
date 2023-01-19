@@ -32,7 +32,7 @@ public class CustomerResource {
     @GET
     @Path("/getTokens")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getCustomerTokens(String customerID){
+    public String getCustomerTokens(String customerID){
         return tokenService.customerTokensRequest(customerID);
     }
 

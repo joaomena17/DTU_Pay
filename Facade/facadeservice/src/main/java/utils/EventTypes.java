@@ -18,9 +18,9 @@ public class EventTypes {
     public static final String PAYMENT_FAILED = "MerchantPaymentFailed";
 
     // Token Service Events
-    public static final String CUSTOMER_TOKENS_REQUEST = "CustomerTokensRequest";
-    public static final String CUSTOMER_TOKENS_SUCCESS = "CustomerTokensSuccess";
-    public static final String CUSTOMER_TOKENS_FAIL = "CustomerTokensFailed";
+    public static final String REQUEST_TOKEN = "RequestToken";
+    public static final String REQUEST_TOKEN_SUCCESS = "RequestTokenSuccess";
+    public static final String REQUEST_TOKEN_FAILED = "RequestTokenFailed";
 
 
     // Report Service Events
