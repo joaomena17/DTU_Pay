@@ -1,4 +1,5 @@
 FROM adoptopenjdk:11-jre-hotspot
-COPY target/tokenService-1.0.0.jar /usr/src/
 WORKDIR /usr/src/
+COPY target/tokenService-1.0.0.jar /usr/src/
+COPY target/lib /usr/src/lib
 CMD java -Xmx32m -jar tokenService-1.0.0.jar

@@ -1,6 +1,13 @@
 version: '3'
 services:
 
+  account:
+    build: AccountManagement
+    image: account
+    container_name: account
+    restart: on-failure
+    depends_on:
+      - rabbitMq
   report:
     build: ReportService
     image: report
@@ -10,7 +17,7 @@ services:
       - rabbitMq
 
   payment:
-    build: PaymentMicroservice/Payment
+    build: PaymentService
     image: payment
     container_name: payment
     restart: on-failure
