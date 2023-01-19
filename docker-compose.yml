@@ -1,24 +1,8 @@
 version: '3'
 services:
-  facade:
-    image: facade
-    container_name: facade
-    restart: on-failure
-    depends_on:
-      - rabbitMq
-    ports:
-      - "8080:8080"
 
-
-  account:
-    image: account
-    container_name: account
-    restart: on-failure
-    depends_on:
-      - rabbitMq
-
-        
   report:
+    build: ReportService
     image: report
     container_name: report
     restart: on-failure
@@ -26,6 +10,7 @@ services:
       - rabbitMq
 
   payment:
+    build: PaymentMicroservice/Payment
     image: payment
     container_name: payment
     restart: on-failure
@@ -33,6 +18,7 @@ services:
       - rabbitMq
 
   token:
+    build: TokenMicroservice
     image: token
     container_name: token
     restart: on-failure
