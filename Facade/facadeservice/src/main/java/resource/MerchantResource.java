@@ -12,8 +12,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
+
+
+/***
+ * Author: Tiago Machado s222963
+ */
 @Path("/merchants")
 public class MerchantResource {
 
@@ -26,24 +32,59 @@ public class MerchantResource {
     @GET
     @Path("/report")
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<PaymentReport> merchantRequestReport(DTUPayUser merchant){
-        return reportService.requestMerchantReport(merchant.getBankID());
+    public Response merchantRequestReport(DTUPayUser merchant){
+        try {
+            List<PaymentReport> report= reportService.requestMerchantReport(merchant.getAccountID());
+            return Response.ok(report).build();
+        }
+        catch (Exception e){
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getMessage()).build();
+        }
     }
 
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String registerMerchant(DTUPayUser merchant){ return service.requestAccountRegister(merchant);
+    public Response registerMerchant(DTUPayUser merchant){
+        String idRegistered= new String();
+        try{
+            idRegistered= service.requestAccountRegister(merchant);
+            if (idRegistered.equals("")) {
+                return Response.status(Response.Status.PRECONDITION_FAILED).entity("User was not registered").build();
+            }
+            return Response.ok(idRegistered).build();
+        }catch(Exception e){
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getMessage()).build();
+        }
     }
-
     @POST
     @Path("/unregister")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Boolean unregisterMerchant(DTUPayUser merchant){ return service.requestAccountDelete(merchant);
+    public Response unregisterMerchant(DTUPayUser merchant){
+        boolean success;
+        try{
+            success=service.requestAccountDelete(merchant);
+            if (!success) {
+                return Response.status(Response.Status.PRECONDITION_FAILED).entity("Unregister account request failed ").build();
+            }
+            return Response.ok(true).build();
+
+        }catch (Exception e){
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getMessage()).build();
+        }
     }
 
     @POST
     @Path("/pay")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Boolean requestPayment(Payment payment){ return paymentservice.requestPayment(payment); }
+    public Response requestPayment(Payment payment){
+        try{
+            Boolean success= paymentservice.requestPayment(payment);
+            return Response.ok(success).build();
+        }
+        catch (Exception e) {
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getMessage()).build();
+        }
+
+    }
 }
