@@ -30,39 +30,23 @@ public class CustomerResource {
     @GET
     @Path("/report")
     @Produces(MediaType.APPLICATION_JSON)
-<<<<<<< Updated upstream
-    public Response customerRequestReport(DTUPayUser customer){
-        try{
-            var result = reportService.requestCustomerReport(customer.getAccountID());
-            return Response.ok(result).build();
-=======
         public Response customerRequestReport(DTUPayUser customer){
         try {
             List<PaymentReport> report= reportService.requestCustomerReport(customer.getAccountID());
             return Response.ok(report).build();
->>>>>>> Stashed changes
         }
         catch (Exception e){
             return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getMessage()).build();
         }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
     }
 
     @GET
     @Path("/getTokens")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerTokens(TokenRequest request){
-<<<<<<< Updated upstream
         try{
             String success = tokenService.customerTokensRequest(request.getAccountId(), request.getTokenAmount());
-=======
-        String success= new String();
-        try{
-            success = tokenService.customerTokensRequest(request.getAccountId(), request.getTokenAmount());
->>>>>>> Stashed changes
             if(success.equals("Success")){
                 return Response.ok(success).build();
             }
@@ -71,21 +55,14 @@ public class CustomerResource {
         catch(Exception e){
             return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getMessage()).build();
         }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
     }
 
     @POST
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerCustomer(DTUPayUser customer){
-<<<<<<< Updated upstream
         String idRegistered;
-=======
-        String idRegistered= new String();
->>>>>>> Stashed changes
         try {
             idRegistered = accountservice.requestAccountRegister(customer);
             if (idRegistered == "") {
