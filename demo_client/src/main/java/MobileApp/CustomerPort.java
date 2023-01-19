@@ -27,7 +27,7 @@ public class CustomerPort {
     public String registerCustomer(String name, String bankId)
             throws Exception {
         DTUPayUser customer = new DTUPayUser(name, bankId, "customer");
-        Response response = baseUrl.path("unregister").request()
+        Response response = baseUrl.path("register").request()
                 .post(Entity.entity(customer, MediaType.APPLICATION_JSON));
 
         if (response.getStatus() != 201) {
@@ -40,7 +40,7 @@ public class CustomerPort {
     }
     public Boolean unregisterCustomer(String customerId)
             throws Exception {
-        Response response = baseUrl.path("register").request()
+        Response response = baseUrl.path("unregister").request()
                 .post(Entity.entity(customerId, MediaType.APPLICATION_JSON));
 
         if (response.getStatus() != 201) {
