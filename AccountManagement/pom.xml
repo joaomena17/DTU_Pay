@@ -153,6 +153,39 @@
     <build>
         <plugins>
             <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                        <mainClass>services.StartUp</mainClass>
+                        <classpathPrefix>lib/</classpathPrefix>
+                    </manifest>
+                </archive>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.5.1</version>
+            <executions>
+                <execution>
+                    <id>copy-dependencies</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>
+                            ${project.build.directory}/lib/
+                        </outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+            <plugin>
                 <groupId>${quarkus.platform.group-id}</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
                 <version>${quarkus.platform.version}</version>
@@ -226,6 +259,7 @@
                     <sourceDestDir>src/main/java</sourceDestDir>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
     <profiles>
@@ -240,27 +274,6 @@
                 <skipITs>false</skipITs>
                 <quarkus.package.type>native</quarkus.package.type>
             </properties>
-        </profile>
-        <profile>
-            <id>qa</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>copy-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
     </profiles>
 </project>
