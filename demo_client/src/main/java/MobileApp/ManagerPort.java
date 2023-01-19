@@ -11,6 +11,10 @@ import java.util.List;
 import Entities.*;
 import jakarta.ws.rs.core.Response;
 
+/***
+ * Author: Tiago Machado s222963
+ */
+
 public class ManagerPort {
     WebTarget baseUrl;
     Client client;
