@@ -1,30 +1,30 @@
 package Repository;
 
-import ReportService.Payment;
+import ReportService.PaymentReport;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PaymentRepository implements IPaymentRepository {
-    List<Payment> Payments = new ArrayList<>();
+    List<PaymentReport> paymentReports = new ArrayList<>();
     @Override
-    public void addPayment(Payment p) {
-        Payments.add(p);
+    public void addPayment(PaymentReport p) {
+        paymentReports.add(p);
     }
 
     @Override
-    public List<Payment> GetAllPayments() {
-        return Payments;
+    public List<PaymentReport> GetAllPayments() {
+        return paymentReports;
     }
 
     @Override
-    public List<Payment> GetCustomerPayments(String cid) {
-        return Payments.stream().filter(payment -> payment.cid.equals(cid)).collect(Collectors.toList());
+    public List<PaymentReport> GetCustomerPayments(String cid) {
+        return paymentReports.stream().filter(paymentReport -> paymentReport.cid.equals(cid)).collect(Collectors.toList());
     }
 
     @Override
-    public List<Payment> GetMerchantPayments(String mid) {
-        return Payments.stream().filter(payment -> payment.mid.equals(mid)).collect(Collectors.toList());
+    public List<PaymentReport> GetMerchantPayments(String mid) {
+        return paymentReports.stream().filter(paymentReport -> paymentReport.mid.equals(mid)).collect(Collectors.toList());
     }
 }

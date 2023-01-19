@@ -1,13 +1,39 @@
 package ReportService;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
-//TODO: Make this the same as payment in paymentService
+@XmlRootElement // Needed for XML serialization and deserialization
+//@Data // Automatic getter and setters and equals etc
+@NoArgsConstructor // Needed for JSON deserialization and XML serialization and deserialization
+@AllArgsConstructor
 public class Payment {
-    public String cid;
+    private String merchantBankID, customerToken,description;
+    private BigDecimal amount;
 
-   public String mid;
+    public String getDescription() {
+        return description;
+    }
 
-   public BigDecimal amount;
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
+    public String getCustomerToken() {
+        return customerToken;
+    }
+
+    public void setCustomerToken(String customerToken) {
+        this.customerToken = customerToken;
+    }
+    public String getMerchantBankID(){ return this.merchantBankID; }
+
+    public void setMerchantBankID(String merchantBankID){ this.merchantBankID = merchantBankID; }
+
+    public BigDecimal getAmount(){ return this.amount; }
+
+    public void setAmount(BigDecimal amount){ this.amount = amount; }
 }

@@ -1,18 +1,18 @@
 package Repository;
 
-import ReportService.Payment;
+import ReportService.PaymentReport;
 
 import java.util.List;
 
 public interface IPaymentRepository {
 
-    void addPayment(Payment p);
+    void addPayment(PaymentReport p);
 
-    List<Payment> GetAllPayments();
+    List<PaymentReport> GetAllPayments();
 
-    List<Payment> GetCustomerPayments(String cid);
+    List<PaymentReport> GetCustomerPayments(String cid);
 
-    List<Payment> GetMerchantPayments(String mid);
+    List<PaymentReport> GetMerchantPayments(String mid);
 
 
 

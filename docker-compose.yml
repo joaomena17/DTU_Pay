@@ -1,0 +1,33 @@
+version: '3'
+services:
+
+  report:
+    build: ReportService
+    image: report
+    container_name: report
+    restart: on-failure
+    depends_on:
+      - rabbitMq
+
+  payment:
+    build: PaymentMicroservice/Payment
+    image: payment
+    container_name: payment
+    restart: on-failure
+    depends_on:
+      - rabbitMq
+
+  token:
+    build: TokenMicroservice
+    image: token
+    container_name: token
+    restart: on-failure
+    depends_on:
+      - rabbitMq
+
+  rabbitMq:
+    image: rabbitmq:3-management
+    container_name: rabbitMq_container
+    ports:
+      - "5672:5672"
+      - "15672:15672"

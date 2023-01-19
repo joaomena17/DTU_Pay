@@ -2,46 +2,64 @@ package paymentservice;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import javax.ws.rs.core.Response;
+import java.util.Map;
 
+import Utils.CorrelationId;
+import Utils.EventTypes;
 import dtu.ws.fastmoney.*;
+import messaging.Event;
+import messaging.MessageQueue;
 
 public class PaymentService implements IPaymentService {
 
     BankService service = (new BankServiceService()).getBankServicePort();
+    public Map<CorrelationId, Payment > paymentRequest = new HashMap<>();
+    MessageQueue mq;
 
-    private List<Payment> paymentList = new ArrayList<>();
-
-    @Override
-    public List<Payment> getPaymentList() {
-        return List.copyOf(paymentList);
-    }
-
-    @Override
-    public Response getBalance(String id) {
-        try {
-            var user = service.getAccount(id);
-            if (user == null) {
-                return Response.status(Response.Status.PRECONDITION_FAILED).entity("User does not exist").build();
-            }
-            return Response.ok(user.getBalance()).build();
-        } catch (BankServiceException_Exception e) {
-            return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getCause()).build();
-        }
+    public PaymentService(MessageQueue mq){
+        this.mq = mq;
+        mq.addHandler(EventTypes.REQUEST_PAYMENT, this::makePayment);
+        mq.addHandler(EventTypes.VALIDATE_SUCCESS,this::handleTokenSuccessResponse);
+        mq.addHandler(EventTypes.VALIDATE_FAILED,this::handleTokenFailResponse);
+        mq.addHandler(EventTypes.GET_BANK_ACCOUNT_ID_SUCCESS,this::handleBankAccountIdSuccess);
+        mq.addHandler(EventTypes.GET_BANK_ACCOUNT_ID_FAILED,this::handleTokenSuccessResponse);
     }
     @Override
-    public Response makePayment(Payment payment) {
-        String from = payment.getCustomerBankID();
-        String to = payment.getMerchantBankID();
-        BigDecimal amount = payment.getAmount();
-        String description = String.format("Transfer of %d from %s to %s", amount, from, to);
+    public void makePayment(Event ev) {
+        CorrelationId corrId = ev.getArgument(1,CorrelationId.class);
+        var payment = ev.getArgument(0, Payment.class);
+        paymentRequest.put(corrId,payment);
+        mq.publish(new Event(EventTypes.VALIDATE_TOKEN,new Object[]{payment.getCustomerToken(),corrId}));
+    }
+
+    public void handleTokenSuccessResponse(Event event){
+        var customerId = event.getArgument(0,String.class);
+        var corrId = event.getArgument(1,CorrelationId.class);
+        mq.publish(new Event(EventTypes.GET_BANK_ACCOUNT_ID_REQUEST,new Object[]{customerId,corrId}));
+    }
+
+    public void handleTokenFailResponse(Event event){
+        var corrId = event.getArgument(0,CorrelationId.class);
+        mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED,new Object[]{"Invalid token on event" , corrId}));
+    }
+
+    public void handleBankAccountIdSuccess(Event event){
+        var corId = event.getArgument(1,CorrelationId.class);
+        var customerBankId = event.getArgument(0,String.class);
+        var p = paymentRequest.get(corId);
+        String from = customerBankId;
+        String to = p.getMerchantBankID();
+        BigDecimal amount = p.getAmount();
+        String description = p.getDescription();
         try {
             service.transferMoneyFromTo(from, to, amount, description);
-            paymentList.add(payment);
-            return Response.ok().build();
-        } catch (BankServiceException_Exception e) {
-            return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getCause()).build();
+            mq.publish(new Event(EventTypes.REQUEST_PAYMENTSUCESS,new Object[]{p,customerBankId,corId}));
+
+        }
+        catch (BankServiceException_Exception e) {
+            mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED, new Object[]{"error",corId}));
         }
     }
 }
