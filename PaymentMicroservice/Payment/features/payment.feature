@@ -11,13 +11,13 @@ Feature: Payment
       Given A request for payment is sent by merchant with id "mid", token "token", amount 1000
       Then The validatetoken event is pushed
       When the token is validated and returns the validateTokenFailed event
-      Then The failed event is pushed with error message "error"
+      Then The failed event is pushed with error message "Invalid token on event"
 
   Scenario: Payment is unsuccessful due to bank
     Given A request for payment is sent by merchant with id "mid", token "token", amount 1000
     Then The validatetoken event is pushed
     When The token is validated and returns the userid "userId"
     Then The Get_bank_accountId_request event is pushed to get the bank account id
-    When The account is verified and returns "customerBankId" and payment is created
+    When The account is verified and returns "customerBankId" and payment is created with an error
     Then The failed event is pushed with error message "error"
 

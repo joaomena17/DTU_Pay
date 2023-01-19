@@ -29,9 +29,8 @@ public class PaymentService implements IPaymentService {
     @Override
     public void makePayment(Event ev) {
         CorrelationId corrId = ev.getArgument(1,CorrelationId.class);
-        Payment payment = ev.getArgument(0, Payment.class);
+        var payment = ev.getArgument(0, Payment.class);
         paymentRequest.put(corrId,payment);
-        //Validate customer token.
         mq.publish(new Event(EventTypes.VALIDATE_TOKEN,new Object[]{payment.getCustomerToken(),corrId}));
     }
 
@@ -43,13 +42,13 @@ public class PaymentService implements IPaymentService {
 
     public void handleTokenFailResponse(Event event){
         var corrId = event.getArgument(0,CorrelationId.class);
-        mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED,new Object[]{"Invalid token on event" + corrId.toString()}));
+        mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED,new Object[]{"Invalid token on event" , corrId}));
     }
 
     public void handleBankAccountIdSuccess(Event event){
         var corId = event.getArgument(1,CorrelationId.class);
         var customerBankId = event.getArgument(0,String.class);
-        Payment p = paymentRequest.get(corId);
+        var p = paymentRequest.get(corId);
         String from = customerBankId;
         String to = p.getMerchantBankID();
         BigDecimal amount = p.getAmount();
@@ -60,7 +59,7 @@ public class PaymentService implements IPaymentService {
 
         }
         catch (BankServiceException_Exception e) {
-            mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED, new Object[]{e.getMessage(),corId}));
+            mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED, new Object[]{"error",corId}));
         }
     }
 }
