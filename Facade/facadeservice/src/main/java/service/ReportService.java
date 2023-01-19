@@ -24,19 +24,19 @@ public class ReportService {
 
     }
 
-    private void handleCustomerReport(Event event) {
+    public void handleCustomerReport(Event event) {
         var report = event.getArgument(0, List.class);
         var correlationId = event.getArgument(1, CorrelationID.class);
         correlations.get(correlationId).complete(report);
     }
 
-    private void handleManagerReport(Event event) {
+    public void handleManagerReport(Event event) {
         var report = event.getArgument(0, List.class);
         var correlationId = event.getArgument(1, CorrelationID.class);
         correlations.get(correlationId).complete(report);
     }
 
-    private void handleMerchantReport(Event event) {
+    public void handleMerchantReport(Event event) {
         var report = event.getArgument(0, List.class);
         var correlationId = event.getArgument(1, CorrelationID.class);
         correlations.get(correlationId).complete(report);
