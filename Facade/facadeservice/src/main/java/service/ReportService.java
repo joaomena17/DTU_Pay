@@ -57,6 +57,7 @@ public class ReportService {
         return correlations.get(correlationID).join();
     }
     public List<PaymentReport> requestManagerReport(){
+        System.out.println("REQUEST FOR MANAGER REPORT RECIEVED");
         var correlationID = CorrelationID.randomID();
         correlations.put(correlationID, new CompletableFuture<>());
         Event event = new Event(EventTypes.REQUEST_MANAGER_REPORT, new Object[] {correlationID });
