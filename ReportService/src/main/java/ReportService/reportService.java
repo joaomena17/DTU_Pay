@@ -29,7 +29,9 @@ public class reportService {
         paymentRepo.addPayment(pr);
     }
     public void handleCustomerReport(Event event){
+        System.out.println("getting customer report");
         var customerId = event.getArgument(0,String.class);
+        System.out.println("Customer report for id " + customerId);
         var corrId = event.getArgument(1, CorrelationId.class);
         var list = paymentRepo.GetCustomerPayments(customerId);
         Event e = new Event("CustomerReportReturnEvent", new Object[] {list,corrId});

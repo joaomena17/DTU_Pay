@@ -27,12 +27,12 @@ public class CustomerResource {
 
     private TokenService tokenService = new DTUPayFactory().getService().getTokenService();
 
-    @GET
+    @POST
     @Path("/report")
     @Produces(MediaType.APPLICATION_JSON)
-        public Response customerRequestReport(DTUPayUser customer){
+        public Response customerRequestReport(String id){
         try {
-            List<PaymentReport> report= reportService.requestCustomerReport(customer.getAccountID());
+            List<PaymentReport> report= reportService.requestCustomerReport(id);
             return Response.ok(report).build();
         }
         catch (Exception e){

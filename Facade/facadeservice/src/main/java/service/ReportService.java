@@ -1,6 +1,6 @@
 package service;
 
-import entities.Payment;
+import entities.DTUPayUser;
 import entities.PaymentReport;
 import messaging.Event;
 import messaging.MessageQueue;
@@ -49,7 +49,7 @@ public class ReportService {
         queue.publish(event);
         return correlations.get(correlationID).join();
     }
-    public List<PaymentReport> requestMerchantReport(String mid){
+    public List<PaymentReport> requestMerchantReport( String mid){
         var correlationID = CorrelationID.randomID();
         correlations.put(correlationID, new CompletableFuture<>());
         Event event = new Event(EventTypes.REQUEST_MERCHANT_REPORT, new Object[] { mid, correlationID });

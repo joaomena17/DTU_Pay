@@ -72,7 +72,7 @@ public class MerchantPort {
             String error = response.readEntity(String.class);
             throw new Exception(error);
         }
-        boolean success= response.readEntity(Boolean.class);
+        boolean success=true;
         response.close();
         return success;
     }

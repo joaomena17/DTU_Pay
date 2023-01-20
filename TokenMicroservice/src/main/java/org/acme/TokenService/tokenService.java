@@ -59,7 +59,6 @@ public class tokenService implements interfaceTokenService {
     public void handleValidateToken(Event event){
         var token = event.getArgument(0,String.class);
         var corrId = event.getArgument(1,CorrelationId.class);
-        validateToken(token);
         String response = validateToken(token);
         if (!response.equals("Error")){
             queue.publish(new Event(EventTypes.VALIDATE_SUCCESS,new Object[]{response,corrId}));
@@ -193,6 +192,8 @@ public class tokenService implements interfaceTokenService {
         for(Token tok: TokenList){
             if(tok.tokens.size()>= 1){
                 for(String token : tok.tokens){
+                    System.out.println(t);
+                    System.out.println(token);
                     if(token.equals(t)){
                         tok.tokens.remove(t);
                         usedTokens.add(t);

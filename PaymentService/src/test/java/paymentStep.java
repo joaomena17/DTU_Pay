@@ -125,7 +125,7 @@ public class paymentStep {
 
     @When("the token is validated and returns the validateTokenFailed event")
     public void theTokenIsValidatedAndReturnsTheValidateTokenFailedEvent() {
-        service.handleTokenFailResponse(new Event(EventTypes.VALIDATE_FAILED, new Object[]{corrId}));
+        service.handleTokenFailResponse(new Event(EventTypes.VALIDATE_FAILED, new Object[]{"Error",corrId}));
     }
 
     @When("the account has been handled and returns failed event")

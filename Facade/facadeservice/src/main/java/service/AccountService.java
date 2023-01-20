@@ -43,7 +43,7 @@ public class AccountService {
 
     public void handleAccountRegistrationFailed(Event event){
         var userID = event.getArgument(0, String.class);
-        var correlationID = event.getArgument(1, CorrelationID.class);
+        var correlationID = event.getArgument(1, String.class);
         correlationsRegister.get(correlationID.toString()).complete(userID);
     }
 
@@ -57,13 +57,13 @@ public class AccountService {
 
     public void handleAccountDeleteSuccess(Event event){
         var result = event.getArgument(0, Boolean.class);
-        var correlationID = event.getArgument(1, CorrelationID.class);
+        var correlationID = event.getArgument(1, String.class);
         correlationsUnregister.get(correlationID.toString()).complete(result);
     }
 
     public void handleAccountDeleteFailed(Event event){
         var result = event.getArgument(0, Boolean.class);
-        var correlationID = event.getArgument(1, CorrelationID.class);
+        var correlationID = event.getArgument(1, String.class);
         correlationsUnregister.get(correlationID.toString()).complete(result);
     }
 }

@@ -43,8 +43,9 @@ public class PaymentService implements IPaymentService {
     }
 
     public void handleTokenFailResponse(Event event){
-        var corrId = event.getArgument(0,CorrelationId.class);
-        mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED,new Object[]{"Invalid token on event" , corrId}));
+        var corrId = event.getArgument(1,CorrelationId.class);
+       var p = paymentRequest.get(corrId.toString());
+        mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED,new Object[]{p, corrId}));
     }
 
     public void handleBankAccountIdSuccess(Event event){
@@ -62,7 +63,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (BankServiceException_Exception e) {
             System.out.println(e.getMessage());
-            mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED, new Object[]{"error",corId}));
+            mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED, new Object[]{p,corId}));
         }
     }
 }

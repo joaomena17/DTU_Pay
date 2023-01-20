@@ -29,12 +29,12 @@ public class MerchantResource {
 
     private PaymentService paymentservice = new DTUPayFactory().getService().getPaymentService();
 
-    @GET
+    @POST
     @Path("/report")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response merchantRequestReport(DTUPayUser merchant){
+    public Response merchantRequestReport(String id){
         try {
-            List<PaymentReport> report= reportService.requestMerchantReport(merchant.getAccountID());
+            List<PaymentReport> report= reportService.requestMerchantReport(id);
             return Response.ok(report).build();
         }
         catch (Exception e){
@@ -84,6 +84,9 @@ public class MerchantResource {
             return Response.ok(success).build();
         }
         catch (Exception e) {
+            System.out.println("SOMETHING FAILED");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getMessage()).build();
         }
 
