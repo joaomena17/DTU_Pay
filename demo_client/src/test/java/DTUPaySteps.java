@@ -5,10 +5,16 @@ import Entities.*;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import MobileApp.*;
+import org.junit.After;
+
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/***
+ * Author: Tiago Machado s222963
+ */
 
 public class DTUPaySteps {
 
@@ -16,25 +22,32 @@ public class DTUPaySteps {
     BankService bank = new BankServiceService().getBankServicePort();
     String customerBankID,customerId;
     DTUPayUser customerAccount ;
+    String merchantBankID,merchantId;
+    DTUPayUser merchantAccount ;
+
+    List<String> tokens;
+    String paidToken;
+
 
     CustomerPort customerService= new CustomerPort();
     MerchantPort merchantService= new MerchantPort();
 
     ManagerPort managerService = new ManagerPort();
-    private String merchantBankID;
-    private DTUPayUser merchantAccount;
-    private String merchantId,error,paymentToken;
+    private String error,paymentToken;
 
     Boolean paymentSuccess;
-    List<String> tokens;
 
     List<PaymentReport> reportManager,reportCustomer,reportMerchant;
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////CREATE ACCOUNT////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////CREATE ACCOUNT ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Given("the customer {string} {string} with CPR {string} has a bank account with balance {int}")
     public void theCostumerWithCPRHasABankAccountWithBalance(String firstName, String lastName,String cpr, int balance) throws  BankServiceException_Exception {
         User customerUser = new User();
@@ -42,7 +55,7 @@ public class DTUPaySteps {
         customerUser.setLastName(lastName);
         customerUser.setCprNumber(cpr);
         customerBankID = bank.createAccountWithBalance(customerUser,new BigDecimal( balance));
-        customerAccount= new DTUPayUser(firstName+lastName,customerBankID,"customer");
+        customerAccount= new DTUPayUser(firstName+lastName,customerBankID,"customer","");
     }
 
     @When("the customer registers at DTUPay")
@@ -56,15 +69,16 @@ public class DTUPaySteps {
     }
 
     @Given("the merchant {string} {string} with CPR {string} has a bank account with balance {int}")
-    public void theMerchantWithCPRHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws BankServiceException_Exception {
+
+    public void theMerchantWithCPRHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws  BankServiceException_Exception{
+
         User merchantUser = new User();
         merchantUser.setFirstName(firstName);
         merchantUser.setLastName(lastName);
         merchantUser.setCprNumber(cpr);
         merchantBankID = bank.createAccountWithBalance(merchantUser,new BigDecimal( balance));
-        merchantAccount= new DTUPayUser(firstName+lastName,customerBankID,"merchant");
+        merchantAccount= new DTUPayUser(firstName+lastName,customerBankID,"merchant","");
     }
-
     @When("the merchant registers at DTUPay")
     public void theMerchantRegistersAtDTUPay() throws Exception {
         merchantId=merchantService.registerMerchant(merchantAccount);
@@ -74,20 +88,27 @@ public class DTUPaySteps {
     public void theMerchantAccountIsCreated() {
         assertFalse(merchantId.isEmpty());
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////TOKENS REQUEST////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @After
+    public void afterStep() throws BankServiceException_Exception {
+        if(merchantBankID!=null) bank.retireAccount(merchantBankID);
+        if(customerBankID!=null) bank.retireAccount(customerBankID);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////TOKEN REQUEST ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @When("the customer asks for {int} tokens")
-    public void theCustomerAsksForTokens(int numberOfTokens) {
+    public void theCustomerAsksForTokens(int numberOfTokens) throws Exception {
         try{
             tokens=customerService.requestTokensCustomer(customerId,numberOfTokens);
         }
         catch(Exception e){
             error=e.getMessage();
         }
-
     }
 
     @Then("the customer receives {int} tokens")
@@ -122,18 +143,25 @@ public class DTUPaySteps {
 
     }
 
-    @Then("the payment is successful")
-    public void thePaymentIsSuccessful() {
-        assertTrue(paymentSuccess);
+    @And("the merchant has received a token from the customer")
+    public void theMerchantHasReceivedATokenFromTheCustomer() {
+        paidToken=tokens.get(0);
+        tokens.remove(0);
     }
+    @Then("the customer receives an exception error with the message {string}")
+    public void theCustomerReceivesAnExceptionErrorWithTheMessage(String errorMessage) {
+        assertEquals(error,errorMessage);
+    }
+
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////REPORT////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @When("manager requests a DTU Pay report")
-    public void managerRequestsADTUPayReport() {
+    @When("the manager requests a DTU Pay report")
+    public void theManagerRequestsADTUPayReport() {
         try {
             reportManager = managerService.getDTUPayReport();
         }
@@ -147,8 +175,8 @@ public class DTUPaySteps {
         assertEquals(reportManager.size(),numberTransactions);
     }
 
-    @When("customer requests a report of his account")
-    public void customerRequestsAReportOfHisAccount() {
+    @When("the customer requests a report")
+    public void theCustomerRequestsAReport() {
         try {
             reportCustomer = customerService.getCustomerReport(customerId);
         }
@@ -162,19 +190,24 @@ public class DTUPaySteps {
         assertEquals(reportCustomer.size(),numberTransactions);
     }
 
-    @When("merchant requests a report of his account")
-    public void merchantRequestsAReportOfHisAccount() {
+    @When("the merchant requests a report")
+    public void theMerchantRequestsAReport() {
         try {
             reportMerchant = merchantService.getMerchantReport(merchantId);
         }
         catch(Exception e){
             error=e.getMessage();
         }
-
     }
-
     @Then("the merchant gets a list with {int} transaction")
     public void theMerchantGetsAListWithTransaction(int numberTransactions) {
         assertEquals(reportMerchant.size(),numberTransactions);
     }
+
+    @Then("the payment is successful")
+    public void thePaymentIsSuccessful() {
+        assertTrue(paymentSuccess);
+    }
 }
+
+

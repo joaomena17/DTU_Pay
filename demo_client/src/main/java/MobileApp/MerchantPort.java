@@ -24,12 +24,7 @@ public class MerchantPort {
         baseUrl = client.target("http://localhost:8080/merchants");
     }
 
-    public String registerMerchant(DTUPayUser merchant)
-            throws Exception {
-<<<<<<< HEAD
-=======
-        DTUPayUser merchant = new DTUPayUser(name, bankId, "merchant","");
->>>>>>> 61a14b8087e04089e0950f8e0d7cad9952643d4b
+    public String registerMerchant(DTUPayUser merchant) throws Exception {
         Response response = baseUrl.path("register").request()
                 .post(Entity.entity(merchant, MediaType.APPLICATION_JSON));
 
