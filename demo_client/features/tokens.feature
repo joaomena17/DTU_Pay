@@ -16,7 +16,7 @@ Feature: Token test
     When the customer asks for 3 tokens
     Then the customer receives an exception error with the message "Customer has too many tokens left"
 
-  Scenario: Get tokens as a customer that already has too many
+  Scenario: Customer asks for too many tokens
     Given the customer "Olga" "Silva" with CPR "3103890123" has a bank account with balance 1000
     And the customer registers at DTUPay
     When the customer asks for 7 tokens

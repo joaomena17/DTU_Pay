@@ -1,5 +1,4 @@
 
-// Author: Tiago Machado s222963 //
 
 import entities.DTUPayUser;
 import io.cucumber.java.en.Given;
@@ -20,11 +19,12 @@ import utils.EventTypes;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// Author: Tiago Machado s222963 //
+
 public class AccountSteps {
     private Map<String, CompletableFuture<Event>> publishedEvents = new HashMap<>();
     private Map<DTUPayUser, CorrelationID> correlationIds = new HashMap<>();
     private CompletableFuture<String> accountCompletableFuture = new CompletableFuture<>();
-
 
     private MessageQueue queue = new MessageQueue() {
 
