@@ -2,7 +2,7 @@ package org.acme.TokenService;
 import messaging.implementations.RabbitMqQueue;
 
 import java.util.List;
-
+/* author: Þorfinnur s212953 */
 //Copied from studentregistration example, perhaps change
 public class TokenFactory {
     static tokenService service = null;
