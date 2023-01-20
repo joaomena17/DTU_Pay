@@ -49,7 +49,7 @@ public class DTUPaySteps {
         customerUser.setLastName(lastName);
         customerUser.setCprNumber(cpr);
         customerBankID = bank.createAccountWithBalance(customerUser,new BigDecimal( balance));
-        customerAccount= new DTUPayUser(firstName+lastName,customerBankID,"customer");
+        customerAccount= new DTUPayUser(firstName+lastName,customerBankID,"customer","");
     }
 
     @When("the customer registers at DTUPay")
@@ -69,7 +69,7 @@ public class DTUPaySteps {
         merchantUser.setLastName(lastName);
         merchantUser.setCprNumber(cpr);
         merchantBankID = bank.createAccountWithBalance(merchantUser,new BigDecimal( balance));
-        merchantAccount= new DTUPayUser(firstName+lastName,customerBankID,"merchant");
+        merchantAccount= new DTUPayUser(firstName+lastName,customerBankID,"merchant","");
     }
 
     @When("the merchant registers at DTUPay")
