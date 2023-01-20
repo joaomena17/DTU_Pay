@@ -63,15 +63,22 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerCustomer(DTUPayUser customer){
         System.out.println("REGISTER CUSTOMER");
+        System.out.println("CUSTOMERBANKID" + customer.getBankID());
+        System.out.println("CUSTOMERNAME" + customer.getName());
+        System.out.println("CUSTOMERACCID" + customer.getAccountID());
         String idRegistered;
         try {
+            System.out.println("START REGISTER");
             idRegistered = accountservice.requestAccountRegister(customer);
             if (idRegistered == "") {
+                System.out.println("Error in register");
                 return Response.status(Response.Status.PRECONDITION_FAILED).entity("User was not registered").build();
             }
+            System.out.println("GOOD REGISTER");
             return Response.ok(idRegistered).build();
         }
         catch(Exception e){
+            System.out.println(e.getMessage());
             return Response.status(Response.Status.PRECONDITION_FAILED).entity(e.getMessage()).build();
         }
 
