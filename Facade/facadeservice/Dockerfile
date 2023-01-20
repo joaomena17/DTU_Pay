@@ -1,5 +1,6 @@
 FROM adoptopenjdk:11-jre-hotspot
-WORKDIR /usr/src/
-COPY target/facadeservice-1.0.0.jar /usr/src/
-COPY target/lib /usr/src/lib
-CMD java -Xmx32m -jar facadeservice-1.0.0.jar
+WORKDIR /usr/src
+COPY target/quarkus-app/lib /usr/src/lib
+COPY target/quarkus-app /usr/src/quarkus-app
+CMD java -Xmx64m \
+-jar quarkus-app/quarkus-run.jar

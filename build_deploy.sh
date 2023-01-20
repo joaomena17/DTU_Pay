@@ -1,13 +1,12 @@
-echo "Build and deploy DTU-pay"
+echo "Build and Docker Compose DTU-pay"
 
-mvn -f /var/lib/jenkins/workspace/dtupayJenkins/message-utilities-3.3/ clean install
-mvn -f /var/lib/jenkins/workspace/dtupayJenkins/AccountManagement/ clean install
-mvn -f /var/lib/jenkins/workspace/dtupayJenkins/Facade/ clean install
-mvn -f /var/lib/jenkins/workspace/dtupayJenkins/PaymentMicroservice clean install
-mvn -f /var/lib/jenkins/workspace/dtupayJenkins/PaymentService clean install
-mvn -f /var/lib/jenkins/workspace/dtupayJenkins/ReportService/ clean install
-mvn -f /var/lib/jenkins/workspace/dtupayJenkins/TokenMicroservice clean install
-mvn -f /var/lib/jenkins/workspace/dtupayJenkins/demo_client clean install
+mvn -f ./messaging-utilities-3.3/ clean install
+mvn -f ./AccountManagement/ clean install
+mvn -f ./Facade/facadeservice/ clean install
+mvn -f ./PaymentService/ clean install
+mvn -f ./ReportService/ clean install
+mvn -f ./TokenMicroservice/ clean install
+mvn -f ./demo_client/ clean install
 
-docker-compose -f /var/lib/jenkins/workspace/dtupayJenkins/docker-compose.yml build
-docker-compose -f /var/lib/jenkins/workspace/dtupayJenkins/docket-compose.yml up
+docker-compose -f ./docker-compose.yml build
+docker-compose -f ./docker-compose.yml up

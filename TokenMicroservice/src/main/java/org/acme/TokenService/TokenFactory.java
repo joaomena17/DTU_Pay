@@ -1,6 +1,8 @@
 package org.acme.TokenService;
 import messaging.implementations.RabbitMqQueue;
 
+import java.util.List;
+
 //Copied from studentregistration example, perhaps change
 public class TokenFactory {
     static tokenService service = null;
@@ -40,7 +42,7 @@ public class TokenFactory {
             }
 
             @Override
-            public String requestTokenMessageQueue(String user, int number) {
+            public List<String> requestTokenMessageQueue(String user, int number) {
                 return null;
             }
         };

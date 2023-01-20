@@ -43,7 +43,7 @@ public class BankAccountRequestSteps {
         CorrelationId correlationId= CorrelationId.randomId();
 
         //event is received
-        accountId=customerService.handleRegisterAccountRequest(new Event("RegisterAccountRequest", new Object[] { customer ,correlationId}));
+        accountId=customerService.handleRegisterAccountRequest(new Event("RegisterAccountRequest", new Object[] { customer ,customer.getBankID()}));
         
         System.out.println("\n\nAccount id: "+accountId + "\n\n");
 
@@ -53,12 +53,12 @@ public class BankAccountRequestSteps {
     @When("a successful {string} event is received asking for bank account")
     public void aSuccessfulEventIsReceivedAskingForBankAccount(String eventName) {
         correlationId=CorrelationId.randomId();
-        customerService.handleBankAccountIdRequest(new Event(eventName, new Object[] { accountId,correlationId}));
+        customerService.handleBankAccountIdRequest(new Event(eventName, new Object[] { accountId,bankId}));
     }
 
     @Then("a success {string} event is sent for the payment service")
     public void aSuccessEventIsSentForThePaymentService(String eventName) {
-        var event = new Event(eventName, new Object[] {bankId,correlationId});
+        var event = new Event(eventName, new Object[] {bankId});
         // verify(queue).publish(event);
     }
 
@@ -68,12 +68,12 @@ public class BankAccountRequestSteps {
     public void aUnsuccessfulEventIsReceivedAskingForANotExistingBankAccount(String eventName) {
         correlationId_unsuccess=CorrelationId.randomId();
         accountId="not exist";
-        customerService.handleBankAccountIdRequest(new Event(eventName, new Object[] { accountId,correlationId_unsuccess}));
+        customerService.handleBankAccountIdRequest(new Event(eventName, new Object[] { accountId}));
     }
 
     @Then("a success {string} event is sent for the payment service failing")
     public void aSuccessEventIsSentForThePaymentServiceFailing(String eventName) {
-        var event = new Event(eventName, new Object[] {"",correlationId_unsuccess});
+        var event = new Event(eventName, new Object[] {""});
         // verify(queue).publish(event);
     }
 }

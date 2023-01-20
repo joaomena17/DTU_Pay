@@ -44,17 +44,19 @@ public class AccountManagementService {
     public String handleRegisterAccountRequest(Event ev) {
         Event finalEventCreated;
         var newAccount= ev.getArgument(0, DTUPayUser.class);
-        var correlationId= ev.getArgument(1,CorrelationId.class);
+        var bankId= ev.getArgument(1,String.class);
         String newAccountId;
 
         newAccountId = accountService.registerAccount(newAccount);
 
         if(!newAccountId.equals("")) {
-            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[]{newAccountId, correlationId});
+            System.out.println("REGISTER IS GOOD ACCOUNT MANAGEMENT");
+            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[]{newAccountId, bankId});
         }
         else {
             // Create an "AccountRegistrationFailed" event
-            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED, new Object[]{newAccountId, correlationId});
+            System.out.println("REGISTER FAILED ACCOUNT MANAGEMNET");
+            finalEventCreated = new Event(EventTypes.REGISTER_ACCOUNT_FAILED, new Object[]{newAccountId, bankId});
         }
 
         queue.publish(finalEventCreated);

@@ -72,8 +72,7 @@ public class ManageAccountServiceSteps {
     @When("a successful {string} register event for the customer is received")
     public void a_succsessful_register_event_for_the_customer_is_received(String eventName) {
 
-        correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, correlationId });
+        Event event = new Event(eventName, new Object[] { customer, customer.getBankID() });
         // new Thread(() -> {
         expected=customerService.handleRegisterAccountRequest(event);
         customer.setAccountID(expected);
@@ -91,7 +90,7 @@ public class ManageAccountServiceSteps {
     public void a_success_register_event_is_sent(String eventName) {
 
         // var event = new Event(eventName, new Object[] {expected, correlationId});
-        var event = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[] {expected, correlationId});
+        var event = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[] {expected, customer.getBankID()});
         // verify(customerService.queue).publish(event);
     }
 
@@ -99,14 +98,14 @@ public class ManageAccountServiceSteps {
     public void a_succsessful_unregister_event_for_the_customer_is_received(String eventName) {
 
         correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, correlationId });
+        Event event = new Event(eventName, new Object[] { customer, customer.getBankID() });
         customerService.handleUnregisterAccountRequest(event);
     }
 
     @And("a success {string} event is sent")
     public void a_success_unregister_event_is_sent(String eventName) {
 
-        var event = new Event(eventName, new Object[] {true, correlationId});
+        var event = new Event(eventName, new Object[] {true, customer.getBankID()});
         // verify(customerService.queue).publish(event);
     }
 
@@ -128,26 +127,26 @@ public class ManageAccountServiceSteps {
     @When("an unsuccessful {string} register event for the customer is received")
     public void an_unsuccsessful_register_event_for_the_customer_is_received(String eventName) {
         correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, correlationId });
+        Event event = new Event(eventName, new Object[] { customer, customer.getBankID() });
         customerService.handleRegisterAccountRequest(event);
     }
 
     @Then("a failure {string} event is ssent")
     public void a_failure_register_event_is_sent(String eventName) {
-        var event = new Event(eventName, new Object[] {"", correlationId});
+        var event = new Event(eventName, new Object[] {"", customer.getBankID()});
         // verify(queue).publish(event);
     }
 
     @And("an unsuccessful {string} unregister event for the customer is received")
     public void an_unsuccsessful_unregister_event_for_the_customer_is_received(String eventName) {
         correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, correlationId });
+        Event event = new Event(eventName, new Object[] { customer, customer.getBankID() });
         customerService.handleUnregisterAccountRequest(event);
     }
 
     @And("a failure {string} event is sent")
     public void a_failure_unregister_event_is_sent(String eventName) {
-        var event = new Event(eventName, new Object[] {false, correlationId});
+        var event = new Event(eventName, new Object[] {false, customer.getBankID()});
         // verify(queue).publish(event);
     }
 

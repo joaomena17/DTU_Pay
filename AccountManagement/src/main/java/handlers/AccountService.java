@@ -10,6 +10,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public String registerAccount(DTUPayUser account) throws IllegalArgumentException {
+        System.out.println("REGISTERACCOUNT ACCOUNT MANAGEMENT");
         if(account.validAccount() && !AccountList.bankIDAlreadyExists(account.getBankID())){
             AccountList.addAccount(account);
             account.setAccountID(AccountList.getAccountCounter());

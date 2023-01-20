@@ -17,6 +17,7 @@ import org.acme.Token;
 import org.acme.TokenService.tokenService;
 import org.acme.Utils.EventTypes;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static org.mockito.Mockito.mock;
@@ -54,7 +55,7 @@ public class TokenMessageSteps {
             }
 
             @Override
-            public String requestTokenMessageQueue(String user, int number) {
+            public List<String> requestTokenMessageQueue(String user, int number) {
                 return null;
             }
         };
