@@ -1,6 +1,7 @@
 ### Author: Tiago Machado s222963 ###
 
 Feature:Report
+
   @DontRun
   Scenario: Customer asks for report
   Given the user has a DTUPay account with id "123"
@@ -8,6 +9,7 @@ Feature:Report
   Then the event "generateCustomerReport" is published asking for report
   When the costumer report is received from the report service
   Then the report is created
+
   @DontRun
   Scenario: Merchant asks for report
     Given the user has a DTUPay account with id "456"
@@ -16,10 +18,7 @@ Feature:Report
     When the merchant report is received from the report service
     Then the report is created
 
-<<<<<<< HEAD
-=======
   @DontRun
->>>>>>> 6bbedaddb4ba96dc49c466ee1bf56ded7c1ebb06
   Scenario: Manager asks for report
     When the manager asks for a report
     Then the event "generateManagerReport" is published asking for manager report

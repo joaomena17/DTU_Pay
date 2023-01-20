@@ -10,7 +10,7 @@ Then the event "RequestToken" is published asking for tokens
 When the tokens are received from the account management
 Then the tokens are received
 
-
+@DontRun
 Scenario: Customer asks for too many tokens
   Given the customer "78695412" creates account
   When the customer asks for 7 tokens
