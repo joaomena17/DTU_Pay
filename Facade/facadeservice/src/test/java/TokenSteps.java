@@ -15,7 +15,12 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+<<<<<<< Updated upstream
 import static org.junit.jupiter.api.Assertions.*;
+=======
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+>>>>>>> Stashed changes
 
 public class TokenSteps {
     private Map<String, CompletableFuture<Event>> publishedEvents = new HashMap<>();
@@ -78,6 +83,7 @@ public class TokenSteps {
         tokens=tokensCompletableFuture.join();
         assertNotNull(tokens);
     }
+<<<<<<< Updated upstream
 
     @When("the tokens are not received from the account management")
     public void theTokensAreNotReceivedFromTheAccountManagement() {
@@ -92,4 +98,6 @@ public class TokenSteps {
         tokens=tokensCompletableFuture.join();
         assertTrue(tokens.size()==0);
     }
+=======
+>>>>>>> Stashed changes
 }

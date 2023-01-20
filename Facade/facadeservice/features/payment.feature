@@ -1,5 +1,6 @@
 ### Author: Tiago Machado s222963 ###
 
+<<<<<<< Updated upstream
 
 
 Feature: Payment
@@ -12,3 +13,5 @@ Feature: Payment
     Then the "MerchantPaymentRequest" is published requesting payment
     When the payment service notifies the success of the payment
     Then the payment was successful
+=======
+>>>>>>> Stashed changes

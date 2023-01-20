@@ -87,4 +87,5 @@ public class PaymentSteps {
     public void thePaymentWasSuccessful() {
         assertTrue(paymentCompletableFuture.join());
     }
+
 }
