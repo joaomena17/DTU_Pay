@@ -1,10 +1,7 @@
 ### Author: Tiago Machado s222963 ###
 
 Feature:Report
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
   @DontRun
   Scenario: Customer asks for report
   Given the user has a DTUPay account with id "123"
@@ -12,10 +9,7 @@ Feature:Report
   Then the event "generateCustomerReport" is published asking for report
   When the costumer report is received from the report service
   Then the report is created
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
   @DontRun
   Scenario: Merchant asks for report
     Given the user has a DTUPay account with id "456"
