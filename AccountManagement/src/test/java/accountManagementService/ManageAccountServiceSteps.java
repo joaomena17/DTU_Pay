@@ -36,119 +36,71 @@ public class ManageAccountServiceSteps {
     private String role = "customer";
     private BankService bank = new BankServiceService().getBankServicePort();
     private DTUPayUser customer;
-    private String expected;
-    CorrelationId correlationId;
-
+    private String expectedId;
     private MessageQueue queue = mock(MessageQueue.class);
     private AccountManagementService customerService = new AccountManagementService(queue);
 
-    @Before
-    public void setup() {
+                            //////////////////////////////////////////////////////////////////////////////////
+                            //////////////////////////////////////////////////////////////////////////////////
+                            ///////////////////////////////////// REGISTER ACCOUNT///////////////////////////////////
+                            //////////////////////////////////////////////////////////////////////////////////
 
-        user.setCprNumber("354-1235");
-        user.setFirstName("Tiago");
-        user.setLastName("Gomes");
-        BigDecimal bigDecimalBalance = new BigDecimal(1000);
-
-        bankId="11111";
-
-        customer = new DTUPayUser(name, bankId, role);
+    @Given("a customer {string} that is not registered with DTU Pay")
+    public void aCustomerThatIsNotRegisteredWithDTUPay(String name) {
+        bankId="111";
+        customer= new  DTUPayUser(name,bankId,"customer");
     }
 
+    @When("a register request event is received")
+    public void aRegisterRequestEventIsReceived() {
+        Event event = new Event(EventTypes.REGISTER_ACCOUNT_REQUEST, new Object[] { customer, customer.getBankID() });
 
-    /* Scenario: Register and Unregister customer are successful
-    Given a customer that is not registered with DTU Pay that succeeds in registering and unregistering
-    When a successful "RegisterAccountRequest" register event for the customer is received
-    And a successful "RegisterUserTokenSuccess" event is received
-    Then a success "RegisterAccountSuccess" event is ssent
-    And a successful "UnregisterAccountRequest" unregister event for the customer is received
-    And a success "UnregisterAccountSuccess" event is sent*/
-
-    @Given("a customer that is not registered with DTU Pay that succeeds in registering and unregistering")
-    public void a_customer_that_is_not_registered_with_DTU_Pay_that_succeeds_in_registering_and_unregistering() {
-        assertNull(customer.getAccountID());
+        expectedId=customerService.handleRegisterAccountRequest(event);
+        customer.setAccountID(expectedId);
+    }
+    @Then("a success register event is sent")
+    public void aSuccessRegisterEventIsSent() {
+        var event = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[] {expectedId, customer.getBankID()});
+        verify(queue).publish(event);
     }
 
-    @When("a successful {string} register event for the customer is received")
-    public void a_succsessful_register_event_for_the_customer_is_received(String eventName) {
-
-        Event event = new Event(eventName, new Object[] { customer, customer.getBankID() });
-        // new Thread(() -> {
-        expected=customerService.handleRegisterAccountRequest(event);
-        customer.setAccountID(expected);
-        // }).start();
-    }
-
-    /* @And("a successful {string} event is received")
-    public void a_succsessful_register_event_is_received(String eventName) {
-        var tokenCorrId = customerService.tokenCorrelationId;
-        Event event = new Event(eventName, new Object[] { true, tokenCorrId });
-        customerService.handleRegisterUserTokenSuccess(event);
-    } */
-
-    @Then("a success {string} event is ssent")
-    public void a_success_register_event_is_sent(String eventName) {
-
-        // var event = new Event(eventName, new Object[] {expected, correlationId});
-        var event = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[] {expected, customer.getBankID()});
-        // verify(customerService.queue).publish(event);
-    }
-
-    @And("a successful {string} unregister event for the customer is received")
-    public void a_succsessful_unregister_event_for_the_customer_is_received(String eventName) {
-
-        correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, customer.getBankID() });
+    @When("an unregister event for the customer is received")
+    public void anUnregisterEventForTheCustomerIsReceived() {
+        Event event = new Event(EventTypes.UNREGISTER_ACCOUNT_REQUEST, new Object[] { customer, customer.getBankID() });
         customerService.handleUnregisterAccountRequest(event);
     }
 
-    @And("a success {string} event is sent")
-    public void a_success_unregister_event_is_sent(String eventName) {
-
-        var event = new Event(eventName, new Object[] {true, customer.getBankID()});
-        // verify(customerService.queue).publish(event);
+    @And("an unregister success event is sent")
+    public void anUnregisterSuccessEventIsSent() {
+        var event = new Event(EventTypes.UNREGISTER_ACCOUNT_SUCCESS, new Object[] {true, customer.getBankID()});
+        verify(customerService.queue).publish(event);
     }
 
-    /* Scenario: Register and Unregister customer are unsuccessful
-    Given a customer that is not registered with DTU Pay that fails to register
-    When an unsuccessful "RegisterAccountRequest" register event for the customer is received
-    Then a failure "RegisterAccountRequestFailed" event is ssent
-    And the customer that cannot register is unregistered
-    And an unsuccessful "UnregisterAccountRequest" unregister event for the customer is received
-    And a failure "UnregisterAccountFailed" event is sent */
-
-
-    @Given("a customer that is not registered with DTU Pay that fails to register")
-    public void a_customer_that_is_not_registered_with_DTU_Pay_that_fails_to_register() {
-        customer.set_name("");
-        assertNull(customer.getAccountID());
+    @Then("a failure register event is sent")
+    public void aFailureRegisterEventIsSent() {
+        var event = new Event(EventTypes.REGISTER_ACCOUNT_FAILED, new Object[] {"", customer.getBankID()});
+        verify(queue).publish(event);
     }
 
-    @When("an unsuccessful {string} register event for the customer is received")
-    public void an_unsuccsessful_register_event_for_the_customer_is_received(String eventName) {
-        correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, customer.getBankID() });
-        customerService.handleRegisterAccountRequest(event);
+    @Then("an unregister failure event is sent")
+    public void anUnregisterFailureEventIsSent() {
+        var event = new Event(EventTypes.UNREGISTER_ACCOUNT_FAILED, new Object[] {false, customer.getBankID()});
+        verify(customerService.queue).publish(event);
     }
 
-    @Then("a failure {string} event is ssent")
-    public void a_failure_register_event_is_sent(String eventName) {
-        var event = new Event(eventName, new Object[] {"", customer.getBankID()});
-        // verify(queue).publish(event);
+                        //////////////////////////////////////////////////////////////////////////////////
+                        //////////////////////////////////////////////////////////////////////////////////
+                        ///////////////////////////////////// BANK ID REQUEST////////////////////////////
+                        //////////////////////////////////////////////////////////////////////////////////
+    @When("a event is received asking for user bank account")
+    public void aEventIsReceivedAskingForUserBankAccount() {
+        customerService.handleBankAccountIdRequest(new Event(EventTypes.BANK_ACCOUNT_ID_REQUEST, new Object[] { customer.getAccountID(),customer.getAccountID()}));
     }
 
-    @And("an unsuccessful {string} unregister event for the customer is received")
-    public void an_unsuccsessful_unregister_event_for_the_customer_is_received(String eventName) {
-        correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, customer.getBankID() });
-        customerService.handleUnregisterAccountRequest(event);
+    @Then("a {string} event is sent for the payment service")
+    public void aEventIsSentForThePaymentService(String eventName) {
+        var event = new Event(eventName, new Object[] {customer.getBankID(),customer.getAccountID()});
+        verify(queue).publish(event);
     }
-
-    @And("a failure {string} event is sent")
-    public void a_failure_unregister_event_is_sent(String eventName) {
-        var event = new Event(eventName, new Object[] {false, customer.getBankID()});
-        // verify(queue).publish(event);
-    }
-
 
 }

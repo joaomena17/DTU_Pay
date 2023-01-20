@@ -16,7 +16,10 @@ Feature:Report
     When the merchant report is received from the report service
     Then the report is created
 
+<<<<<<< HEAD
+=======
   @DontRun
+>>>>>>> 6bbedaddb4ba96dc49c466ee1bf56ded7c1ebb06
   Scenario: Manager asks for report
     When the manager asks for a report
     Then the event "generateManagerReport" is published asking for manager report

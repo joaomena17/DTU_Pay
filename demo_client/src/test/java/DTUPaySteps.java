@@ -15,12 +15,15 @@ import static org.junit.jupiter.api.Assertions.*;
 /***
  * Author: Tiago Machado s222963
  */
+
 public class DTUPaySteps {
 
 
     BankService bank = new BankServiceService().getBankServicePort();
-    String customerBankID,customerId,merchantBankID,merchantId;
-    DTUPayUser customerAccount,merchantAccount ;
+    String customerBankID,customerId;
+    DTUPayUser customerAccount ;
+    String merchantBankID,merchantId;
+    DTUPayUser merchantAccount ;
 
     List<String> tokens;
     String paidToken;
@@ -29,11 +32,13 @@ public class DTUPaySteps {
     CustomerPort customerService= new CustomerPort();
     MerchantPort merchantService= new MerchantPort();
 
-    ManagerPort managerService= new ManagerPort();
+    ManagerPort managerService = new ManagerPort();
+    private String error,paymentToken;
+
+    Boolean paymentSuccess;
 
     List<PaymentReport> reportManager,reportCustomer,reportMerchant;
-    Boolean paymentSuccess;
-    private String error;
+
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +47,7 @@ public class DTUPaySteps {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Given("the customer {string} {string} with CPR {string} has a bank account with balance {int}")
     public void theCostumerWithCPRHasABankAccountWithBalance(String firstName, String lastName,String cpr, int balance) throws  BankServiceException_Exception {
         User customerUser = new User();
@@ -63,7 +69,9 @@ public class DTUPaySteps {
     }
 
     @Given("the merchant {string} {string} with CPR {string} has a bank account with balance {int}")
+
     public void theMerchantWithCPRHasABankAccountWithBalance(String firstName, String lastName, String cpr, int balance) throws  BankServiceException_Exception{
+
         User merchantUser = new User();
         merchantUser.setFirstName(firstName);
         merchantUser.setLastName(lastName);
@@ -71,9 +79,8 @@ public class DTUPaySteps {
         merchantBankID = bank.createAccountWithBalance(merchantUser,new BigDecimal( balance));
         merchantAccount= new DTUPayUser(firstName+lastName,customerBankID,"merchant","");
     }
-
     @When("the merchant registers at DTUPay")
-    public void theMerchantRegistersAtDTUPay() throws Exception{
+    public void theMerchantRegistersAtDTUPay() throws Exception {
         merchantId=merchantService.registerMerchant(merchantAccount);
     }
 
@@ -81,6 +88,7 @@ public class DTUPaySteps {
     public void theMerchantAccountIsCreated() {
         assertFalse(merchantId.isEmpty());
     }
+
     @After
     public void afterStep() throws BankServiceException_Exception {
         if(merchantBankID!=null) bank.retireAccount(merchantBankID);
@@ -105,7 +113,34 @@ public class DTUPaySteps {
 
     @Then("the customer receives {int} tokens")
     public void theCustomerReceivesTokens(int numberOfTokens) {
-        assertEquals(numberOfTokens,tokens.size());
+        assertEquals(tokens.size(),numberOfTokens);
+    }
+
+
+    @Then("the customer receives an error message {string}")
+    public void theCustomerReceivesAnErrorMessage(String errorMessage) {
+        assertEquals(errorMessage,error);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////PAYMENT ////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @And("the merchant receives a token for the payment")
+    public void theMerchantReceivesATokenForThePayment() {
+        paymentToken = tokens.get(0);
+        tokens.remove(0);
+    }
+
+    @When("the merchant initiates a payment for {int} kr by the customer")
+    public void theMerchantInitiatesAPaymentForKrByTheCustomer(int amount)  {
+        Payment payment= new Payment(merchantId,paymentToken,"payment 1",new BigDecimal(amount));
+        try{
+            paymentSuccess=merchantService.pay(payment);
+        }catch (Exception e){ paymentSuccess=false;}
+
     }
 
     @And("the merchant has received a token from the customer")
@@ -117,56 +152,62 @@ public class DTUPaySteps {
     public void theCustomerReceivesAnExceptionErrorWithTheMessage(String errorMessage) {
         assertEquals(error,errorMessage);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////PAYMENT ///////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @When("the merchant initiates a payment for {int} kr by the customer")
-    public void theMerchantInitiatesAPaymentForKrByTheCustomer(int amount) throws Exception {
-        Payment payment= new Payment(merchantId,customerId,"1st payment",new BigDecimal(amount));
-        paymentSuccess=merchantService.pay(payment);
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////REPORT////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @When("the manager requests a DTU Pay report")
+    public void theManagerRequestsADTUPayReport() {
+        try {
+            reportManager = managerService.getDTUPayReport();
+        }
+        catch(Exception e){
+            error=e.getMessage();
+        }
+    }
+
+    @Then("the manager gets a list with {int} transaction")
+    public void theManagerGetsAListWithTransaction(int numberTransactions) {
+        assertEquals(reportManager.size(),numberTransactions);
+    }
+
+    @When("the customer requests a report")
+    public void theCustomerRequestsAReport() {
+        try {
+            reportCustomer = customerService.getCustomerReport(customerId);
+        }
+        catch(Exception e){
+            error=e.getMessage();
+        }
+    }
+
+    @Then("the customer gets a list with {int} transaction")
+    public void theCustomerGetsAListWithTransaction(int numberTransactions) {
+        assertEquals(reportCustomer.size(),numberTransactions);
+    }
+
+    @When("the merchant requests a report")
+    public void theMerchantRequestsAReport() {
+        try {
+            reportMerchant = merchantService.getMerchantReport(merchantId);
+        }
+        catch(Exception e){
+            error=e.getMessage();
+        }
+    }
+    @Then("the merchant gets a list with {int} transaction")
+    public void theMerchantGetsAListWithTransaction(int numberTransactions) {
+        assertEquals(reportMerchant.size(),numberTransactions);
     }
 
     @Then("the payment is successful")
     public void thePaymentIsSuccessful() {
         assertTrue(paymentSuccess);
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////REPORT ///////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @When("the manager requests a DTU Pay report")
-    public void theManagerRequestsADTUPayReport() throws Exception {
-        reportManager=managerService.getDTUPayReport();
-    }
-
-    @Then("the manager gets a list with {int} transaction")
-    public void theManagerGetsAListWithTransaction(int expectedSize) {
-        assertEquals(expectedSize,reportManager.size());
-    }
-
-    @When("the customer requests a report")
-    public void theCustomerRequestsAReport() throws Exception {
-        reportCustomer=customerService.getCustomerReport(customerId);
-    }
-
-    @Then("the customer gets a list with {int} transaction")
-    public void theCustomerGetsAListWithTransaction(int expectedSize) {
-        assertEquals(expectedSize,reportCustomer.size());
-    }
-
-    @When("the merchant requests a report")
-    public void theMerchantRequestsAReport() throws Exception {
-        reportMerchant=merchantService.getMerchantReport(customerId);
-    }
-
-    @Then("the merchant gets a list with {int} transaction")
-    public void theMerchantGetsAListWithTransaction(int expectedSize) {
-        assertEquals(expectedSize,reportMerchant.size());
-    }
 }
+
+

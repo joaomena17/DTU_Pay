@@ -5,7 +5,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/DTUPay-Test/pom.xml" />
-        <option value="$PROJECT_DIR$/ReportService/pom.xml" />
         <option value="$PROJECT_DIR$/PaymentMicroservice/pom.xml" />
         <option value="$PROJECT_DIR$/messaging-utilities-3.3/pom.xml" />
         <option value="$PROJECT_DIR$/PaymentMicroservice/Payment/pom.xml" />
