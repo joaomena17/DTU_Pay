@@ -9,6 +9,7 @@ import org.acme.Utils.EventTypes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+/* author:Þorfinnur s212953 and Kári s212434 */
 
 public class tokenService implements interfaceTokenService {
     MessageQueue queue;

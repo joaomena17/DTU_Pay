@@ -1,13 +1,15 @@
 package accountManagementService;
 
+/* authors: 
+Joao Silva    s222961
+Tiago Machado s222963 
+*/
+
 import dtu.ws.fastmoney.*;
-import groovy.xml.Entity;
 import services.*;
 import Entities.*;
 import handlers.*;
 import Utils.EventTypes;
-
-// import Utils.CorrelationId;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -30,8 +32,6 @@ import java.math.BigDecimal;
 
 public class ManageAccountServiceSteps {
 
-    private User user = new User();
-    private String name = "Joao Silva";
     private String bankId;
     private String role = "customer";
     private BankService bank = new BankServiceService().getBankServicePort();

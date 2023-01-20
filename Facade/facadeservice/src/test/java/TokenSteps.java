@@ -16,6 +16,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 public class TokenSteps {
     private Map<String, CompletableFuture<Event>> publishedEvents = new HashMap<>();
@@ -76,7 +79,7 @@ public class TokenSteps {
     @Then("the tokens are received")
     public void theTokensAreReceived() {
         tokens=tokensCompletableFuture.join();
-        assertNotNull(tokens);
+        assertFalse(tokens.isEmpty());
     }
 
     @When("the tokens are not received from the account management")
@@ -90,6 +93,6 @@ public class TokenSteps {
     @Then("the tokens are not received")
     public void theTokensAreNotReceived() {
         tokens=tokensCompletableFuture.join();
-        assertTrue(tokens.size()==0);
+        assertTrue(tokens.isEmpty());
     }
 }
