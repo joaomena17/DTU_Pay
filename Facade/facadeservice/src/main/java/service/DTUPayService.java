@@ -26,7 +26,6 @@ public class DTUPayService {
 
     public PaymentService getPaymentService() { return payment; }
 
-
     public ReportService getReportService() {
         return report;
     }

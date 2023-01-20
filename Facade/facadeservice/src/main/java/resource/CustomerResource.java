@@ -46,9 +46,9 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerTokens(TokenRequest request){
         try{
-            String success = tokenService.customerTokensRequest(request.getAccountId(), request.getTokenAmount());
-            if(success.equals("Success")){
-                return Response.ok(success).build();
+            List<String> tokens = tokenService.customerTokensRequest(request.getAccountId(), request.getTokenAmount());
+            if(tokens.size()>0){
+                return Response.ok(tokens).build();
             }
             else return Response.status(Response.Status.PRECONDITION_FAILED).entity("Tokens request not completed successfully").build();
         }

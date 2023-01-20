@@ -7,6 +7,10 @@ Feature: Account
     When the customer registers at DTUPay
     Then the customer account is created
 
+  Scenario: Create merchant DTUPay account
+    Given the merchant "Joaquim" "Manuel" with CPR "1009870909" has a bank account with balance 1000
+    When the merchant registers at DTUPay
+    Then the merchant account is created
 
 
 
