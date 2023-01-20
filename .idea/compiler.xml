@@ -7,7 +7,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ReportService" />
         <module name="tokenService" />
         <module name="demo-client" />
         <module name="messaging-utilities" />
@@ -17,6 +16,7 @@
     <bytecodeTargetLevel>
       <module name="demo-client" target="11" />
       <module name="dtu_pay" target="11" />
+      <module name="ReportService" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

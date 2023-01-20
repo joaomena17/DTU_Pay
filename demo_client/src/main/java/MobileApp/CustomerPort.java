@@ -25,11 +25,11 @@ public class CustomerPort {
     }
 
     public String registerCustomer(DTUPayUser customer)
-            throws Exception {
-        Response response = baseUrl.path("register").request()
-                .post(Entity.entity(customer, MediaType.APPLICATION_JSON));
-
-        if (response.getStatus() != 201) {
+            throws Exception  {
+        System.out.println("REGISTER CUSTOMER CLIENT");
+        System.out.println(customer.get_bankID());
+            Response response = baseUrl.path("register").request().post(Entity.entity(customer, MediaType.APPLICATION_JSON));
+        if (response.getStatus() != 200) {
             throw new Exception(response.readEntity(String.class));
         }
         String customerId = response.readEntity(String.class);

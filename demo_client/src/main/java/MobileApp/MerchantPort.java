@@ -26,6 +26,10 @@ public class MerchantPort {
 
     public String registerMerchant(DTUPayUser merchant)
             throws Exception {
+<<<<<<< HEAD
+=======
+        DTUPayUser merchant = new DTUPayUser(name, bankId, "merchant","");
+>>>>>>> 61a14b8087e04089e0950f8e0d7cad9952643d4b
         Response response = baseUrl.path("register").request()
                 .post(Entity.entity(merchant, MediaType.APPLICATION_JSON));
 
