@@ -1,5 +1,10 @@
 package accountManagementService;
 
+/* authors: 
+Joao Silva    s222961
+Tiago Machado s222963 
+*/
+
 import dtu.ws.fastmoney.*;
 import groovy.xml.Entity;
 import services.*;
