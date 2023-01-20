@@ -1,5 +1,6 @@
 Feature: Account Management
 
+# @author: Joao Silva s222961
 
 Scenario: Customer registers and unregisters successfully
     Given a customer with name "Joao" "Afonso" and bank account with balance 1000

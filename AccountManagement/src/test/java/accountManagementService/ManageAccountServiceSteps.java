@@ -1,5 +1,7 @@
 package accountManagementService;
 
+/* @author: Joao Silva s222961 */
+
 import dtu.ws.fastmoney.*;
 import groovy.xml.Entity;
 import services.*;
@@ -57,99 +59,86 @@ public class ManageAccountServiceSteps {
 
 
     /* Scenario: Register and Unregister customer are successful
-    Given a customer that is not registered with DTU Pay that succeeds in registering and unregistering
-    When a successful "RegisterAccountRequest" register event for the customer is received
-    And a successful "RegisterUserTokenSuccess" event is received
-    Then a success "RegisterAccountSuccess" event is ssent
-    And a successful "UnregisterAccountRequest" unregister event for the customer is received
-    And a success "UnregisterAccountSuccess" event is sent*/
+    Given a customer that is not registered with DTU Pay
+    When a register event for the customer is received
+    #Then a TokenUserRequest event is sent
+    #And a successful "RegisterUserTokenSuccess" event is received
+    Then a success register event is sent
+    And a unregister event for the customer is received
+    And a unregister success event is sent */
 
-    @Given("a customer that is not registered with DTU Pay that succeeds in registering and unregistering")
-    public void a_customer_that_is_not_registered_with_DTU_Pay_that_succeeds_in_registering_and_unregistering() {
+    @Given("a customer that is not registered with DTU Pay")
+    public void a_customer_that_is_not_registered_with_DTU_Pay() {
+
         assertNull(customer.getAccountID());
     }
 
-    @When("a successful {string} register event for the customer is received")
-    public void a_succsessful_register_event_for_the_customer_is_received(String eventName) {
+    @When("a register event for the customer is received")
+    public void a_register_event_for_the_customer_is_received() {
 
         correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, correlationId });
+        Event event = new Event(EventTypes.REGISTER_ACCOUNT_REQUEST, new Object[] { customer, correlationId });
         // new Thread(() -> {
         expected=customerService.handleRegisterAccountRequest(event);
         customer.setAccountID(expected);
         // }).start();
     }
 
-    /* @And("a successful {string} event is received")
+    /* @And("a {string} event is received")
     public void a_succsessful_register_event_is_received(String eventName) {
+
         var tokenCorrId = customerService.tokenCorrelationId;
         Event event = new Event(eventName, new Object[] { true, tokenCorrId });
         customerService.handleRegisterUserTokenSuccess(event);
     } */
 
-    @Then("a success {string} event is ssent")
-    public void a_success_register_event_is_sent(String eventName) {
+    @Then("a success register event is sent")
+    public void a_success_register_event_is_sent() {
 
-        // var event = new Event(eventName, new Object[] {expected, correlationId});
         var event = new Event(EventTypes.REGISTER_ACCOUNT_COMPLETED, new Object[] {expected, correlationId});
         // verify(customerService.queue).publish(event);
     }
 
-    @And("a successful {string} unregister event for the customer is received")
-    public void a_succsessful_unregister_event_for_the_customer_is_received(String eventName) {
+    @And("an unregister event for the customer is received")
+    public void a_succsessful_unregister_event_for_the_customer_is_received() {
 
         correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, correlationId });
+        Event event = new Event(EventTypes.UNREGISTER_ACCOUNT_REQUEST, new Object[] { customer, correlationId });
         customerService.handleUnregisterAccountRequest(event);
     }
 
-    @And("a success {string} event is sent")
-    public void a_success_unregister_event_is_sent(String eventName) {
+    @And("an unregister success event is sent")
+    public void an_unregister_success_event_is_sent() {
 
-        var event = new Event(eventName, new Object[] {true, correlationId});
+        var event = new Event(EventTypes.UNREGISTER_ACCOUNT_SUCCESS, new Object[] {true, correlationId});
         // verify(customerService.queue).publish(event);
     }
 
     /* Scenario: Register and Unregister customer are unsuccessful
-    Given a customer that is not registered with DTU Pay that fails to register
-    When an unsuccessful "RegisterAccountRequest" register event for the customer is received
-    Then a failure "RegisterAccountRequestFailed" event is ssent
-    And the customer that cannot register is unregistered
-    And an unsuccessful "UnregisterAccountRequest" unregister event for the customer is received
-    And a failure "UnregisterAccountFailed" event is sent */
+    Given a customer that is not registered with DTU Pay
+    When a register event for the customer is received
+    Then a failure register event is sent
+    And an unregister event for the customer is received
+    And an unregister failure event is sent */
 
+    // @Given("a customer that is not registered with DTU Pay")
 
-    @Given("a customer that is not registered with DTU Pay that fails to register")
-    public void a_customer_that_is_not_registered_with_DTU_Pay_that_fails_to_register() {
-        customer.set_name("");
-        assertNull(customer.getAccountID());
-    }
+    // @When("a register event for the customer is received")
 
-    @When("an unsuccessful {string} register event for the customer is received")
-    public void an_unsuccsessful_register_event_for_the_customer_is_received(String eventName) {
-        correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, correlationId });
-        customerService.handleRegisterAccountRequest(event);
-    }
+    @Then("a failure register event is sent")
+    public void a_failure_register_event_is_sent() {
 
-    @Then("a failure {string} event is ssent")
-    public void a_failure_register_event_is_sent(String eventName) {
-        var event = new Event(eventName, new Object[] {"", correlationId});
+        var event = new Event(EventTypes.REGISTER_ACCOUNT_FAILED, new Object[] {"", correlationId});
         // verify(queue).publish(event);
     }
 
-    @And("an unsuccessful {string} unregister event for the customer is received")
-    public void an_unsuccsessful_unregister_event_for_the_customer_is_received(String eventName) {
-        correlationId = CorrelationId.randomId();
-        Event event = new Event(eventName, new Object[] { customer, correlationId });
-        customerService.handleUnregisterAccountRequest(event);
-    }
+    // @And("an unregister event for the customer is received")
 
-    @And("a failure {string} event is sent")
-    public void a_failure_unregister_event_is_sent(String eventName) {
-        var event = new Event(eventName, new Object[] {false, correlationId});
+    @And("an unregister failure event is sent")
+    public void a_unregister_failure_event_is_sent() {
+
+        var event = new Event(EventTypes.UNREGISTER_ACCOUNT_FAILED, new Object[] {false, correlationId});
         // verify(queue).publish(event);
     }
-
 
 }
