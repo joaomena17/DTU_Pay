@@ -1,5 +1,7 @@
 package org.acme.TokenService;
 
+import java.util.List;
+
 public interface interfaceTokenService {
     boolean registerUser(String user);
 
@@ -7,5 +9,5 @@ public interface interfaceTokenService {
 
     String getSingleToken(String user);
 
-    String requestTokenMessageQueue(String token, int number);
+    List<String> requestTokenMessageQueue(String token, int number);
 }

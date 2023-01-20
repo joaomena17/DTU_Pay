@@ -31,7 +31,7 @@ public class tokenService implements interfaceTokenService {
         }
 
         @Override
-        public String requestTokenMessageQueue(String token, int number) {
+        public List<String> requestTokenMessageQueue(String token, int number) {
             return null;
         }
     };
@@ -46,10 +46,10 @@ public class tokenService implements interfaceTokenService {
         var corrId = event.getArgument(1,CorrelationId.class);
         boolean register = registerUser(customerId);
         if(register){
-            queue.publish(new Event(EventTypes.REGISTER_TOKEN_USER_SUCCESS,new Object[]{true,corrId}));
+            queue.publish(new Event(EventTypes.REGISTER_TOKEN_USER_SUCCESS,new Object[]{register,corrId}));
 
         }else{
-            queue.publish(new Event(EventTypes.REGISTER_TOKEN_USER_FAILED,new Object[]{false,corrId}));
+            queue.publish(new Event(EventTypes.REGISTER_TOKEN_USER_FAILED,new Object[]{register,corrId}));
 
         }
     }
@@ -85,11 +85,14 @@ public class tokenService implements interfaceTokenService {
         String customerId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1, CorrelationId.class);
         var number = event.getArgument(2, int.class);
-        String reqToken = requestTokenMessageQueue(customerId, number);
-        if(reqToken.equals("Success")) {
+        List<String> reqToken = requestTokenMessageQueue(customerId, number);
+        if(reqToken.size() == 0) {
+
             queue.publish(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{reqToken,corrId}));
         }else {
-            queue.publish(new Event(EventTypes.REQUEST_TOKEN_FAILED,new Object[]{reqToken,corrId}));
+            List<String> emptyList = new ArrayList<String>();
+
+            queue.publish(new Event(EventTypes.REQUEST_TOKEN_FAILED,new Object[]{emptyList,corrId}));
         }
 
     }
@@ -212,39 +215,41 @@ public class tokenService implements interfaceTokenService {
 
     // Used when customers request new tokens
     @Override
-    public String requestTokenMessageQueue(String user, int number) {
+    public List<String> requestTokenMessageQueue(String user, int number) {
         //Check if user exists
+        List<String> emptyList = new ArrayList<String>();
+
         if(doesUserExist(user) == false){
             registerUser(user); // Create user in the token service
         }
         // Check if customer is requesting more than 5 tokens
         if(number > 5){
-            return "Too many tokens requested";
+            return emptyList;
 
         }
         // Check if customer is requesting more than 0 or negative tokens
         if(number <= 0){
-            return "Too few tokens requested";
+            return emptyList;
         }
         for(Token t : TokenList){
             if(t.user.equals(user)){
                 //Check if customer has 2 or more valid tokens
                 if(t.tokens.size()>= 2){
-                    return "User has 2 or more valid tokens";
+                    return emptyList;
                 }
                 // Check if the combined number of owned tokens + requested is larger than 6
                 if(t.tokens.size() + number > 6){
-                    return "Number of tokens requested plus owned larger than 6";
+                    return emptyList;
                 }
                 // create the tokens
                 for(int i=1;i<=number;i++){
                     t.tokens.add(createRandomToken());
                 }
-                return "Success";
+                return t.tokens;
             }
         }
 
-        return "Error";
+        return emptyList;
     }
 
 }
