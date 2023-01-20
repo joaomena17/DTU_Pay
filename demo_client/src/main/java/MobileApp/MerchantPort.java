@@ -28,7 +28,7 @@ public class MerchantPort {
         Response response = baseUrl.path("register").request()
                 .post(Entity.entity(merchant, MediaType.APPLICATION_JSON));
 
-        if (response.getStatus() != 201) {
+        if (response.getStatus() != 200 ) {
             throw new Exception(response.readEntity(String.class));
         }
         String merchantId = response.readEntity(String.class);
@@ -41,7 +41,7 @@ public class MerchantPort {
         Response response = baseUrl.path("unregister").request()
                 .post(Entity.entity(merchantId, MediaType.APPLICATION_JSON));
 
-        if (response.getStatus() != 201) {
+        if (response.getStatus() != 200) {
             throw new Exception(response.readEntity(String.class));
         }
         boolean success = response.readEntity(Boolean.class);
@@ -65,10 +65,10 @@ public class MerchantPort {
 
     public boolean pay(Payment payment) throws Exception {
 
-        Response response = baseUrl.path("payments")
+        Response response = baseUrl.path("pay")
                 .request()
                 .post(Entity.entity(payment, MediaType.APPLICATION_JSON));
-        if (response.getStatus() != 201) {
+        if (response.getStatus() != 200) {
             String error = response.readEntity(String.class);
             throw new Exception(error);
         }

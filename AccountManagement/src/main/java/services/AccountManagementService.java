@@ -75,7 +75,7 @@ public class AccountManagementService {
         Event eventCreated;
         String DTUUserId = ev.getArgument(0,String.class);
         var correlationId= ev.getArgument(1,String.class);
-
+        System.out.println("REQUEST BANK ACCOUNT ID REQUEST");
         try {
 
             var userAccount= accountService.getAccount(DTUUserId);
@@ -84,7 +84,7 @@ public class AccountManagementService {
         }
         catch (Exception e) {
 
-            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_FAILED,new Object[] { "",correlationId});
+            eventCreated = new Event(EventTypes.BANK_ACCOUNT_ID_FAILED,new Object[] {"",correlationId});
         }
         queue.publish(eventCreated);
     }

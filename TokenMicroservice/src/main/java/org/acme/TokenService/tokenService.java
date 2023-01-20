@@ -60,7 +60,7 @@ public class tokenService implements interfaceTokenService {
         var corrId = event.getArgument(1,CorrelationId.class);
         validateToken(token);
         String response = validateToken(token);
-        if (response.equals("error")){
+        if (!response.equals("Error")){
             queue.publish(new Event(EventTypes.VALIDATE_SUCCESS,new Object[]{response,corrId}));
         }
         else {
@@ -82,11 +82,16 @@ public class tokenService implements interfaceTokenService {
     }
     // Event creates new tokens for a customer
     public void handleRequestToken(Event event){
+        System.out.println("GOT TOKEN REQUEST");
         String customerId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1, CorrelationId.class);
         var number = event.getArgument(2, int.class);
+        System.out.println("handleRequestToken for " + number + " Tokens");
         List<String> reqToken = requestTokenMessageQueue(customerId, number);
-        if(reqToken.size() == 0) {
+        System.out.println(reqToken == null);
+        System.out.println(reqToken.size());
+        if(reqToken.size() != 0) {
+            System.out.println("tokenList size" +reqToken.size());
 
             queue.publish(new Event(EventTypes.REQUEST_TOKEN_SUCCESS,new Object[]{reqToken,corrId}));
         }else {
@@ -224,17 +229,22 @@ public class tokenService implements interfaceTokenService {
         }
         // Check if customer is requesting more than 5 tokens
         if(number > 5){
+            System.out.println("TOO MANY TOKENS");
             return emptyList;
 
         }
         // Check if customer is requesting more than 0 or negative tokens
         if(number <= 0){
+            System.out.println("TOO LITTLE TOKENS");
             return emptyList;
         }
         for(Token t : TokenList){
+            System.out.println(t.user);
+            System.out.println(user);
             if(t.user.equals(user)){
                 //Check if customer has 2 or more valid tokens
                 if(t.tokens.size()>= 2){
+                    System.out.println("Customer has too many tokens");
                     return emptyList;
                 }
                 // Check if the combined number of owned tokens + requested is larger than 6
@@ -243,12 +253,13 @@ public class tokenService implements interfaceTokenService {
                 }
                 // create the tokens
                 for(int i=1;i<=number;i++){
+                    System.out.println("Adding token");
                     t.tokens.add(createRandomToken());
                 }
                 return t.tokens;
             }
         }
-
+        System.out.println("Returning empty list for user" + user);
         return emptyList;
     }
 

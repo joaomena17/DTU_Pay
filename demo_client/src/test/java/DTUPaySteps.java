@@ -8,6 +8,7 @@ import MobileApp.*;
 import org.junit.After;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +26,7 @@ public class DTUPaySteps {
     String merchantBankID,merchantId;
     DTUPayUser merchantAccount ;
 
-    List<String> tokens;
+    List<String> tokens = new ArrayList<>();
     String paidToken;
 
 
@@ -77,7 +78,7 @@ public class DTUPaySteps {
         merchantUser.setLastName(lastName);
         merchantUser.setCprNumber(cpr);
         merchantBankID = bank.createAccountWithBalance(merchantUser,new BigDecimal( balance));
-        merchantAccount= new DTUPayUser(firstName+lastName,customerBankID,"merchant","");
+        merchantAccount= new DTUPayUser(firstName+lastName,merchantBankID,"merchant","");
     }
     @When("the merchant registers at DTUPay")
     public void theMerchantRegistersAtDTUPay() throws Exception {
@@ -136,7 +137,7 @@ public class DTUPaySteps {
 
     @When("the merchant initiates a payment for {int} kr by the customer")
     public void theMerchantInitiatesAPaymentForKrByTheCustomer(int amount)  {
-        Payment payment= new Payment(merchantId,paymentToken,"payment 1",new BigDecimal(amount));
+        Payment payment= new Payment(merchantId,paidToken,"payment 1",new BigDecimal(amount));
         try{
             paymentSuccess=merchantService.pay(payment);
         }catch (Exception e){ paymentSuccess=false;}

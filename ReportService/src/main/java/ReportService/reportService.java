@@ -14,7 +14,7 @@ public class reportService {
 
     public reportService(MessageQueue mq,PaymentRepository p) {
         queue = mq;
-        queue.addHandler("RequestPaymentCompleted", this::handlePaymentRegisterEvent);
+        queue.addHandler("RequestPaymentSuccess", this::handlePaymentRegisterEvent);
         queue.addHandler("generateCustomerReport", this::handleCustomerReport);
         queue.addHandler("generateMerchantReport",this::handleMerchantReport);
         queue.addHandler("generateManagerReport", this::handleManagerReport);

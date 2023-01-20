@@ -21,6 +21,7 @@ public class TokenService {
     }
 
     public List<String> customerTokensRequest(String cid, int amount){
+        System.out.println("CustomerToken request for " + amount);
         var correlationID = CorrelationID.randomID();
         correlations.put(correlationID, new CompletableFuture<>());
         Event event = new Event(EventTypes.REQUEST_TOKEN, new Object[] { cid, correlationID, amount });
@@ -29,12 +30,14 @@ public class TokenService {
     }
 
     public void handleRequestTokensSuccess(Event e){
+        System.out.println("REQUEST TOKEN SUCCESS");
         var customerTokens = e.getArgument(0, List.class);
         var correlationId = e.getArgument(1, CorrelationID.class);
         correlations.get(correlationId).complete(customerTokens);
     }
 
     public void handleRequestTokensFail(Event e){
+        System.out.println("REQUEST TOKEN FAILED");
         var customerTokens = e.getArgument(0, List.class);
         var correlationId = e.getArgument(1, CorrelationID.class);
         correlations.get(correlationId).complete(customerTokens);

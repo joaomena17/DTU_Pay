@@ -15,7 +15,7 @@ import messaging.MessageQueue;
 public class PaymentService implements IPaymentService {
 
     BankService service = (new BankServiceService()).getBankServicePort();
-    public Map<CorrelationId, Payment > paymentRequest = new HashMap<>();
+    public Map<String, Payment > paymentRequest = new HashMap<>();
     MessageQueue mq;
 
     public PaymentService(MessageQueue mq){
@@ -28,16 +28,18 @@ public class PaymentService implements IPaymentService {
     }
     @Override
     public void makePayment(Event ev) {
+        System.out.println("RECIEVED PAYMENT REQUEST");
         CorrelationId corrId = ev.getArgument(1,CorrelationId.class);
         var payment = ev.getArgument(0, Payment.class);
-        paymentRequest.put(corrId,payment);
+        paymentRequest.put(corrId.toString(),payment);
         mq.publish(new Event(EventTypes.VALIDATE_TOKEN,new Object[]{payment.getCustomerToken(),corrId}));
     }
 
     public void handleTokenSuccessResponse(Event event){
         var customerId = event.getArgument(0,String.class);
         var corrId = event.getArgument(1,CorrelationId.class);
-        mq.publish(new Event(EventTypes.GET_BANK_ACCOUNT_ID_REQUEST,new Object[]{customerId,corrId}));
+        System.out.println("TOken IS A SUCCESS");
+        mq.publish(new Event(EventTypes.GET_BANK_ACCOUNT_ID_REQUEST,new Object[]{customerId,corrId.toString()}));
     }
 
     public void handleTokenFailResponse(Event event){
@@ -46,7 +48,7 @@ public class PaymentService implements IPaymentService {
     }
 
     public void handleBankAccountIdSuccess(Event event){
-        var corId = event.getArgument(1,CorrelationId.class);
+        var corId = event.getArgument(1,String.class);
         var customerBankId = event.getArgument(0,String.class);
         var p = paymentRequest.get(corId);
         String from = customerBankId;
@@ -59,6 +61,7 @@ public class PaymentService implements IPaymentService {
 
         }
         catch (BankServiceException_Exception e) {
+            System.out.println(e.getMessage());
             mq.publish(new Event(EventTypes.REQUEST_PAYMENTFAILED, new Object[]{"error",corId}));
         }
     }

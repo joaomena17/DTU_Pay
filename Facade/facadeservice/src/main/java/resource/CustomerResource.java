@@ -41,11 +41,12 @@ public class CustomerResource {
 
     }
 
-    @GET
+    @POST
     @Path("/getTokens")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerTokens(TokenRequest request){
         try{
+            System.out.println("TOKEN REQUEST RECIEVED FACADE");
             List<String> tokens = tokenService.customerTokensRequest(request.getAccountId(), request.getTokenAmount());
             if(tokens.size()>0){
                 return Response.ok(tokens).build();

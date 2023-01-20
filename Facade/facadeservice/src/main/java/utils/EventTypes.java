@@ -13,9 +13,9 @@ public class EventTypes {
     public static final String UNREGISTER_ACCOUNT_FAILED = "UnregisterAccountRequestFailed";
 
     // Payment Service Events
-    public static final String PAYMENT_REQUEST = "MerchantPaymentRequest";
-    public static final String PAYMENT_SUCCESS = "MerchantPaymentSuccess";
-    public static final String PAYMENT_FAILED = "MerchantPaymentFailed";
+    public static final String PAYMENT_REQUEST = "RequestPayment";
+    public static final String PAYMENT_SUCCESS = "RequestPaymentSuccess";
+    public static final String PAYMENT_FAILED = "RequestPaymentFailed";
 
     // Token Service Events
     public static final String REQUEST_TOKEN = "RequestToken";
@@ -26,7 +26,7 @@ public class EventTypes {
     // Report Service Events
     public static final String MERCHANT_REPORT_RETURN = "MerchantReportReturnEvent";
     public static final String CUSTOMER_REPORT_RETURN = "CustomerReportReturnEvent";
-    public static final String MANAGER_REPORT_RETURN = "ManagarReportReturnEvent";
+    public static final String MANAGER_REPORT_RETURN = "ManagerReportReturnEvent";
     public static final String REQUEST_MERCHANT_REPORT = "generateMerchantReport";
     public static final String REQUEST_MANAGER_REPORT = "generateManagerReport";
     public static final String REQUEST_CUSTOMER_REPORT = "generateCustomerReport";

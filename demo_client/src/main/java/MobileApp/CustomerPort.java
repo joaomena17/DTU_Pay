@@ -51,6 +51,7 @@ public class CustomerPort {
         return success;
     }
     public List<String> requestTokensCustomer(String customerId, int amount) throws Exception {
+        System.out.println("SENDING TOKEN REQUEST");
         TokenRequest request_info = new TokenRequest(customerId, amount);
         Response response = baseUrl
                 .path("getTokens")
@@ -58,7 +59,7 @@ public class CustomerPort {
                 .post(Entity.entity(request_info, MediaType.APPLICATION_JSON));
 
 
-        if (response.getStatus() != 201) {
+        if (response.getStatus() != 200) {
             throw new Exception(response.readEntity(String.class));
         }
 

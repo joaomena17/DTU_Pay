@@ -3,7 +3,7 @@ package Utils;
 public final class EventTypes {
         public static final String GET_BANK_ACCOUNT_ID_REQUEST = "BankAccountIdRequest";
         public static final String GET_BANK_ACCOUNT_ID_SUCCESS = "BankAccountIdRequestCompleted";
-        public static final String GET_BANK_ACCOUNT_ID_FAILED = "BankAccountIdRequestCompleted";
+        public static final String GET_BANK_ACCOUNT_ID_FAILED = "BankAccountIdRequestFailed";
 
         public static final String VALIDATE_TOKEN = "ValidateTokenRequest";
         public static final String VALIDATE_FAILED = "ValidateTokenRequestFailed";

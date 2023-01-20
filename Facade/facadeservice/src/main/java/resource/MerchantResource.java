@@ -78,6 +78,7 @@ public class MerchantResource {
     @Path("/pay")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response requestPayment(Payment payment){
+        System.out.println("Requesting payment");
         try{
             Boolean success= paymentservice.requestPayment(payment);
             return Response.ok(success).build();
